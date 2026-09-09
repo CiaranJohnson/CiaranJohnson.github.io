@@ -1,124 +1,131 @@
 <!DOCTYPE html>
-<html>
-   <head>
-       <meta charset="utf-8">
-       <title>Ciaran Johnson</title>
-   </head> 
-   <body>
-       <table cellspacing="20">
-           <tr>
-               <td>
-                <img src="img/dog_pic.JPG" alt="Ciaran Profile Picture" width="250" height="200">
-               </td>
-               <td><h1>Ciaran Johnson</h1>
-                <h3><em>PhD Student at <a href="https://www.edinburgh-robotics.org/">Edinburgh Centre for Robotics</a></em></h3>
-                <p>My PhD is focused on Agricultural Robotics and their use in Phenotyping and Prognosis models for crops.</p></td>
-           </tr>
-       </table>
-        <hr>
-        
-        
-       <h3>Projects:</h3>
-       <ul>
-           <li>Potato Plant Phenotyping with Machine Learning</li>
-           <li>Novela</li>
-       </ul>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ciaran Johnson | Agricultural Robotics</title>
+  <meta name="description" content="Final year PhD student at the Edinburgh Centre for Robotics, working on agricultural robotics for crop phenotyping and prognosis.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-       <hr>
+  <nav class="site-nav">
+    <div class="wrap">
+      <a class="brand" href="index.html">Ciaran Johnson</a>
+      <ul>
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="forestyear3d.html">ForestYear3D</a></li>
+        <li><a href="#alfred">ALFRED 2.0</a></li>
+      </ul>
+    </div>
+  </nav>
 
-       <table cellspacing="10">
-           <thead>
-               <tr>
-                   <th>Dates</th>
-                   <th>Home</th>
-               </tr>
-           </thead>
-           <tbody>
-            <tr>
-                <td>2010-2015</td>
-                <td>Glasgow</td>
-            </tr>
-            <tr>
-                <td>2015-2016</td>
-                <td>America</td>
-            </tr>
-           </tbody>
-           <tfoot>
+  <main class="wrap">
 
-           </tfoot>
-       </table>
+    <header class="hero">
+      <img class="hero-photo" src="img/profile.jpg"
+           alt="Ciaran Johnson with a field robot on a woodland path">
+      <div class="hero-text">
+        <h1>Ciaran Johnson</h1>
+        <p class="affiliation">
+          Final year PhD student, <strong><a href="https://www.edinburgh-robotics.org/">Edinburgh Centre for Robotics</a></strong>
+        </p>
+        <p class="lead">
+          I work on agricultural robotics, building perception systems that let
+          robots measure plants in the field, and turning those measurements into
+          models that predict how a crop will grow.
+        </p>
+      </div>
+    </header>
 
+    <section id="research">
+      <p class="eyebrow">Research</p>
+      <h2>Robots that measure how crops grow</h2>
+      <p>
+        Plant breeding and crop management both depend on measuring plants
+        accurately, repeatedly, and at scale. Today that measurement is largely
+        manual: slow, destructive, and impossible to repeat often enough to
+        capture how a plant actually develops over a season.
+      </p>
+      <p>
+        My research puts that job onto robots. I develop perception and machine
+        learning methods that recover the three-dimensional structure of plants
+        from field data, extract the traits breeders and growers care about, and
+        track those traits over time. The aim is a pipeline that runs end to end
+        in real growing conditions, taking raw sensor data collected in the field
+        through to per-plant phenotypes, and on to prognosis models that forecast
+        yield and health early enough to act on.
+      </p>
 
-       <hr>
+      <div class="themes">
+        <div class="theme">
+          <h3>Field phenotyping</h3>
+          <p>Automating the measurement of plant traits from robot-collected imagery, in place of destructive manual sampling.</p>
+        </div>
+        <div class="theme">
+          <h3>3D plant perception</h3>
+          <p>Reconstructing plant and canopy structure in three dimensions under the occlusion and clutter of real field conditions.</p>
+        </div>
+        <div class="theme">
+          <h3>Prognosis models</h3>
+          <p>Using time-series phenotypes to forecast crop development, yield and health before the outcome is visible.</p>
+        </div>
+      </div>
+    </section>
 
-       
-       <h3>Skills</h3>
-       <table cellspacing="10">
-           <tbody>
-               <tr>
-                   <td>
-                    <table>
-                        <tr>
-                            <td>
-                                Python Programming
-                            </td>
-                            <td>
-                                🌟🌟🌟🌟🌟 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Java
-                            </td>
-                            <td>
-                                🌟🌟🌟 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                C++
-                            </td>
-                            <td>
-                                🌟🌟 
-                            </td>
-                        </tr>
-                    </table>
+    <section id="work">
+      <p class="eyebrow">Selected work</p>
+      <a class="card" href="forestyear3d.html">
+        <span class="tag">Paper</span>
+        <h3>ForestYear3D</h3>
+        <p>
+          Three-dimensional perception applied over a full growing year.
+          Read the paper summary, method and results.
+        </p>
+        <span class="card-more">Read more →</span>
+      </a>
+    </section>
 
-                   </td>
-                   <td>
-                    <table>
-                        <tr>
-                            <td>
-                                Swimming
-                            </td>
-                            <td>
-                                🌟🌟🌟🌟🌟 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Running
-                            </td>
-                            <td>
-                                🌟🌟🌟  
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Singing
-                            </td>
-                            <td>
-                                🌟  
-                            </td>
-                        </tr>
-                    </table>
+    <!-- ================================================================
+         ALFRED 2.0
+         TODO (optional): add the specifics if you want them public, e.g.
+         the sensor suite, drive base, autonomy stack, and which field
+         trials it has run. Kept general for now.
+         ================================================================ -->
+    <section id="alfred">
+      <p class="eyebrow">Platform</p>
+      <h2>ALFRED 2.0</h2>
+      <p>
+        ALFRED 2.0 is the field robot I designed and built during my PhD. It is
+        the data collection platform behind my research: rather than relying on
+        datasets gathered under controlled conditions, it lets me record plants
+        where they actually grow, on the same plots, repeatedly through a season.
+      </p>
+      <p>
+        Building the platform myself meant the hardware could be shaped around
+        the measurement problem instead of the other way around. Sensor placement,
+        the way the robot moves through a crop row, and how reliably it returns
+        to the same plants on each visit all directly determine whether the
+        resulting reconstructions are good enough to compare over time.
+      </p>
 
-                   </td>
-               </tr>
-           </tbody>
-       </table>
-       <hr>
-       <h3><a href="hobbies.html">My Hobbies</a></h3>
-       <h3><a href="contact_details.html">Contact Me</a></h3>
-   </body>
+      <div class="gallery">
+        <figure>
+          <img src="img/alfred2_front.jpg" alt="ALFRED 2.0 field robot, front view, showing its manipulator arm and mast-mounted sensors">
+        </figure>
+        <figure>
+          <img src="img/alfred2_side.jpg" alt="ALFRED 2.0 field robot, side view, showing its four-wheeled all-terrain base">
+        </figure>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>© 2026 Ciaran Johnson · Edinburgh Centre for Robotics</p>
+    </div>
+  </footer>
+
+</body>
 </html>
