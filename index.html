@@ -14,8 +14,9 @@
       <a class="brand" href="index.html">Ciaran Johnson</a>
       <ul>
         <li><a href="index.html" aria-current="page">Home</a></li>
-        <li><a href="forestyear3d.html">ForestYear3D</a></li>
-        <li><a href="#alfred">ALFRED 2.0</a></li>
+        <li><a href="ForestYear3D/">ForestYear3D</a></li>
+        <li><a href="#alfred">ALFRED</a></li>
+        <li><a href="#alfred2">ALFRED 2.0</a></li>
       </ul>
     </div>
   </nav>
@@ -75,15 +76,57 @@
 
     <section id="work">
       <p class="eyebrow">Selected work</p>
-      <a class="card" href="forestyear3d.html">
-        <span class="tag">Paper</span>
+      <a class="card" href="ForestYear3D/">
+        <span class="tag">Dataset paper</span>
         <h3>ForestYear3D</h3>
         <p>
-          Three-dimensional perception applied over a full growing year.
-          Read the paper summary, method and results.
+          A year-long dual-LiDAR point cloud dataset for long-term forest
+          robotics: 528 repeated traversals of the same forest corridor between
+          June 2025 and May 2026, captured with a mobile manipulator carrying a
+          LiDAR on its arm.
         </p>
         <span class="card-more">Read more →</span>
       </a>
+    </section>
+
+    <!-- ================================================================
+         ALFRED — the forest platform behind ForestYear3D.
+         Distinct from ALFRED 2.0 below, which is a separate robot.
+         ================================================================ -->
+    <section id="alfred">
+      <p class="eyebrow">Platform</p>
+      <h2>ALFRED</h2>
+      <p>
+        ALFRED — the Autonomous Leaf and Forest Research Exploration Device — is the
+        robot behind <a href="ForestYear3D/">ForestYear3D</a>. It is a dual-LiDAR
+        mobile manipulator: an AgileX Hunter 2.0 Ackermann base carrying a Unitree Z1
+        six-degree-of-freedom arm, with one Ouster OS1-32 fixed to the base and a
+        second mounted on the end-effector.
+      </p>
+      <p>
+        That second LiDAR is the point of the machine. A sensor bolted to a chassis
+        sees whatever the chassis drives past; a sensor on the end of an arm can be
+        moved while the robot drives, reaching over understorey and around trunks to
+        pick up the branch and canopy structure a fixed mount never gets. ALFRED was
+        built to test whether that actually helps, which is why the dataset compares
+        fixed-arm, random, and deterministic arm-motion protocols over the same forest
+        corridor for a full year.
+      </p>
+
+      <div class="gallery gallery--views">
+        <figure>
+          <img src="img/front_view.jpeg" alt="ALFRED seen head on, with the Unitree Z1 arm carrying the arm-mounted LiDAR above the base deck">
+          <figcaption>Front view.</figcaption>
+        </figure>
+        <figure>
+          <img src="img/side_view_panels.jpeg" alt="ALFRED from the side with its electronics panels fitted, on the AgileX Hunter 2.0 base">
+          <figcaption>Side view, panels fitted.</figcaption>
+        </figure>
+        <figure>
+          <img src="img/top_down.jpeg" alt="ALFRED from above, showing the arm, LiDAR, laptop and GNSS antenna laid out on the base deck">
+          <figcaption>Top-down view.</figcaption>
+        </figure>
+      </div>
     </section>
 
     <!-- ================================================================
@@ -92,14 +135,15 @@
          the sensor suite, drive base, autonomy stack, and which field
          trials it has run. Kept general for now.
          ================================================================ -->
-    <section id="alfred">
+    <section id="alfred2">
       <p class="eyebrow">Platform</p>
       <h2>ALFRED 2.0</h2>
       <p>
-        ALFRED 2.0 is the field robot I designed and built during my PhD. It is
-        the data collection platform behind my research: rather than relying on
-        datasets gathered under controlled conditions, it lets me record plants
-        where they actually grow, on the same plots, repeatedly through a season.
+        ALFRED 2.0 is the successor to ALFRED, and a separate robot: it is the
+        platform for my crop work rather than the forest dataset. Rather than
+        relying on datasets gathered under controlled conditions, it lets me record
+        plants where they actually grow, on the same plots, repeatedly through a
+        season.
       </p>
       <p>
         Building the platform myself meant the hardware could be shaped around

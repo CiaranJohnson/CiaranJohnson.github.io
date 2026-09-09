@@ -369,3 +369,274 @@ footer {
 }
 
 footer p { margin: 0; }
+
+/* ---------------------------------------------------------------
+   Paper page: dataset facts, video slots
+   --------------------------------------------------------------- */
+
+/* ---------- Key-numbers grid ----------
+   Facts are grouped into related sets, and sized by importance. Width comes
+   from a span class (.s3/.s4/.s6/.s8) on a 12-column grid; type scale comes
+   from a size class (.fact--xl / --lg, with the base .fact as the default).
+   Each group's spans should add up to 12 so it forms one clean row. */
+
+.fact-group { margin-top: 26px; }
+
+.fact-group > h3 {
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin: 0 0 10px;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 14px;
+  margin: 0;
+}
+
+.fact {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+
+.fact .num {
+  display: block;
+  font-size: 1.32rem;
+  font-weight: 600;
+  letter-spacing: -.02em;
+  line-height: 1.2;
+  color: var(--text);
+}
+
+.fact .label {
+  display: block;
+  margin-top: 4px;
+  font-size: .84rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Widths */
+.fact.s3 { grid-column: span 3; }
+.fact.s4 { grid-column: span 4; }
+.fact.s6 { grid-column: span 6; }
+.fact.s8 { grid-column: span 8; }
+
+/* Emphasis */
+.fact--lg { padding: 20px 22px; }
+.fact--lg .num { font-size: 1.7rem; }
+.fact--lg .label { font-size: .88rem; }
+
+.fact--xl { padding: 24px 26px; }
+.fact--xl .num { font-size: 2.35rem; color: var(--accent); }
+.fact--xl .label { font-size: .92rem; }
+
+@media (max-width: 720px) {
+  .fact,
+  .fact.s3,
+  .fact.s4 { grid-column: span 6; }
+  .fact.s6,
+  .fact.s8 { grid-column: span 12; }
+}
+
+@media (max-width: 440px) {
+  .fact,
+  .fact.s3,
+  .fact.s4 { grid-column: span 12; }
+}
+
+/* Definition-style list for protocols and pipeline stages */
+.deflist { margin: 0; }
+
+.deflist dt {
+  font-weight: 600;
+  font-size: .97rem;
+  margin-top: 18px;
+}
+
+.deflist dt:first-child { margin-top: 0; }
+
+.deflist dd {
+  margin: .3em 0 0;
+  color: var(--text-muted);
+  font-size: .94rem;
+  max-width: var(--measure);
+}
+
+/* ---------- Video slots ----------
+   A .video-slot is a 16:9 box that holds either a <video> element or,
+   until the footage exists, a dashed placeholder describing what goes
+   there. To publish a clip: drop the file in media/, uncomment the
+   <video> block inside the slot, and delete the .video-pending div. */
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 22px;
+}
+
+.video-grid.two-up { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+.video-item { margin: 0; }
+
+.video-slot {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.video-slot video,
+.video-slot iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  object-fit: cover;
+  background: #000;
+  border-radius: var(--radius);
+}
+
+/* Placeholder shown while the clip is still to be recorded */
+.video-pending {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  padding: 18px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--text-subtle);
+}
+
+.video-pending .vp-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  opacity: .55;
+}
+
+.video-pending .vp-title {
+  font-size: .95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  max-width: 34ch;
+}
+
+.video-pending .vp-note {
+  font-size: .8rem;
+  max-width: 40ch;
+  line-height: 1.45;
+}
+
+.video-item figcaption { margin-top: 10px; }
+
+/* A single wide slot, e.g. the seasonal point-cloud flythrough */
+.video-slot.wide { aspect-ratio: 21 / 9; }
+
+@media (max-width: 620px) {
+  .video-slot.wide { aspect-ratio: 16 / 9; }
+}
+
+/* Small note under a section heading */
+.section-note {
+  font-size: .92rem;
+  color: var(--text-muted);
+  margin-top: -.4em;
+}
+
+/* Compact table for schedules and measurements */
+.table-wrap { overflow-x: auto; margin: 22px 0 0; }
+
+.data-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: .9rem;
+}
+
+.data-table th,
+.data-table td {
+  text-align: left;
+  padding: 9px 14px 9px 0;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.data-table th {
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: .82rem;
+  letter-spacing: .02em;
+}
+
+/* Status chip for links that are not live yet */
+.paper-links a[aria-disabled="true"] {
+  opacity: .55;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------
+   Paper page width
+   The paper page runs prose to the full container width so it lines
+   up with the video blocks and figures. The home page keeps the
+   narrower reading measure.
+   --------------------------------------------------------------- */
+
+.paper main p,
+.paper main .deflist dd { max-width: none; }
+
+/* Trial landmark photos: portrait originals, cropped to a consistent
+   landscape frame so the pair sits level. Bias the crop downward so the
+   robot stays in frame. */
+.gallery--landmarks img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center 62%;
+}
+
+/* Three robot views sit as equal portrait tiles */
+.gallery--views {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.gallery--views img {
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+/* A note revealed by clicking a paper link, e.g. the private code repo.
+   Uses :target so it works without JavaScript. */
+.link-note {
+  display: none;
+  margin: 14px 0 0;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--text-muted);
+  font-size: .9rem;
+  max-width: none;
+}
+
+/* :target is the no-JavaScript fallback; .is-open is what the click
+   handler toggles, so the note opens without jumping the page. */
+.link-note:target,
+.link-note.is-open { display: block; }
+
+.link-note { scroll-margin-top: 80px; }

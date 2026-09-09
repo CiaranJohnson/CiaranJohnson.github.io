@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ForestYear3D | Ciaran Johnson</title>
+  <meta name="description" content="ForestYear3D: a year-long dual-LiDAR point cloud dataset for long-term forest robotics. 528 traversals of the same forest corridor between June 2025 and May 2026, collected with the ALFRED mobile manipulator.">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="paper">
+
+  <nav class="site-nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html">Ciaran Johnson</a>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../index.html#alfred">ALFRED</a></li>
+        <li><a href="./" aria-current="page">ForestYear3D</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <!-- ================================================================
+         TITLE BLOCK
+         No venue is listed: the manuscript is under review. Add the
+         venue and DOI here once it is accepted.
+         ================================================================ -->
+    <header class="paper-head">
+      <span class="tag">Dataset paper</span>
+      <h1>ForestYear3D: A Year-Long Dual-LiDAR Point Cloud Dataset for Long-Term Forest Robotics</h1>
+      <p class="authors">
+        Ciarán Miceal Johnson<sup>1,2</sup>,
+        Christopher Quail<sup>2</sup>,
+        Prabhneet Singh<sup>1,2</sup>,
+        Steve Tonneau<sup>1</sup>,
+        Alistair McConnell<sup>2</sup>,
+        Fernando Auat Cheein<sup>3</sup>
+      </p>
+      <p class="venue">
+        <sup>1</sup>The University of Edinburgh, UK<br>
+        <sup>2</sup>Heriot-Watt University, UK<br>
+        <sup>3</sup>Harper Adams University, UK<br><br>
+        Manuscript under review, 2026. Preprint and dataset DOI to follow.
+      </p>
+
+      <!-- TODO: set the href on Paper (PDF) and Dataset once each is live,
+           then remove the aria-disabled attribute from that link. -->
+      <ul class="paper-links">
+        <li><a href="#" aria-disabled="true">Paper (PDF) — coming soon</a></li>
+        <li><a href="#code-note">Code</a></li>
+        <li><a href="#" aria-disabled="true">Dataset (CC BY 4.0) — coming soon</a></li>
+        <li><a href="#citation">Cite</a></li>
+      </ul>
+      <!-- Revealed when the Code pill is clicked; the repo stays private
+           until publication, so swap this for the real link at that point. -->
+      <p id="code-note" class="link-note">
+        The code is kept private until the paper is published. It will be released
+        here alongside the dataset.
+      </p>
+    </header>
+
+    <!-- ================================================================
+         SECTION 1 — POINT CLOUDS ACROSS THE SEASONS
+         Sits at the top of the page, as the visual summary of the work.
+
+         TO ADD THE VIDEOS:
+           1. Put the files in  media/  (e.g. media/pointcloud_summer.mp4)
+           2. In each slot below, delete the <div class="video-pending">
+              block and uncomment the <video> block underneath it.
+           3. Optionally add a poster frame: poster="../media/xxx.jpg"
+         ================================================================ -->
+    <section id="point-clouds">
+      <p class="eyebrow">Point clouds across the seasons</p>
+      <h2>The same 48 m of forest, reconstructed month after month</h2>
+      <p>
+        Every traversal in ForestYear3D covers the same forest corridor, and every
+        reconstruction is registered into one common map frame. Playing those
+        aligned point clouds in sequence shows what the dataset is really about:
+        persistent woody structure staying put while foliage, understorey and
+        occlusion change around it — and then, in March 2026, several trunks
+        disappearing entirely when the site was thinned.
+      </p>
+
+      <figure class="video-item">
+        <div class="video-slot wide">
+          <div class="video-pending">
+            <span class="vp-icon">▶</span>
+            <span class="vp-title">Flythrough of the temporally aligned point clouds, June 2025 → May 2026</span>
+            <span class="vp-note">Wide 21:9 slot. Replace this block with the &lt;video&gt; element below.</span>
+          </div>
+          <!--
+          <video controls muted loop playsinline preload="metadata" poster="../media/pointcloud_year_poster.jpg">
+            <source src="../media/pointcloud_year.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+          -->
+        </div>
+        <figcaption>
+          TODO caption: e.g. “Temporally aligned merged point clouds for one acquisition
+          protocol, played in chronological order across all 16 survey windows.”
+        </figcaption>
+      </figure>
+
+      <div class="video-grid">
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Summer point cloud</span>
+              <span class="vp-note">Leaf-on: dense canopy and understorey occupancy.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/pointcloud_summer.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Summer — leaf-on, maximum foliage occupancy.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Autumn point cloud</span>
+              <span class="vp-note">Senescence: foliage thinning through October and November.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/pointcloud_autumn.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Autumn — senescence, understorey opening up.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Winter point cloud</span>
+              <span class="vp-note">Leaf-off: persistent woody structure exposed. The temporal reference scan is a winter acquisition.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/pointcloud_winter.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Winter — leaf-off, and the season the temporal reference scan is drawn from.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Spring point cloud</span>
+              <span class="vp-note">Leaf emergence, plus the 19 March 2026 thinning event.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/pointcloud_spring.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Spring — leaf emergence and the post-thinning corridor.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="abstract">
+      <p class="eyebrow">Abstract</p>
+      <p>
+        Long-term forest robotics requires perception and planning systems that remain
+        reliable as vegetation, occlusion, and scene structure change across seasons.
+        However, few public datasets provide raw robotic sensor data, repeated forest
+        traversals, active sensing protocols, and temporally aligned point clouds over a
+        full annual cycle. This paper presents ForestYear3D, a year-long forest robotics
+        dataset collected on a forested trail at Heriot-Watt University's Edinburgh
+        campus using ALFRED, a dual-LiDAR mobile manipulator equipped with a
+        base-mounted LiDAR and an end-effector-mounted LiDAR. The dataset spans June 2025
+        to May 2026 and contains 29 days of data collection, 31.68 hours of raw ROS bag
+        recordings, 4.9 TB of raw sensor data, and 528 processed acquisitions.
+      </p>
+      <p>
+        ForestYear3D captures leaf-on and leaf-off variation, natural disturbance, and
+        management-induced forest thinning. The release includes raw ROS bags, base and
+        arm point clouds, merged and temporally aligned point cloud products, calibration
+        files, weather metadata, manual stem-circumference measurements, and reference-tree
+        annotations. We provide a baseline processing pipeline for LiDAR–inertial mapping,
+        base–arm point cloud fusion, temporal registration, and preservation-first scan
+        cleaning. We also characterise the processed release using merge, alignment,
+        cleanup, and seeded stem-measurement diagnostics. Example applications demonstrate
+        active LiDAR coverage analysis, repeated stem-circumference estimation,
+        segmentation pre-labelling, and ground-referenced visibility planning.
+        ForestYear3D is intended as a benchmark and development resource for long-term
+        autonomous forestry monitoring in changing natural environments.
+      </p>
+      <p class="muted">
+        <strong>Keywords:</strong> forest robotics · LiDAR point clouds · long-term mapping ·
+        mobile manipulation · active perception · forestry datasets · seasonal change
+      </p>
+    </section>
+
+    <section id="at-a-glance">
+      <p class="eyebrow">Dataset at a glance</p>
+      <h2>One forest corridor, one full year</h2>
+
+      <!-- Facts are grouped by theme; spans in each group add up to 12.
+           .s3/.s4/.s6/.s8 set width, .fact--lg/--xl set emphasis. -->
+      <div class="fact-group">
+        <h3>Collection</h3>
+        <div class="facts">
+          <div class="fact fact--lg s6"><span class="num">June 2025 – May 2026</span><span class="label">Collection period</span></div>
+          <div class="fact s3"><span class="num">16</span><span class="label">Survey windows</span></div>
+          <div class="fact s3"><span class="num">29</span><span class="label">Collection days</span></div>
+        </div>
+      </div>
+
+      <div class="fact-group">
+        <h3>Acquisitions</h3>
+        <div class="facts">
+          <div class="fact fact--xl s8"><span class="num">528</span><span class="label">Traversals, each one raw ROS bag and a set of processed point cloud products</span></div>
+          <div class="fact s4"><span class="num">33</span><span class="label">Traversals per survey window</span></div>
+        </div>
+      </div>
+
+      <div class="fact-group">
+        <h3>Raw data</h3>
+        <div class="facts">
+          <div class="fact fact--lg s6"><span class="num">4.9 TB</span><span class="label">Raw sensor data</span></div>
+          <div class="fact fact--lg s6"><span class="num">31.68 h</span><span class="label">Raw ROS bag recordings</span></div>
+        </div>
+      </div>
+
+      <div class="fact-group">
+        <h3>Site and sensing</h3>
+        <div class="facts">
+          <div class="fact s4"><span class="num">~48 m</span><span class="label">Forest corridor length</span></div>
+          <div class="fact s4"><span class="num">2 × OS1-32</span><span class="label">Base and arm LiDAR</span></div>
+          <div class="fact s4"><span class="num">9</span><span class="label">Manually measured reference trees</span></div>
+        </div>
+      </div>
+
+      <p class="muted" style="margin-top:22px">
+        Main sensing modalities: base LiDAR, arm LiDAR, IMU, and manipulator joint states.
+        Supplementary metadata: hourly weather records and manual stem measurements.
+        The dataset is released under CC BY 4.0.
+      </p>
+
+      <h3 style="margin-top:30px">Collection schedule</h3>
+      <p>
+        Survey windows were scheduled monthly. In September, October, March and April a
+        second window was added to catch the rapid change around leaf emergence and
+        senescence. Collection was avoided during rain and strong wind, so the dataset
+        represents dry, relatively calm operating conditions.
+      </p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Year</th><th>Month</th><th>First survey window</th><th>Second survey window</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2025</td><td>June</td><td>2, 10, 11</td><td>—</td></tr>
+            <tr><td></td><td>July</td><td>10, 11</td><td>—</td></tr>
+            <tr><td></td><td>August</td><td>18, 20</td><td>—</td></tr>
+            <tr><td></td><td><strong>September</strong></td><td>5</td><td>16, 22</td></tr>
+            <tr><td></td><td><strong>October</strong></td><td>6, 8</td><td>17</td></tr>
+            <tr><td></td><td>November</td><td>7, 10</td><td>—</td></tr>
+            <tr><td></td><td>December</td><td>2, 3, 5</td><td>—</td></tr>
+            <tr><td>2026</td><td>January</td><td>7, 8, 12</td><td>—</td></tr>
+            <tr><td></td><td>February</td><td>9, 13</td><td>—</td></tr>
+            <tr><td></td><td><strong>March</strong></td><td>3</td><td>20, 23</td></tr>
+            <tr><td></td><td><strong>April</strong></td><td>7</td><td>22</td></tr>
+            <tr><td></td><td>May</td><td>11</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:14px; font-size:.9rem">
+        Dates are day-of-month. Bold months are the seasonal transition periods where two
+        windows were collected.
+      </p>
+    </section>
+
+    <!-- ================================================================
+         SECTION 2 — THE ROBOT IN THE FIELD, THROUGH THE SEASONS
+
+         TO ADD THE VIDEOS: same pattern as above. Files go in media/,
+         delete the .video-pending block, uncomment the <video> block.
+         ================================================================ -->
+    <section id="field-video">
+      <p class="eyebrow">The robot in the field</p>
+      <h2>ALFRED on the trail, summer to spring</h2>
+      <p>
+        Footage of the platform actually working the corridor: the same route, the same
+        start and end trees, under four very different sets of conditions. This is the
+        context the point clouds come from — narrow trail, roots and uneven ground,
+        vegetation crowding in on both sides, and a manipulator waving a LiDAR through
+        it all.
+      </p>
+
+      <figure class="video-item">
+        <div class="video-slot wide">
+          <div class="video-pending">
+            <span class="vp-icon">▶</span>
+            <span class="vp-title">ALFRED traversing the forest corridor across all four seasons</span>
+            <span class="vp-note">Wide 21:9 slot for the main field-footage reel.</span>
+          </div>
+          <!--
+          <video controls muted loop playsinline preload="metadata" poster="../media/field_year_poster.jpg">
+            <source src="../media/field_year.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+          -->
+        </div>
+        <figcaption>
+          TODO caption: e.g. “The same traversal in summer, autumn, winter and spring,
+          showing the change in foliage density and understorey visibility.”
+        </figcaption>
+      </figure>
+
+      <div class="video-grid">
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Summer traversal</span>
+              <span class="vp-note">Full leaf-on canopy, minimum visibility down the corridor.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/field_summer.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Summer.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Autumn traversal</span>
+              <span class="vp-note">Leaf fall and changing understorey.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/field_autumn.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Autumn.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Winter traversal</span>
+              <span class="vp-note">Leaf-off conditions, bare stems, longest sightlines.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/field_winter.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Winter.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Spring traversal</span>
+              <span class="vp-note">Leaf emergence, and the corridor after the 19 March 2026 thinning.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/field_spring.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Spring, including the post-thinning corridor.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="site-platform">
+      <p class="eyebrow">Site and platform</p>
+      <h2>ALFRED, a dual-LiDAR mobile manipulator</h2>
+      <p>
+        The site is a narrow, heterogeneous forest trail on Heriot-Watt University's
+        Edinburgh campus, with trees and understorey vegetation on both sides of the robot
+        path. The terrain is relatively flat but has exposed roots and local surface
+        irregularities. Traversals run from
+        (55.910274, −3.328794) to (55.910507, −3.328239) — roughly 48 m.
+      </p>
+      <p>
+        Data was collected with <strong>ALFRED</strong> (Autonomous Leaf and Forest
+        Research Exploration Device), a mobile manipulator built from commercially
+        available components:
+      </p>
+      <div class="themes">
+        <div class="theme">
+          <h3>Mobile base</h3>
+          <p>AgileX Hunter 2.0, Ackermann-steered, teleoperated at a commanded speed for each run.</p>
+        </div>
+        <div class="theme">
+          <h3>Manipulator</h3>
+          <p>Unitree Z1, six degrees of freedom, carrying the sensing head through the corridor.</p>
+        </div>
+        <div class="theme">
+          <h3>Base LiDAR</h3>
+          <p>Ouster OS1-32, fixed to the base — dense coverage of the trail, lower stems and understorey.</p>
+        </div>
+        <div class="theme">
+          <h3>Arm LiDAR</h3>
+          <p>Ouster OS1-32, mounted on the end-effector — elevated, actively varied views of branches and canopy.</p>
+        </div>
+        <div class="theme">
+          <h3>Inertial</h3>
+          <p>InertialSense RUG-3-IMX-5-RTK, used by the LiDAR–inertial mapping pipeline.</p>
+        </div>
+        <div class="theme">
+          <h3>Onboard compute</h3>
+          <p>Dell Latitude 7330 rugged laptop for data logging and experiment control.</p>
+        </div>
+      </div>
+      <p class="muted" style="margin-top:22px">
+        GNSS and RGB-D sensors are fitted to the platform, and GNSS/INS streams are present
+        in the ROS bags, but neither is used as mapping ground truth in the baseline
+        pipeline — canopy cover degrades satellite localisation, which is exactly the
+        condition the dataset is meant to represent. RGB-D image and depth streams were not
+        recorded during the traversals. The main calibrated extrinsic, base LiDAR to IMU,
+        was estimated with LiDAR-IMU Init and ships with the release, along with the URDF
+        and ROS configuration files.
+      </p>
+
+      <div class="gallery gallery--views">
+        <figure>
+          <img src="../img/front_view.jpeg" alt="ALFRED seen head on: the Unitree Z1 arm carrying the Ouster OS1-32 and an RGB-D camera, a rugged laptop on the deck, the GNSS mast behind, and the Hunter 2.0 wheels either side">
+          <figcaption>Front view — the arm-mounted LiDAR sits at the end of the Z1, above the base deck.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/side_view_panels.jpeg" alt="ALFRED from the side with its white electronics panels fitted, showing the AgileX Hunter 2.0 base, the enclosed electronics bay, and the GNSS mast">
+          <figcaption>Side view with the electronics panels fitted.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/top_down.jpeg" alt="ALFRED from directly above, showing the layout of the arm, the base LiDAR, the rugged laptop and the GNSS antenna across the base deck">
+          <figcaption>Top-down view — the sensor and compute layout on the base deck.</figcaption>
+        </figure>
+      </div>
+
+      <h3 style="margin-top:32px">Start and end of a traversal</h3>
+      <p>
+        Every run used the same two natural landmarks rather than a surveyed
+        marker. The robot was positioned with its front wheels aligned to the start
+        tree, the arm motion was started, and only then did the base set off. The
+        traversal ended when the front wheels passed between the two trees at the far
+        end of the corridor, roughly 48 m away.
+      </p>
+      <div class="gallery gallery--landmarks">
+        <figure>
+          <img src="../img/trial_start_marker.jpeg" alt="ALFRED positioned on the woodland trail at the start of a traversal, with the start tree and leaf-on canopy behind it">
+          <figcaption>Start position, front wheels aligned with the start tree.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/trial_end_marker.jpeg" alt="ALFRED at the end of the corridor, beside the trees that mark the finish of a traversal">
+          <figcaption>End position, at the trees marking the end of the corridor.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SECTION 3 — ROBOT PROTOCOLS
+
+         TO ADD THE VIDEOS: same pattern. One slot per scanning strategy.
+         ================================================================ -->
+    <section id="protocols">
+      <p class="eyebrow">Robot protocols</p>
+      <h2>Five scanning strategies, 33 traversals per survey window</h2>
+      <p>
+        The point of a LiDAR on the end of an arm is that you can move it. Each survey
+        window runs the same acquisition matrix so the effect of that motion can actually
+        be measured: three commanded base speeds
+        (v<sub>b</sub> ∈ {0.25, 0.50, 0.75} m s<sup>−1</sup>) crossed with one fixed-arm
+        baseline, one random arm-motion strategy, and three deterministic arm-motion
+        protocols, the deterministic ones additionally run at three commanded arm speeds
+        (q̇<sub>a</sub> ∈ {0.05, 0.175, 0.30} rad s<sup>−1</sup>).
+      </p>
+      <p>
+        That gives <strong>33 traversals per complete survey window</strong>: three
+        fixed-arm, three random-motion, and 27 deterministic-protocol runs — 528 across
+        the year.
+      </p>
+
+      <figure class="video-item">
+        <div class="video-slot wide">
+          <div class="video-pending">
+            <span class="vp-icon">▶</span>
+            <span class="vp-title">Overview of the acquisition protocol matrix</span>
+            <span class="vp-note">Wide 21:9 slot — e.g. the five strategies side by side, or a MeshCat playback of the commanded arm trajectories.</span>
+          </div>
+          <!--
+          <video controls muted loop playsinline preload="metadata" poster="../media/protocols_overview_poster.jpg">
+            <source src="../media/protocols_overview.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+          -->
+        </div>
+        <figcaption>
+          TODO caption: e.g. “The five LiDAR motion strategies executed on the same
+          section of corridor.”
+        </figcaption>
+      </figure>
+
+      <div class="video-grid">
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Fixed-arm baseline</span>
+              <span class="vp-note">Arm held static in a 90° configuration; only the base moves.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/protocol_fixed.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Fixed arm — the rigidly-mounted-sensor equivalent.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Random arm motion</span>
+              <span class="vp-note">End-effector targets sampled in a bounded box; arm speed sampled uniformly.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/protocol_random.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Random motion — viewpoint variation with no repeatable pattern.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Protocol 1 — translation-dominated</span>
+              <span class="vp-note">Joint 2 swept between 1 and 2 rad.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/protocol_1.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Protocol 1.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Protocol 2 — rotation-dominated</span>
+              <span class="vp-note">Joint 4 swept between −1 and 1 rad.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/protocol_2.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Protocol 2.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot">
+            <div class="video-pending">
+              <span class="vp-icon">▶</span>
+              <span class="vp-title">Protocol 3 — combined</span>
+              <span class="vp-note">Joints 2 and 4 swept together; broadest active coverage.</span>
+            </div>
+            <!--
+            <video controls muted loop playsinline preload="metadata">
+              <source src="../media/protocol_3.mp4" type="video/mp4">
+            </video>
+            -->
+          </div>
+          <figcaption>Protocol 3 — the best-covering strategy in the reconstruction profiles.</figcaption>
+        </figure>
+      </div>
+
+      <h3 style="margin-top:34px">What each strategy does</h3>
+      <dl class="deflist">
+        <dt>Fixed-arm baseline</dt>
+        <dd>
+          The manipulator stays stationary relative to the base throughout the traversal,
+          held at 90° with the top of the arm-mounted LiDAR facing the direction of travel.
+          The base still drives the corridor at the commanded speed — only the arm motion
+          is removed. This is the closest equivalent to a rigidly mounted sensor, and it is
+          the control that tells you whether active motion buys anything.
+        </dd>
+
+        <dt>Random arm motion</dt>
+        <dd>
+          End-effector targets are sampled in the base footprint frame within
+          [−0.3, −0.4, 0.75] ≤ [x, y, z] ≤ [0.5, 0.4, 1.4] metres, with no constraint on
+          orientation, and commanded arm speed sampled uniformly between 0.05 and
+          0.20 rad s<sup>−1</sup>. It tests whether unstructured motion helps without a
+          predefined scanning pattern.
+        </dd>
+
+        <dt>Deterministic protocols 1–3</dt>
+        <dd>
+          Predefined waving motions perpendicular to the direction of travel, defined in
+          joint space as smooth Bézier trajectories centred on the nominal midpoint
+          configuration q<sub>mid</sub> = [0, 1.5, −2.87, 0, 0, 0], with the trajectory
+          duration adjusted to realise the commanded arm speed.
+          <strong>Protocol 1</strong> varies joint 2 between 1 and 2 rad — mainly
+          translational viewpoint change.
+          <strong>Protocol 2</strong> varies joint 4 between −1 and 1 rad — mainly
+          rotational.
+          <strong>Protocol 3</strong> varies both over the same ranges, giving combined
+          translational and rotational variation and the broadest active coverage.
+          Each is run at all nine base-speed × arm-speed combinations.
+        </dd>
+      </dl>
+
+      <p class="muted" style="margin-top:24px">
+        The base was teleoperated rather than autonomously path-following, which was the
+        safe choice in a narrow corridor with roots, uneven ground and changing seasonal
+        structure. The start and end landmarks are fixed, but realised trajectories are
+        not identical: lateral position, heading, steering corrections and traversal
+        duration vary between runs, and that variation should be accounted for when
+        comparing protocols.
+      </p>
+    </section>
+
+    <!-- ================================================================
+         CITATION
+         Update this BibTeX once the paper is accepted and has a DOI.
+         ================================================================ -->
+    <section id="citation">
+      <p class="eyebrow">Citation</p>
+<pre><code>@article{johnson2026forestyear3d,
+  title   = {ForestYear3D: A Year-Long Dual-LiDAR Point Cloud Dataset
+             for Long-Term Forest Robotics},
+  author  = {Johnson, Ciar{\'a}n Miceal and Quail, Christopher and
+             Singh, Prabhneet and Tonneau, Steve and
+             McConnell, Alistair and Auat Cheein, Fernando},
+  year    = {2026},
+  note    = {Manuscript under review}
+}</code></pre>
+    </section>
+
+    <section>
+      <p class="muted"><a href="../index.html">← Back to home</a></p>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>© 2026 Ciaran Johnson · Edinburgh Centre for Robotics</p>
+    </div>
+  </footer>
+
+  <script>
+    // Open the "code is private" note in place rather than jumping to it.
+    // Without JS the link still works via the :target CSS fallback.
+    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+      var note = document.querySelector(link.getAttribute('href'));
+      if (!note || !note.classList.contains('link-note')) return;
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        note.classList.toggle('is-open');
+      });
+    });
+  </script>
+
+</body>
+</html>
