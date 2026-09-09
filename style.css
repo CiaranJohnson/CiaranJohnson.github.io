@@ -549,6 +549,40 @@ footer p { margin: 0; }
 /* A single wide slot, e.g. the seasonal point-cloud flythrough */
 .video-slot.wide { aspect-ratio: 21 / 9; }
 
+/* The protocol captures are portrait video, cropped to 4:5 by
+   scripts/compress_videos.sh. The default 16/9 slot would crop them to a
+   band, so they get their own upright box. */
+.video-slot.portrait { aspect-ratio: 4 / 5; }
+
+/* Upright clips are taller than the 16:9 default, so pack more per row. */
+.video-grid.portrait-grid {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+/* Protocols section: the intro copy sits beside the first clip, and the
+   remaining four sit in a 2x2 below. Equal columns throughout keep every
+   clip exactly the same size. */
+.intro-row,
+.video-grid.portrait-grid.cols-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 34px;
+  margin-top: 26px;
+}
+
+.intro-row { align-items: center; }
+.intro-copy { min-width: 0; }
+.intro-copy p:last-child { margin-bottom: 0; }
+.intro-row .video-item { margin: 0; }
+
+@media (max-width: 700px) {
+  .intro-row,
+  .video-grid.portrait-grid.cols-2 {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
 @media (max-width: 620px) {
   .video-slot.wide { aspect-ratio: 16 / 9; }
 }
