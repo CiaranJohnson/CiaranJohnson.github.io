@@ -4,3 +4,9 @@
 img/alfred2_front.png
 img/alfred2_side.png
 img/profile_pic.jpeg
+
+# Full-resolution source videos (~470 MB, ~30 Mb/s). NEVER commit these:
+# GitHub hard-rejects any file over 100 MB, and git history is permanent.
+# Run scripts/compress_videos.sh to produce the web versions in media/,
+# which are the ones that get committed.
+media/final_protocols/

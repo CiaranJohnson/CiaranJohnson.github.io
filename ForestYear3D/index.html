@@ -411,120 +411,81 @@
     <section id="protocols">
       <p class="eyebrow">Robot protocols</p>
       <h2>Five scanning strategies, 33 traversals per survey window</h2>
-      <p>
-        The point of a LiDAR on the end of an arm is that you can move it. Each survey
-        window runs the same acquisition matrix so the effect of that motion can actually
-        be measured: three commanded base speeds
-        (v<sub>b</sub> ∈ {0.25, 0.50, 0.75} m s<sup>−1</sup>) crossed with one fixed-arm
-        baseline, one random arm-motion strategy, and three deterministic arm-motion
-        protocols, the deterministic ones additionally run at three commanded arm speeds
-        (q̇<sub>a</sub> ∈ {0.05, 0.175, 0.30} rad s<sup>−1</sup>).
-      </p>
-      <p>
-        That gives <strong>33 traversals per complete survey window</strong>: three
-        fixed-arm, three random-motion, and 27 deterministic-protocol runs — 528 across
-        the year.
-      </p>
 
-      <figure class="video-item">
-        <div class="video-slot wide">
-          <div class="video-pending">
-            <span class="vp-icon">▶</span>
-            <span class="vp-title">Overview of the acquisition protocol matrix</span>
-            <span class="vp-note">Wide 21:9 slot — e.g. the five strategies side by side, or a MeshCat playback of the commanded arm trajectories.</span>
-          </div>
-          <!--
-          <video controls muted loop playsinline preload="metadata" poster="../media/protocols_overview_poster.jpg">
-            <source src="../media/protocols_overview.mp4" type="video/mp4">
-            Your browser does not support embedded video.
-          </video>
-          -->
+      <!-- Intro copy on the left, the fixed-arm baseline clip on the right. -->
+      <div class="intro-row">
+        <div class="intro-copy">
+          <p>
+          The point of a LiDAR on the end of an arm is that you can move it. Each survey
+          window runs the same acquisition matrix so the effect of that motion can actually
+          be measured: three commanded base speeds
+          (v<sub>b</sub> ∈ {0.25, 0.50, 0.75} m s<sup>−1</sup>) crossed with one fixed-arm
+          baseline, one random arm-motion strategy, and three deterministic arm-motion
+          protocols, the deterministic ones additionally run at three commanded arm speeds
+          (q̇<sub>a</sub> ∈ {0.05, 0.175, 0.30} rad s<sup>−1</sup>).
+          </p>
+          <p>
+          That gives <strong>33 traversals per complete survey window</strong>: three
+          fixed-arm, three random-motion, and 27 deterministic-protocol runs — 528 across
+          the year.
+          </p>
         </div>
-        <figcaption>
-          TODO caption: e.g. “The five LiDAR motion strategies executed on the same
-          section of corridor.”
-        </figcaption>
-      </figure>
-
-      <div class="video-grid">
         <figure class="video-item">
-          <div class="video-slot">
-            <div class="video-pending">
-              <span class="vp-icon">▶</span>
-              <span class="vp-title">Fixed-arm baseline</span>
-              <span class="vp-note">Arm held static in a 90° configuration; only the base moves.</span>
-            </div>
-            <!--
-            <video controls muted loop playsinline preload="metadata">
-              <source src="../media/protocol_fixed.mp4" type="video/mp4">
-            </video>
-            -->
-          </div>
-          <figcaption>Fixed arm — the rigidly-mounted-sensor equivalent.</figcaption>
+        <div class="video-slot portrait">
+        <video controls muted loop playsinline preload="metadata"
+        poster="../media/protocol_fixed_poster.jpg">
+        <source src="../media/protocol_fixed.mp4" type="video/mp4">
+        Your browser does not support embedded video.
+        </video>
+        </div>
+        <figcaption>Fixed arm — the rigidly-mounted-sensor equivalent.</figcaption>
+        </figure>
+      </div>
+
+      <!-- The remaining four strategies, 2 x 2. -->
+      <div class="video-grid portrait-grid cols-2">
+        <figure class="video-item">
+        <div class="video-slot portrait">
+        <video controls muted loop playsinline preload="metadata"
+        poster="../media/protocol_random_poster.jpg">
+        <source src="../media/protocol_random.mp4" type="video/mp4">
+        Your browser does not support embedded video.
+        </video>
+        </div>
+        <figcaption>Random motion — viewpoint variation with no repeatable pattern.</figcaption>
         </figure>
 
         <figure class="video-item">
-          <div class="video-slot">
-            <div class="video-pending">
-              <span class="vp-icon">▶</span>
-              <span class="vp-title">Random arm motion</span>
-              <span class="vp-note">End-effector targets sampled in a bounded box; arm speed sampled uniformly.</span>
-            </div>
-            <!--
-            <video controls muted loop playsinline preload="metadata">
-              <source src="../media/protocol_random.mp4" type="video/mp4">
-            </video>
-            -->
-          </div>
-          <figcaption>Random motion — viewpoint variation with no repeatable pattern.</figcaption>
+        <div class="video-slot portrait">
+        <video controls muted loop playsinline preload="metadata"
+        poster="../media/protocol_1_poster.jpg">
+        <source src="../media/protocol_1.mp4" type="video/mp4">
+        Your browser does not support embedded video.
+        </video>
+        </div>
+        <figcaption>Protocol 1.</figcaption>
         </figure>
 
         <figure class="video-item">
-          <div class="video-slot">
-            <div class="video-pending">
-              <span class="vp-icon">▶</span>
-              <span class="vp-title">Protocol 1 — translation-dominated</span>
-              <span class="vp-note">Joint 2 swept between 1 and 2 rad.</span>
-            </div>
-            <!--
-            <video controls muted loop playsinline preload="metadata">
-              <source src="../media/protocol_1.mp4" type="video/mp4">
-            </video>
-            -->
-          </div>
-          <figcaption>Protocol 1.</figcaption>
+        <div class="video-slot portrait">
+        <video controls muted loop playsinline preload="metadata"
+        poster="../media/protocol_2_poster.jpg">
+        <source src="../media/protocol_2.mp4" type="video/mp4">
+        Your browser does not support embedded video.
+        </video>
+        </div>
+        <figcaption>Protocol 2.</figcaption>
         </figure>
 
         <figure class="video-item">
-          <div class="video-slot">
-            <div class="video-pending">
-              <span class="vp-icon">▶</span>
-              <span class="vp-title">Protocol 2 — rotation-dominated</span>
-              <span class="vp-note">Joint 4 swept between −1 and 1 rad.</span>
-            </div>
-            <!--
-            <video controls muted loop playsinline preload="metadata">
-              <source src="../media/protocol_2.mp4" type="video/mp4">
-            </video>
-            -->
-          </div>
-          <figcaption>Protocol 2.</figcaption>
-        </figure>
-
-        <figure class="video-item">
-          <div class="video-slot">
-            <div class="video-pending">
-              <span class="vp-icon">▶</span>
-              <span class="vp-title">Protocol 3 — combined</span>
-              <span class="vp-note">Joints 2 and 4 swept together; broadest active coverage.</span>
-            </div>
-            <!--
-            <video controls muted loop playsinline preload="metadata">
-              <source src="../media/protocol_3.mp4" type="video/mp4">
-            </video>
-            -->
-          </div>
-          <figcaption>Protocol 3 — the best-covering strategy in the reconstruction profiles.</figcaption>
+        <div class="video-slot portrait">
+        <video controls muted loop playsinline preload="metadata"
+        poster="../media/protocol_3_poster.jpg">
+        <source src="../media/protocol_3.mp4" type="video/mp4">
+        Your browser does not support embedded video.
+        </video>
+        </div>
+        <figcaption>Protocol 3 — the best-covering strategy in the reconstruction profiles.</figcaption>
         </figure>
       </div>
 
