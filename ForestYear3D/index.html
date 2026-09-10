@@ -65,11 +65,9 @@
          SECTION 1 — POINT CLOUDS ACROSS THE SEASONS
          Sits at the top of the page, as the visual summary of the work.
 
-         TO ADD THE VIDEOS:
-           1. Put the files in  media/  (e.g. media/pointcloud_summer.mp4)
-           2. In each slot below, delete the <div class="video-pending">
-              block and uncomment the <video> block underneath it.
-           3. Optionally add a poster frame: poster="../media/xxx.jpg"
+         The flythrough is rendered from the 16 aligned planning clouds by
+         scripts/render_pointcloud_flythrough.sh -- re-run that to regenerate
+         media/pointcloud_year.mp4 and its poster frame.
          ================================================================ -->
     <section id="point-clouds">
       <p class="eyebrow">Point clouds across the seasons</p>
@@ -84,90 +82,62 @@
       </p>
 
       <figure class="video-item">
-        <div class="video-slot wide">
-          <div class="video-pending">
-            <span class="vp-icon">▶</span>
-            <span class="vp-title">Flythrough of the temporally aligned point clouds, June 2025 → May 2026</span>
-            <span class="vp-note">Wide 21:9 slot. Replace this block with the &lt;video&gt; element below.</span>
-          </div>
-          <!--
-          <video controls muted loop playsinline preload="metadata" poster="../media/pointcloud_year_poster.jpg">
+        <div class="video-slot">
+          <video controls muted loop playsinline preload="metadata"
+                 poster="../media/pointcloud_year_poster.jpg">
             <source src="../media/pointcloud_year.mp4" type="video/mp4">
             Your browser does not support embedded video.
           </video>
-          -->
         </div>
         <figcaption>
-          TODO caption: e.g. “Temporally aligned merged point clouds for one acquisition
-          protocol, played in chronological order across all 16 survey windows.”
+          All 16 survey windows in chronological order, June 2025 to May 2026. Points
+          are coloured by height above ground, with laser return intensity modulating
+          brightness.
         </figcaption>
       </figure>
 
-      <div class="video-grid">
-        <figure class="video-item">
-          <div class="video-slot">
-            <div class="video-pending">
-              <span class="vp-icon">▶</span>
-              <span class="vp-title">Summer point cloud</span>
-              <span class="vp-note">Leaf-on: dense canopy and understorey occupancy.</span>
-            </div>
-            <!--
-            <video controls muted loop playsinline preload="metadata">
-              <source src="../media/pointcloud_summer.mp4" type="video/mp4">
-            </video>
-            -->
-          </div>
-          <figcaption>Summer — leaf-on, maximum foliage occupancy.</figcaption>
-        </figure>
+    </section>
 
-        <figure class="video-item">
-          <div class="video-slot">
-            <div class="video-pending">
-              <span class="vp-icon">▶</span>
-              <span class="vp-title">Autumn point cloud</span>
-              <span class="vp-note">Senescence: foliage thinning through October and November.</span>
-            </div>
-            <!--
-            <video controls muted loop playsinline preload="metadata">
-              <source src="../media/pointcloud_autumn.mp4" type="video/mp4">
-            </video>
-            -->
-          </div>
-          <figcaption>Autumn — senescence, understorey opening up.</figcaption>
-        </figure>
+    <!-- ================================================================
+         SECTION — BASE / ARM / MERGED COMPARISON
+         Rendered by scripts/render_pointcloud_triptych.sh. The merged panel
+         is the literal union of the other two, which is what the released
+         merged cloud is.
+         ================================================================ -->
+    <section id="base-arm-merged">
+      <p class="eyebrow">Base, arm and merged</p>
+      <h2>What the second LiDAR actually adds</h2>
+      <p>
+        One acquisition from 22 September 2025, the scan that needed the least
+        cleanup of all 528 in the release. Side by side: the base-mounted LiDAR on its
+        own, the arm-mounted LiDAR registered into the base frame, and the merged
+        product that the dataset ships. All three share one camera and one frame of
+        reference, so the panels line up point for point.
+      </p>
+      <p>
+        The base LiDAR gives dense, reliable coverage of the trail, the lower stems
+        and the understorey. The arm LiDAR, swung out on the end of the manipulator,
+        reaches the branch and canopy structure the base view never sees — which is
+        why the merged cloud is worth more than either half, and why arm-to-base
+        residuals are large by construction rather than by failure.
+      </p>
 
-        <figure class="video-item">
-          <div class="video-slot">
-            <div class="video-pending">
-              <span class="vp-icon">▶</span>
-              <span class="vp-title">Winter point cloud</span>
-              <span class="vp-note">Leaf-off: persistent woody structure exposed. The temporal reference scan is a winter acquisition.</span>
-            </div>
-            <!--
-            <video controls muted loop playsinline preload="metadata">
-              <source src="../media/pointcloud_winter.mp4" type="video/mp4">
-            </video>
-            -->
-          </div>
-          <figcaption>Winter — leaf-off, and the season the temporal reference scan is drawn from.</figcaption>
-        </figure>
-
-        <figure class="video-item">
-          <div class="video-slot">
-            <div class="video-pending">
-              <span class="vp-icon">▶</span>
-              <span class="vp-title">Spring point cloud</span>
-              <span class="vp-note">Leaf emergence, plus the 19 March 2026 thinning event.</span>
-            </div>
-            <!--
-            <video controls muted loop playsinline preload="metadata">
-              <source src="../media/pointcloud_spring.mp4" type="video/mp4">
-            </video>
-            -->
-          </div>
-          <figcaption>Spring — leaf emergence and the post-thinning corridor.</figcaption>
-        </figure>
-      </div>
+      <figure class="video-item">
+        <div class="video-slot triptych">
+          <!-- No controls: autoplay, muted and looping, so there is nothing to
+               scrub or pause. `muted` is what makes autoplay permitted. -->
+          <video autoplay muted loop playsinline disablepictureinpicture
+                 preload="metadata" poster="../media/base_arm_merged_poster.jpg">
+            <source src="../media/base_arm_merged.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+        </div>
+        <figcaption>
+          Full-resolution point clouds — 0.64M points from the base LiDAR, 4.84M
+          from the arm, 5.48M merged — rotating together on one camera. Coloured by
+          height above ground, with the strongest laser returns drawn darkest.
+        </figcaption>
+      </figure>
     </section>
 
     <section id="abstract">
