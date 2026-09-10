@@ -11,12 +11,13 @@ Filenames the page already expects:
 | --- | --- |
 | `pointcloud_year.mp4` | Point clouds across the seasons — wide hero |
 | `pointcloud_summer.mp4` / `pointcloud_autumn.mp4` / `pointcloud_winter.mp4` / `pointcloud_spring.mp4` | Point clouds — per-season grid |
-| `field_year.mp4` | The robot in the field — wide hero |
-| `field_summer.mp4` / `field_autumn.mp4` / `field_winter.mp4` / `field_spring.mp4` | Field footage — per-season grid |
 | `protocols_overview.mp4` | Robot protocols — wide hero |
 | `protocol_fixed.mp4` / `protocol_random.mp4` / `protocol_1.mp4` / `protocol_2.mp4` / `protocol_3.mp4` | Robot protocols — per-strategy grid |
 
 Optional poster frames use the same stem with a `_poster.jpg` suffix.
+
+The "ALFRED on the trail, summer to spring" section takes no local files: it
+embeds a single YouTube video (`OTpon_Deb2Q`) via an `<iframe>`.
 
 Notes:
 - H.264 MP4 is the safe format for GitHub Pages; add a WebM `<source>` first if

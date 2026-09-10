@@ -252,6 +252,45 @@ a.card:hover {
   color: var(--accent);
 }
 
+/* ---------- Publication list ----------
+   Lighter than .card: a reference list, hairline-separated, with the
+   title as the DOI link and the site owner's name picked out in bold. */
+
+.pubs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.pub {
+  padding: 18px 2px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pub h3 {
+  margin: 0 0 .35em;
+  font-size: 1rem;
+  line-height: 1.45;
+  letter-spacing: -.01em;
+}
+
+.pub h3 a { text-decoration: none; }
+.pub h3 a:hover { text-decoration: underline; }
+
+.pub p {
+  margin: 0 0 .2em;
+  max-width: none;
+  font-size: .9rem;
+  line-height: 1.5;
+}
+
+.pub p:last-child { margin-bottom: 0; }
+
+.pub-authors { color: var(--text-muted); }
+.pub-authors strong { color: var(--text); font-weight: 600; }
+.pub-venue { color: var(--text-subtle); }
+
 /* ---------- Image gallery ---------- */
 
 .gallery {
