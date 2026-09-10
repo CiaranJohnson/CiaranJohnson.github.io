@@ -48,9 +48,9 @@
       <!-- TODO: set the href on Paper (PDF) and Dataset once each is live,
            then remove the aria-disabled attribute from that link. -->
       <ul class="paper-links">
-        <li><a href="#" aria-disabled="true">Paper (PDF) — coming soon</a></li>
+        <li><a href="#" aria-disabled="true">Paper (PDF), coming soon</a></li>
         <li><a href="#code-note">Code</a></li>
-        <li><a href="#" aria-disabled="true">Dataset (CC BY 4.0) — coming soon</a></li>
+        <li><a href="#" aria-disabled="true">Dataset (CC BY 4.0), coming soon</a></li>
         <li><a href="#citation">Cite</a></li>
       </ul>
       <!-- Revealed when the Code pill is clicked; the repo stays private
@@ -62,7 +62,7 @@
     </header>
 
     <!-- ================================================================
-         SECTION 1 — POINT CLOUDS ACROSS THE SEASONS
+         SECTION 1: POINT CLOUDS ACROSS THE SEASONS
          Sits at the top of the page, as the visual summary of the work.
 
          The flythrough is rendered from the 16 aligned planning clouds by
@@ -77,8 +77,8 @@
         reconstruction is registered into one common map frame. Playing those
         aligned point clouds in sequence shows what the dataset is really about:
         persistent woody structure staying put while foliage, understorey and
-        occlusion change around it — and then, in March 2026, several trunks
-        disappearing entirely when the site was thinned.
+        occlusion change around it. Then, in March 2026, several trunks disappear
+        entirely where the site was thinned.
       </p>
 
       <figure class="video-item">
@@ -99,7 +99,7 @@
     </section>
 
     <!-- ================================================================
-         SECTION — BASE / ARM / MERGED COMPARISON
+         SECTION: BASE / ARM / MERGED COMPARISON
          Rendered by scripts/render_pointcloud_triptych.sh. The merged panel
          is the literal union of the other two, which is what the released
          merged cloud is.
@@ -108,17 +108,13 @@
       <p class="eyebrow">Base, arm and merged</p>
       <h2>What the second LiDAR actually adds</h2>
       <p>
-        One acquisition from 22 September 2025, the scan that needed the least
-        cleanup of all 528 in the release. Side by side: the base-mounted LiDAR on its
-        own, the arm-mounted LiDAR registered into the base frame, and the merged
-        product that the dataset ships. All three share one camera and one frame of
-        reference, so the panels line up point for point.
+        One acquisition from 22 September 2025.
       </p>
       <p>
         The base LiDAR gives dense, reliable coverage of the trail, the lower stems
         and the understorey. The arm LiDAR, swung out on the end of the manipulator,
-        reaches the branch and canopy structure the base view never sees — which is
-        why the merged cloud is worth more than either half, and why arm-to-base
+        reaches the branch and canopy structure the base view never sees. That is why
+        the merged cloud is worth more than either half, and why arm-to-base
         residuals are large by construction rather than by failure.
       </p>
 
@@ -133,9 +129,9 @@
           </video>
         </div>
         <figcaption>
-          Full-resolution point clouds — 0.64M points from the base LiDAR, 4.84M
-          from the arm, 5.48M merged — rotating together on one camera. Coloured by
-          height above ground, with the strongest laser returns drawn darkest.
+          Full-resolution point clouds: 0.64M points from the base LiDAR, 4.84M
+          from the arm, 5.48M merged. Coloured by height above ground, with the
+          strongest laser returns drawn darkest.
         </figcaption>
       </figure>
     </section>
@@ -233,18 +229,18 @@
             <tr><th>Year</th><th>Month</th><th>First survey window</th><th>Second survey window</th></tr>
           </thead>
           <tbody>
-            <tr><td>2025</td><td>June</td><td>2, 10, 11</td><td>—</td></tr>
-            <tr><td></td><td>July</td><td>10, 11</td><td>—</td></tr>
-            <tr><td></td><td>August</td><td>18, 20</td><td>—</td></tr>
+            <tr><td>2025</td><td>June</td><td>2, 10, 11</td><td>-</td></tr>
+            <tr><td></td><td>July</td><td>10, 11</td><td>-</td></tr>
+            <tr><td></td><td>August</td><td>18, 20</td><td>-</td></tr>
             <tr><td></td><td><strong>September</strong></td><td>5</td><td>16, 22</td></tr>
             <tr><td></td><td><strong>October</strong></td><td>6, 8</td><td>17</td></tr>
-            <tr><td></td><td>November</td><td>7, 10</td><td>—</td></tr>
-            <tr><td></td><td>December</td><td>2, 3, 5</td><td>—</td></tr>
-            <tr><td>2026</td><td>January</td><td>7, 8, 12</td><td>—</td></tr>
-            <tr><td></td><td>February</td><td>9, 13</td><td>—</td></tr>
+            <tr><td></td><td>November</td><td>7, 10</td><td>-</td></tr>
+            <tr><td></td><td>December</td><td>2, 3, 5</td><td>-</td></tr>
+            <tr><td>2026</td><td>January</td><td>7, 8, 12</td><td>-</td></tr>
+            <tr><td></td><td>February</td><td>9, 13</td><td>-</td></tr>
             <tr><td></td><td><strong>March</strong></td><td>3</td><td>20, 23</td></tr>
             <tr><td></td><td><strong>April</strong></td><td>7</td><td>22</td></tr>
-            <tr><td></td><td>May</td><td>11</td><td>—</td></tr>
+            <tr><td></td><td>May</td><td>11</td><td>-</td></tr>
           </tbody>
         </table>
       </div>
@@ -255,7 +251,7 @@
     </section>
 
     <!-- ================================================================
-         SECTION 2 — THE ROBOT IN THE FIELD, THROUGH THE SEASONS
+         SECTION 2: THE ROBOT IN THE FIELD, THROUGH THE SEASONS
 
          This section holds one video only: the YouTube reel embedded below.
          ================================================================ -->
@@ -265,7 +261,7 @@
       <p>
         Footage of the platform actually working the corridor: the same route, the same
         start and end trees, under four very different sets of conditions. This is the
-        context the point clouds come from — narrow trail, roots and uneven ground,
+        context the point clouds come from: narrow trail, roots and uneven ground,
         vegetation crowding in on both sides, and a manipulator waving a LiDAR through
         it all.
       </p>
@@ -295,7 +291,7 @@
         Edinburgh campus, with trees and understorey vegetation on both sides of the robot
         path. The terrain is relatively flat but has exposed roots and local surface
         irregularities. Traversals run from
-        (55.910274, −3.328794) to (55.910507, −3.328239) — roughly 48 m.
+        (55.910274, −3.328794) to (55.910507, −3.328239), roughly 48 m.
       </p>
       <p>
         Data was collected with <strong>ALFRED</strong> (Autonomous Leaf and Forest
@@ -313,11 +309,11 @@
         </div>
         <div class="theme">
           <h3>Base LiDAR</h3>
-          <p>Ouster OS1-32, fixed to the base — dense coverage of the trail, lower stems and understorey.</p>
+          <p>Ouster OS1-32, fixed to the base, giving dense coverage of the trail, lower stems and understorey.</p>
         </div>
         <div class="theme">
           <h3>Arm LiDAR</h3>
-          <p>Ouster OS1-32, mounted on the end-effector — elevated, actively varied views of branches and canopy.</p>
+          <p>Ouster OS1-32, mounted on the end-effector, giving elevated, actively varied views of branches and canopy.</p>
         </div>
         <div class="theme">
           <h3>Inertial</h3>
@@ -331,7 +327,7 @@
       <p class="muted" style="margin-top:22px">
         GNSS and RGB-D sensors are fitted to the platform, and GNSS/INS streams are present
         in the ROS bags, but neither is used as mapping ground truth in the baseline
-        pipeline — canopy cover degrades satellite localisation, which is exactly the
+        pipeline. Canopy cover degrades satellite localisation, which is exactly the
         condition the dataset is meant to represent. RGB-D image and depth streams were not
         recorded during the traversals. The main calibrated extrinsic, base LiDAR to IMU,
         was estimated with LiDAR-IMU Init and ships with the release, along with the URDF
@@ -341,7 +337,7 @@
       <div class="gallery gallery--views">
         <figure>
           <img src="../img/front_view.jpeg" alt="ALFRED seen head on: the Unitree Z1 arm carrying the Ouster OS1-32 and an RGB-D camera, a rugged laptop on the deck, the GNSS mast behind, and the Hunter 2.0 wheels either side">
-          <figcaption>Front view — the arm-mounted LiDAR sits at the end of the Z1, above the base deck.</figcaption>
+          <figcaption>Front view. The arm-mounted LiDAR sits at the end of the Z1, above the base deck.</figcaption>
         </figure>
         <figure>
           <img src="../img/side_view_panels.jpeg" alt="ALFRED from the side with its white electronics panels fitted, showing the AgileX Hunter 2.0 base, the enclosed electronics bay, and the GNSS mast">
@@ -349,7 +345,7 @@
         </figure>
         <figure>
           <img src="../img/top_down.jpeg" alt="ALFRED from directly above, showing the layout of the arm, the base LiDAR, the rugged laptop and the GNSS antenna across the base deck">
-          <figcaption>Top-down view — the sensor and compute layout on the base deck.</figcaption>
+          <figcaption>Top-down view. The sensor and compute layout on the base deck.</figcaption>
         </figure>
       </div>
 
@@ -374,7 +370,7 @@
     </section>
 
     <!-- ================================================================
-         SECTION 3 — ROBOT PROTOCOLS
+         SECTION 3: ROBOT PROTOCOLS
 
          TO ADD THE VIDEOS: same pattern. One slot per scanning strategy.
          ================================================================ -->
@@ -396,7 +392,7 @@
           </p>
           <p>
           That gives <strong>33 traversals per complete survey window</strong>: three
-          fixed-arm, three random-motion, and 27 deterministic-protocol runs — 528 across
+          fixed-arm, three random-motion, and 27 deterministic-protocol runs, 528 across
           the year.
           </p>
         </div>
@@ -408,7 +404,7 @@
         Your browser does not support embedded video.
         </video>
         </div>
-        <figcaption>Fixed arm — the rigidly-mounted-sensor equivalent.</figcaption>
+        <figcaption>Fixed arm: the rigidly-mounted-sensor equivalent.</figcaption>
         </figure>
       </div>
 
@@ -422,7 +418,7 @@
         Your browser does not support embedded video.
         </video>
         </div>
-        <figcaption>Random motion — viewpoint variation with no repeatable pattern.</figcaption>
+        <figcaption>Random motion: viewpoint variation with no repeatable pattern.</figcaption>
         </figure>
 
         <figure class="video-item">
@@ -455,7 +451,7 @@
         Your browser does not support embedded video.
         </video>
         </div>
-        <figcaption>Protocol 3 — the best-covering strategy in the reconstruction profiles.</figcaption>
+        <figcaption>Protocol 3: the best-covering strategy in the reconstruction profiles.</figcaption>
         </figure>
       </div>
 
@@ -465,7 +461,7 @@
         <dd>
           The manipulator stays stationary relative to the base throughout the traversal,
           held at 90° with the top of the arm-mounted LiDAR facing the direction of travel.
-          The base still drives the corridor at the commanded speed — only the arm motion
+          The base still drives the corridor at the commanded speed; only the arm motion
           is removed. This is the closest equivalent to a rigidly mounted sensor, and it is
           the control that tells you whether active motion buys anything.
         </dd>
@@ -485,9 +481,9 @@
           joint space as smooth Bézier trajectories centred on the nominal midpoint
           configuration q<sub>mid</sub> = [0, 1.5, −2.87, 0, 0, 0], with the trajectory
           duration adjusted to realise the commanded arm speed.
-          <strong>Protocol 1</strong> varies joint 2 between 1 and 2 rad — mainly
+          <strong>Protocol 1</strong> varies joint 2 between 1 and 2 rad, mainly
           translational viewpoint change.
-          <strong>Protocol 2</strong> varies joint 4 between −1 and 1 rad — mainly
+          <strong>Protocol 2</strong> varies joint 4 between −1 and 1 rad, mainly
           rotational.
           <strong>Protocol 3</strong> varies both over the same ranges, giving combined
           translational and rotational variation and the broadest active coverage.

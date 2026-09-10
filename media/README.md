@@ -33,9 +33,10 @@ instead of the full 50 s if you want to retune the camera or the colour ramp.
 
 ## Base / arm / merged comparison
 
-`base_arm_merged.mp4` is a 12 s silent loop: three panels sharing one camera,
-easing back and forth across a high angle looking down on the corridor. Rebuild
-with:
+`base_arm_merged.mp4` is a 12 s silent loop. Base and arm sit side by side on
+the top row with the merged result full width beneath, all sharing one camera,
+turning through a full 360 degrees at a high angle looking down on the corridor.
+Rebuild with:
 
 ```bash
 scripts/render_pointcloud_triptych.sh            # full render
@@ -53,13 +54,35 @@ Worth knowing before changing it:
   `forest_alignment_transform.csv` first. The raw base cloud and
   `aligned_arm.pcd` ship in the base LiDAR frame, so without that the panels
   would not line up.
-- **The sweep is a sine, not a full spin.** A full turn swings round to
-  broadside, where the 58 m corridor overflows a tall panel unless you pull so
-  far back the detail is lost. `sin()` is periodic, so the loop has no seam.
-- **White background**, with the turbo height ramp darkened and the strongest
-  returns darkened further, so the colours hold up against it. The renderer
-  samples Open3D's actual background pixel to paint the label strip, because
-  its tone mapping means the output is not the literal background value.
+- **The orbit is fixed, not fitted per frame.** The radius depends only on
+  azimuth (`R_ALONG` 62 end-on, `R_ACROSS` 54 broadside), so the apparent size
+  changes smoothly as it turns. Solving the radius per frame to fit the cloud
+  exactly was tried and reverted: it kept the cloud a constant size but the
+  constant rescaling read as the camera pumping in and out.
+- **Room for the turn comes from the field of view, not the camera distance.**
+  `vfov` is derived from the panel height so that the HORIZONTAL field matches
+  what it was at `BASE_PANEL_H`, which leaves the left/right framing alone and
+  adds the extra space vertically. Note a taller panel on its own would achieve
+  nothing: with a fixed vertical field of view, extra pixels of height just
+  scale the cloud up by the same factor.
+- **The look-at sits at ground level**, not mid-height. Aiming higher left the
+  cloud low in frame, wasting the top while the near end ran off the bottom.
+- Clearances were checked by measuring rendered content against every panel
+  edge across eight azimuths; the current settings clear by 34px at the
+  tightest point.
+- **The two-row layout is what makes a full 360 fit.** Three panels side by side
+  left each one too narrow to hold the corridor broadside.
+- **One renderer, not three.** Open3D's Filament backend cannot share geometry
+  across two `OffscreenRenderer` instances in a process, so everything is drawn
+  by a single full-width renderer and the half-width panels are its centre crop,
+  which is exactly equivalent at the same vertical field of view.
+- **The background is the page background** (`#fbfaf8`, `--bg` in style.css),
+  so the panels sit flush in the article. Getting there needs two steps:
+  Open3D's default post-processing clamps whites around 235, so tone mapping is
+  switched off, and even then a colour-space conversion shifts the value, so
+  `calibrate_background()` bisects for the input that renders as the exact
+  target. The turbo height ramp is darkened and the strongest returns darkened
+  further so the colours hold up against the light ground.
 
 The scan is 2025-09-22-13-26-37, picked from
 `corridor_island_cleanup_summary.csv` as the acquisition with the fewest

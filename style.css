@@ -714,9 +714,10 @@ footer p { margin: 0; }
 
 .link-note { scroll-margin-top: 80px; }
 
-/* The base/arm/merged triptych is a wide three-panel render, so it needs a
-   wider box than the 16:9 video slots. */
+/* The base/arm/merged comparison is a two-row render (base and arm above,
+   merged full width below), so it needs its own box shape. */
 .video-slot.triptych {
-  aspect-ratio: 1440 / 598;
-  background: #f8f8f6;
+  aspect-ratio: 1440 / 1184;
+  /* Matches the render's own background, so the panels sit flush on the page. */
+  background: var(--bg);
 }
