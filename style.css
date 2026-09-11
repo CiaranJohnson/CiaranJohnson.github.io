@@ -324,6 +324,29 @@ a.card:hover {
   max-width: none;
 }
 
+/* Keep a name, its affiliation and its icons on one line when wrapping. */
+.authors .author { white-space: nowrap; }
+
+.authors .sep {
+  color: var(--text-subtle);
+  margin: 0 .2em;
+}
+
+.author-link {
+  display: inline-block;
+  line-height: 0;
+  vertical-align: -.15em;
+  border-radius: 3px;
+  transition: opacity .15s ease;
+}
+
+.author-link:hover { opacity: .75; }
+
+.author-link svg {
+  width: 1em;
+  height: 1em;
+}
+
 .venue {
   font-size: .95rem;
   color: var(--text-subtle);
