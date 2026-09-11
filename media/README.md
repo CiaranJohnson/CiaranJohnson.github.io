@@ -27,9 +27,16 @@ scripts/render_pointcloud_flythrough.sh
 
 to rebuild it and its poster from the 16 aligned planning clouds in the
 ForestYear3D data tree. The script renders 1600x900 frames and publishes a 720p
-H.264 encode; point-cloud noise compresses badly, so CRF 32 is what keeps it
-around 15 MB rather than 55 MB. `--preview` renders a handful of key frames
-instead of the full 50 s if you want to retune the camera or the colour ramp.
+H.264 encode; point-cloud noise compresses badly, so it takes CRF 32 to keep
+it to 25 MB. The dense June foliage in the intro is the most expensive part. `--preview` renders a handful of key frames
+instead of the full 58 s if you want to retune the camera or the colour ramp.
+
+The video opens with an 8 s flight through the June 2025 cloud, starting about
+halfway down the corridor on the same line the closing flight takes through
+May 2026. Over the last 6 s the camera pans round to look back down the
+corridor and, in the last 3 s, climbs out onto the orbit. The climb and the pan
+end on the orbit's first pose with its speed and pan rate, so there is no cut.
+`--turn` and `--lift` set those two windows; `--intro 0` renders without it.
 
 ## Base / arm / merged comparison
 

@@ -5,13 +5,17 @@ Reads the 16 per-survey-window planning clouds, colours them by height with a
 secondary intensity modulation, and renders a single camera move over them in
 chronological order (June 2025 -> May 2026):
 
+    0. intro   -- fly along the corridor through the first (June) cloud, then
+                  turn round and climb out, carrying straight on into the orbit
     1. orbit   -- an elliptical orbit around the outside of the corridor
     2. rise    -- lift and pitch over to a top-down view
     3. topdown -- hold overhead while the seasons replay
-    4. fly     -- descend into the corridor and travel along it
+    4. fly     -- descend into the corridor and travel along it (May)
 
 Each phase advances through the clouds so every survey window is on screen at
-some point, and phases 1 and 3 each cover the full year.
+some point, and phases 1 and 3 each cover the full year. The intro and the
+final fly bookend the year with the same move through the first and last
+clouds.
 
 Requires the `forestyear3d` conda env (open3d + matplotlib) and the ffmpeg that
 imageio-ffmpeg ships. Run from the repo root:
@@ -188,6 +192,73 @@ def camera_at(t: float, phases: dict):
     return TOPDOWN_EYE, CENTRE, [0, 1, 0], 50.0
 
 
+# The intro runs along the same line as phase 4, from INTRO_X0 (about halfway
+# down the corridor) to INTRO_X1, then climbs out of the corridor and swings
+# round into the orbit.
+INTRO_X0, INTRO_X1, INTRO_Z = 16.0, 38.0, 2.3
+
+
+def hermite(p0, m0, p1, m1, s: float):
+    """Cubic Hermite from p0 (tangent m0) to p1 (tangent m1), s in [0, 1]."""
+    s2, s3 = s * s, s * s * s
+    return ((2 * s3 - 3 * s2 + 1) * p0 + (s3 - 2 * s2 + s) * m0
+            + (-2 * s3 + 3 * s2) * p1 + (s3 - s2) * m1)
+
+
+def look_angles(eye, ctr) -> tuple[float, float]:
+    """(yaw, pitch) in degrees of the view from eye towards ctr."""
+    d = np.asarray(ctr, float) - np.asarray(eye, float)
+    return (float(np.degrees(np.arctan2(d[1], d[0]))),
+            float(np.degrees(np.arctan2(d[2], np.hypot(d[0], d[1])))))
+
+
+def intro_camera_at(t: float, intro: float, lift: float, turn: float,
+                    phases: dict):
+    """Fly the corridor, then turn round and climb out into the orbit.
+
+    The video opens with the camera already moving down the corridor, picking
+    up speed as it goes. In the last `turn` seconds it pans
+    left, across the trees and round to look back down the corridor, and in
+    the last `lift` seconds it climbs out and swings onto the orbit. Both end
+    on the orbit's first pose with its velocity and pan rate, so the hand-over
+    is seamless.
+    """
+    cruise = intro - lift
+    dt = 1e-3
+
+    def corridor_x(tc: float) -> float:
+        # Speed builds from a half to one and a half times the average.
+        u = min(max(tc / cruise, 0.0), 1.0)
+        return INTRO_X0 + (INTRO_X1 - INTRO_X0) * (u + u * u) / 2.0
+
+    # Where the orbit picks up, and how fast it is moving and panning then.
+    o_eye, o_ctr = (np.asarray(v, float) for v in camera_at(0.0, phases)[:2])
+    n_eye, n_ctr = (np.asarray(v, float) for v in camera_at(dt, phases)[:2])
+    o_yaw, o_pitch = look_angles(o_eye, o_ctr)
+    n_yaw, n_pitch = look_angles(n_eye, n_ctr)
+    o_yaw %= 360.0                                  # turn left to get there
+    n_yaw %= 360.0
+
+    if t < cruise:
+        eye = np.array([corridor_x(t), 0.0, INTRO_Z])
+    else:
+        v0 = (corridor_x(cruise) - corridor_x(cruise - dt)) / dt
+        eye = hermite(np.array([INTRO_X1, 0.0, INTRO_Z]), np.array([v0 * lift, 0.0, 0.0]),
+                      o_eye, (n_eye - o_eye) / dt * lift, (t - cruise) / lift)
+
+    # Pitch of the corridor view, which looks 15 m ahead and 0.1 m down.
+    c_pitch = float(np.degrees(np.arctan2(-0.1, 15.0)))
+    s_turn = min(max((t - (intro - turn)) / turn, 0.0), 1.0)
+    s_lift = min(max((t - cruise) / lift, 0.0), 1.0)
+    yaw = hermite(0.0, 0.0, o_yaw, (n_yaw - o_yaw) / dt * turn, s_turn)
+    pitch = hermite(c_pitch, 0.0, o_pitch, (n_pitch - o_pitch) / dt * lift, s_lift)
+    fov = 66.0 + (50.0 - 66.0) * smoothstep(s_turn)
+
+    y, p = np.radians(yaw), np.radians(pitch)
+    look = np.array([np.cos(p) * np.cos(y), np.cos(p) * np.sin(y), np.sin(p)])
+    return eye, eye + 15.0 * look, [0, 0, 1], fov
+
+
 def cloud_at(t: float, phases: dict, n: int) -> tuple[int, float]:
     """Which cloud is on screen at time t, and how far through its slot."""
     a_end = phases["orbit"]
@@ -224,18 +295,23 @@ def font(size: int):
         return ImageFont.load_default()
 
 
-def draw_overlay(img, label: str, phase_name: str, W: int, H: int, fade: float):
+def draw_overlay(img, label: str, phase_name: str, W: int, H: int, fade: float,
+                 caption_fade: float = 1.0):
     """Date bottom-left, caption above it, subtle scale bar bottom-right."""
     from PIL import Image, ImageDraw
 
-    d = ImageDraw.Draw(img, "RGBA")
+    # Draw onto a transparent layer and composite it: Pillow ignores the fill
+    # alpha of text drawn straight onto an RGB image, so the fades would
+    # otherwise do nothing.
+    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
     s = W / 1600.0
     x0, y0 = int(56 * s), H - int(104 * s)
     a = int(255 * fade)
 
     d.text((x0, y0), label, font=font(int(46 * s)), fill=(255, 255, 255, a))
     d.text((x0, y0 + int(56 * s)), phase_name, font=font(int(23 * s)),
-           fill=(190, 205, 200, int(a * 0.75)))
+           fill=(190, 205, 200, int(a * 0.75 * caption_fade)))
 
     # Height key: a short vertical turbo strip so the colours mean something.
     import matplotlib
@@ -250,7 +326,7 @@ def draw_overlay(img, label: str, phase_name: str, W: int, H: int, fade: float):
            font=f, fill=(210, 218, 216, int(a * 0.85)))
     d.text((kx + kw + int(9 * s), ky + kh - int(13 * s)), "ground",
            font=f, fill=(210, 218, 216, int(a * 0.85)))
-    return img
+    return Image.alpha_composite(img.convert("RGBA"), layer).convert("RGB")
 
 
 # --------------------------------------------------------------------------
@@ -278,6 +354,14 @@ def main() -> int:
     ap.add_argument("--cmap", default="turbo")
     ap.add_argument("--intensity-range", default="0.60,1.15",
                     help="brightness multipliers at min and max intensity")
+    ap.add_argument("--intro", type=float, default=8.0,
+                    help="seconds flying through the first cloud; 0 skips it")
+    ap.add_argument("--turn", type=float, default=6.0,
+                    help="seconds at the end of the intro spent panning round "
+                         "to face the orbit centre")
+    ap.add_argument("--lift", type=float, default=3.0,
+                    help="seconds at the end of the intro spent climbing out "
+                         "of the corridor onto the orbit")
     ap.add_argument("--orbit", type=float, default=22.0)
     ap.add_argument("--rise", type=float, default=5.0)
     ap.add_argument("--topdown", type=float, default=14.0)
@@ -295,7 +379,12 @@ def main() -> int:
     i_lo, i_hi = (float(v) for v in args.intensity_range.split(","))
     phases = dict(orbit=args.orbit, rise=args.rise,
                   topdown=args.topdown, fly=args.fly)
-    total = sum(phases.values())
+    # camera_at() and cloud_at() run on the main timeline, which starts at the
+    # orbit; the intro is prepended in front of it.
+    intro = args.intro
+    turn = min(args.turn, intro)
+    lift = min(args.lift, turn)
+    total = intro + sum(phases.values())
 
     files = sorted(glob.glob(os.path.join(args.src, "*.pcd")))
     if args.limit:
@@ -331,6 +420,7 @@ def main() -> int:
     print(f"loaded in {time.time() - t0:.0f}s")
 
     phase_caption = {
+        "intro": "Through the corridor",
         "orbit": "Orbit around the corridor",
         "rise": "Rising to an overhead view",
         "topdown": "The same 48 m, seen from above",
@@ -346,29 +436,48 @@ def main() -> int:
             return "topdown"
         return "fly"
 
-    def render(t: float, shown: list):
-        idx, _ = cloud_at(t, phases, len(files))
+    def view(idx: int, cam, shown: list):
         if shown and shown[0] != idx:
             renderer.scene.show_geometry(f"c{shown[0]}", False)
         if not shown or shown[0] != idx:
             renderer.scene.show_geometry(f"c{idx}", True)
             shown[:] = [idx]
-        eye, ctr, up, fov = camera_at(t, phases)
+        eye, ctr, up, fov = cam
         renderer.setup_camera(fov, list(ctr), list(eye), list(up))
-        img = Image.fromarray(np.asarray(renderer.render_to_image()))
+        return Image.fromarray(np.asarray(renderer.render_to_image()))
+
+    def render(t: float, shown: list):
+        """t is video time; the main timeline starts at the end of the intro."""
         fade = min(1.0, t / 0.8, max(0.0, (total - t) / 0.8))
-        return draw_overlay(img, labels[idx][0], phase_caption[phase_of(t)],
-                            args.width, args.height, fade)
+        tm = t - intro
+        # The camera carries straight on from the intro into the orbit, so
+        # rather than snapping the caption over, fade it out and back in.
+        caption_fade = min(1.0, abs(tm) / 0.5) if intro else 1.0
+        if tm >= 0.0:
+            idx, _ = cloud_at(tm, phases, len(files))
+            img = view(idx, camera_at(tm, phases), shown)
+            caption = phase_caption[phase_of(tm)]
+        else:
+            # The orbit opens on the June cloud too, so there is no cloud swap
+            # at the hand-over either.
+            idx = 0
+            img = view(idx, intro_camera_at(t, intro, lift, turn, phases), shown)
+            caption = phase_caption["intro"]
+        return draw_overlay(img, labels[idx][0], caption,
+                            args.width, args.height, fade, caption_fade)
 
     if args.preview:
         out_dir = args.frames_dir or "preview_frames"
         os.makedirs(out_dir, exist_ok=True)
         shown: list = []
-        marks = [0.5, args.orbit * 0.28, args.orbit * 0.55, args.orbit * 0.85,
-                 args.orbit + args.rise * 0.5, args.orbit + args.rise + 0.4,
-                 args.orbit + args.rise + args.topdown * 0.55,
-                 args.orbit + args.rise + args.topdown + args.fly * 0.35,
-                 args.orbit + args.rise + args.topdown + args.fly * 0.8]
+        marks = [0.5, intro - turn, intro - turn * 0.55, intro - lift,
+                 intro - lift * 0.5] if intro else []
+        marks += [intro + m for m in (
+            0.5, args.orbit * 0.28, args.orbit * 0.55, args.orbit * 0.85,
+            args.orbit + args.rise * 0.5, args.orbit + args.rise + 0.4,
+            args.orbit + args.rise + args.topdown * 0.55,
+            args.orbit + args.rise + args.topdown + args.fly * 0.35,
+            args.orbit + args.rise + args.topdown + args.fly * 0.8)]
         for t in marks:
             render(t, shown).save(os.path.join(out_dir, f"t{t:06.2f}.png"))
             print("  preview", f"t{t:06.2f}.png")
