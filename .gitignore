@@ -10,3 +10,7 @@ img/profile_pic.jpeg
 # Run scripts/compress_videos.sh to produce the web versions in media/,
 # which are the ones that get committed.
 media/final_protocols/
+
+# Python bytecode caches
+__pycache__/
+*.pyc
