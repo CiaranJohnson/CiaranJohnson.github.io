@@ -715,28 +715,6 @@ footer p { margin: 0; }
   object-fit: cover;
 }
 
-/* A note revealed by clicking a paper link, e.g. the private code repo.
-   Uses :target so it works without JavaScript. */
-.link-note {
-  display: none;
-  margin: 14px 0 0;
-  padding: 12px 16px;
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
-  border-radius: 8px;
-  background: var(--accent-soft);
-  color: var(--text-muted);
-  font-size: .9rem;
-  max-width: none;
-}
-
-/* :target is the no-JavaScript fallback; .is-open is what the click
-   handler toggles, so the note opens without jumping the page. */
-.link-note:target,
-.link-note.is-open { display: block; }
-
-.link-note { scroll-margin-top: 80px; }
-
 /* The base/arm/merged comparison is a two-row render (base and arm above,
    merged full width below), so it needs its own box shape. */
 .video-slot.triptych {

@@ -80,16 +80,10 @@
            then remove the aria-disabled attribute from that link. -->
       <ul class="paper-links">
         <li><a href="#" aria-disabled="true">Paper (PDF), coming soon</a></li>
-        <li><a href="#code-note">Code</a></li>
+        <li><a href="https://github.com/CiaranJohnson/ForestYear3D" target="_blank" rel="noopener">Code</a></li>
         <li><a href="#" aria-disabled="true">Dataset (CC BY 4.0), coming soon</a></li>
         <li><a href="#citation">Cite</a></li>
       </ul>
-      <!-- Revealed when the Code pill is clicked; the repo stays private
-           until publication, so swap this for the real link at that point. -->
-      <p id="code-note" class="link-note">
-        The code is kept private until the paper is published. It will be released
-        here alongside the dataset.
-      </p>
     </header>
 
     <!-- ================================================================
@@ -561,19 +555,6 @@
       <p>© 2026 Ciaran Johnson · Edinburgh Centre for Robotics</p>
     </div>
   </footer>
-
-  <script>
-    // Open the "code is private" note in place rather than jumping to it.
-    // Without JS the link still works via the :target CSS fallback.
-    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-      var note = document.querySelector(link.getAttribute('href'));
-      if (!note || !note.classList.contains('link-note')) return;
-      link.addEventListener('click', function (event) {
-        event.preventDefault();
-        note.classList.toggle('is-open');
-      });
-    });
-  </script>
 
 </body>
 </html>
