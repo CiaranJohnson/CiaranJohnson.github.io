@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ROWCAST | Ciaran Johnson</title>
-  <meta name="description" content="ROWCAST: autonomous crop row monitoring with the ALFRED 2.0 mobile manipulator. Coming soon.">
+  <meta name="description" content="ROWCAST: autonomous crop row monitoring with the ALFRED 2.0 mobile manipulator. First splat reconstructions of two plant scenes and of each plant on its own, with more to come.">
   <link rel="stylesheet" href="../style.css">
 </head>
 <body class="paper">
@@ -36,18 +36,238 @@
       </p>
     </header>
 
+    <!-- Field video first: a YouTube Short (9:16), embedded like the reel on
+         the ForestYear3D page (no local file), then the RGB-D phenotyping
+         explainer. The explainer is published as delivered (1080p, 2.3 Mb/s,
+         21 MB): its small text overlays would blur at 720p, and with
+         preload="metadata" it only downloads when played. Its poster is
+         frame 0, grabbed with ffmpeg; see media/README.md. -->
+    <section id="field-video">
+      <div class="video-grid one-up">
+        <figure class="video-item short">
+          <div class="video-slot short">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/D7hwxlzGvhw"
+              title="ROWCAST experiments using ALFRED 2.0"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen></iframe>
+          </div>
+          <figcaption>ROWCAST experiments using ALFRED 2.0.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot">
+            <video controls muted playsinline preload="metadata"
+                   poster="../media/canopyball_reconstruction_1080p_poster.jpg">
+              <source src="../media/canopyball_reconstruction_1080p.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <figcaption>RGB-D phenotyping: from one view to a plant model.</figcaption>
+        </figure>
+      </div>
+    </section>
+
     <section id="platform">
       <div class="gallery">
         <figure>
-          <img src="../img/alfred2_front.jpg" alt="ALFRED 2.0 field robot, front view, showing its manipulator arm and mast-mounted sensors">
+          <img src="../img/alfred2_front.jpg" width="1200" height="1600" alt="ALFRED 2.0 field robot, front view, showing its manipulator arm and mast-mounted sensors">
         </figure>
         <figure>
-          <img src="../img/alfred2_side.jpg" alt="ALFRED 2.0 field robot, side view, showing its four-wheeled all-terrain base">
+          <img src="../img/alfred2_side.jpg" width="1200" height="1600" alt="ALFRED 2.0 field robot, side view, showing its four-wheeled all-terrain base">
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SPLAT CLIPS
+         Web versions are produced by scripts/compress_splats.sh from the
+         full-resolution renders in media/splats_source/ (gitignored); see
+         media/README.md. Scene flythroughs are ordinary controls videos.
+         Plant orbits are GIF-style loops: no controls, silent, started by
+         the script at the foot of the page only while they are on screen.
+         The plants are deliberately not named on the page yet, so the
+         orbits carry no captions. To add one: a MAP line in the script,
+         then copy a <figure>.
+         ================================================================ -->
+    <section id="scene-splats">
+      <h2>Full scene splats</h2>
+      <p>
+        The first two scenes, each reconstructed as a splat and played back as a
+        camera flythrough: one of large plants, one of small plants.
+      </p>
+
+      <div class="video-grid one-up">
+        <figure class="video-item">
+          <div class="video-slot">
+            <video controls muted loop playsinline preload="metadata"
+                   poster="../media/stationary_big_plants__flythrough_poster.jpg">
+              <source src="../media/stationary_big_plants__flythrough.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <figcaption>Large plants, flythrough.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot">
+            <video controls muted loop playsinline preload="metadata"
+                   poster="../media/stationary_small_plants__flythrough_poster.jpg">
+              <source src="../media/stationary_small_plants__flythrough.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <figcaption>Small plants, flythrough.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="plant-splats">
+      <h2>Individual splats</h2>
+
+      <h3 style="margin-top:18px">Large plants</h3>
+      <div class="video-grid two-up">
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of a plant from the large-plant scene; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_big_plants__indian_laurel_fig_poster.jpg">
+              <source src="../media/stationary_big_plants__indian_laurel_fig.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of a plant from the large-plant scene; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_big_plants__fiddle_leaf_fig_poster.jpg">
+              <source src="../media/stationary_big_plants__fiddle_leaf_fig.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of a plant from the large-plant scene; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_big_plants__red_poster.jpg">
+              <source src="../media/stationary_big_plants__red.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of a plant from the large-plant scene; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_big_plants__white_poster.jpg">
+              <source src="../media/stationary_big_plants__white.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of a plant from the large-plant scene; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_big_plants__greenwhite_poster.jpg">
+              <source src="../media/stationary_big_plants__greenwhite.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of a plant from the large-plant scene; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_big_plants__mediumgreen_poster.jpg">
+              <source src="../media/stationary_big_plants__mediumgreen.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </figure>
+      </div>
+
+      <h3 style="margin-top:32px">Small plants</h3>
+      <div class="video-grid two-up">
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of a plant from the small-plant scene; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_small_plants__small_1_poster.jpg">
+              <source src="../media/stationary_small_plants__small_1.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of a plant from the small-plant scene; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_small_plants__small_2_poster.jpg">
+              <source src="../media/stationary_small_plants__small_2.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of a plant from the small-plant scene; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_small_plants__small_3_poster.jpg">
+              <source src="../media/stationary_small_plants__small_3.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of a plant from the small-plant scene; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_small_plants__small_4_poster.jpg">
+              <source src="../media/stationary_small_plants__small_4.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of a plant from the small-plant scene; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_small_plants__small_5_poster.jpg">
+              <source src="../media/stationary_small_plants__small_5.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of a plant from the small-plant scene; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_small_plants__small_6_poster.jpg">
+              <source src="../media/stationary_small_plants__small_6.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
         </figure>
       </div>
 
       <p class="muted" style="margin-top:22px">
-        Full webpage to be updated closer to publication.
+        More to come: further scenes and reconstructions, and the full webpage
+        closer to publication.
       </p>
     </section>
 
@@ -62,6 +282,69 @@
       <p>© 2026 Ciaran Johnson · Edinburgh Centre for Robotics</p>
     </div>
   </footer>
+
+  <!-- The plant orbits behave like GIFs: silent, looping, playing on their own.
+       Rather than autoplay every clip at page load, each one is started only
+       while it is on screen (preload="none" keeps it undownloaded until then)
+       and paused again once it scrolls away. A click or Enter on a tile pauses
+       and resumes it. Anyone who has asked for reduced motion gets them paused
+       with ordinary controls instead, as does any browser that refuses to
+       start them. -->
+  <script>
+    (function () {
+      var orbits = Array.prototype.slice.call(document.querySelectorAll('video.orbit'));
+      if (!orbits.length) return;
+
+      function showControls(v) { v.controls = true; }
+
+      function start(v) {
+        if (v.dataset.userPaused) return;
+        var p = v.play();
+        if (p && p.catch) p.catch(function (err) {
+          // A play() cut short by pause() (the clip left the screen again
+          // before it got going) is normal; only an actual refusal to
+          // autoplay gets the controls.
+          if (!err || err.name !== 'AbortError') showControls(v);
+        });
+      }
+
+      // A click, or Enter/Space while a tile has keyboard focus, pauses that
+      // orbit and leaves it paused until toggled again.
+      function toggle(v) {
+        if (v.paused) { delete v.dataset.userPaused; start(v); }
+        else { v.dataset.userPaused = '1'; v.pause(); }
+      }
+      orbits.forEach(function (v) {
+        // Number each tile within its grid for screen readers, so the markup
+        // need not be renumbered when a plant is added.
+        var group = v.closest('.video-grid');
+        if (group) {
+          var peers = group.querySelectorAll('video.orbit');
+          v.setAttribute('aria-label', (v.getAttribute('aria-label') || 'Looping orbit of a plant')
+            .replace('a plant', 'plant ' + (Array.prototype.indexOf.call(peers, v) + 1) + ' of ' + peers.length));
+        }
+        v.addEventListener('click', function () { if (!v.controls) toggle(v); });
+        v.addEventListener('keydown', function (e) {
+          if (!v.controls && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggle(v); }
+        });
+      });
+
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        orbits.forEach(showControls);
+        return;
+      }
+      if (!('IntersectionObserver' in window)) {
+        orbits.forEach(start);
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) start(e.target); else e.target.pause();
+        });
+      }, { rootMargin: '200px 0px' });
+      orbits.forEach(function (v) { io.observe(v); });
+    })();
+  </script>
 
 </body>
 </html>
