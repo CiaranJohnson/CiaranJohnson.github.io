@@ -13,8 +13,6 @@
   --border:        #e3e0da;
   --shadow:        0 1px 2px rgba(28, 27, 25, .04), 0 8px 24px rgba(28, 27, 25, .05);
   --radius:        12px;
-  --measure:       68ch;   /* home-page prose */
-  --measure-wide:  82ch;   /* paper pages: prose, captions, BibTeX */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -126,7 +124,10 @@ h4 {
 /* A sub-heading part-way down a section, e.g. the splats inside Phenotype */
 h3.subsection { margin-top: 2em; }
 
-p { margin: 0 0 1.1em; max-width: var(--measure); }
+/* Text runs the full width of the column at every size: the site owner
+   prefers it to use the space on wide screens rather than stop at a
+   reading measure. */
+p { margin: 0 0 1.1em; }
 
 a { color: var(--accent); text-underline-offset: 3px; }
 a:hover { text-decoration: none; }
@@ -569,7 +570,6 @@ footer p { margin: 0; }
   margin: .3em 0 0;
   color: var(--text-muted);
   font-size: .94rem;
-  max-width: var(--measure);
 }
 
 /* ---------- Video slots ----------
@@ -753,24 +753,6 @@ footer p { margin: 0; }
   opacity: .55;
   pointer-events: none;
 }
-
-/* ---------------------------------------------------------------
-   Paper page measure
-   Media (videos, figures, tiles) runs the full 1400px column, but text
-   is held to a reading measure: a little wider than the home page's,
-   so it still lines up with half-width media, yet never a 1400px line.
-   --------------------------------------------------------------- */
-
-.paper main p,
-.paper main .deflist dd,
-.paper main figcaption,
-.paper main pre { max-width: var(--measure-wide); }
-
-/* The author line is a list of names, not prose. */
-.paper main .authors { max-width: none; }
-
-/* Schedule table: four short columns, so it need not span the page. */
-.data-table { max-width: 760px; }
 
 /* Trial landmark photos: portrait originals, cropped to a consistent
    landscape frame so the pair sits level. Bias the crop downward so the
