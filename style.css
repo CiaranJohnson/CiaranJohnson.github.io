@@ -289,6 +289,13 @@ a.card:hover {
   gap: 16px;
 }
 
+/* A single card part-way down a paper page, linking to a project page:
+   kept to the width it would have as one of two, not stretched across. */
+.cards--one {
+  grid-template-columns: minmax(0, 660px);
+  margin: 26px 0 8px;
+}
+
 /* ---------- Publication list ----------
    Lighter than .card: a reference list, hairline-separated, with the
    title as the DOI link and the site owner's name picked out in bold. */
@@ -697,6 +704,18 @@ footer p { margin: 0; }
   .intro-row { grid-template-columns: minmax(0, 1fr) var(--intro-media, 480px); }
 }
 
+/* Copy beside a landscape diagram rather than an upright clip, e.g. the
+   ALFRED 2.0 network: the diagram gets more of the row, the copy's own
+   heading sits flush with its top, and the figure keeps no bottom margin. */
+.intro-row--figure { align-items: start; --intro-media: 640px; }
+.intro-row--figure .intro-copy h4 { margin-top: 0; }
+.intro-row--figure figure { margin: 0; }
+
+/* A closer-set definition list for a run of short entries, e.g. the six
+   ALFRED requirements beside their figure. */
+.deflist--tight dt { margin-top: 10px; font-size: .94rem; }
+.deflist--tight dd { margin-top: .15em; font-size: .9rem; line-height: 1.5; }
+
 /* ForestYear3D protocols: from 1200px the four remaining clips sit in one
    row, and the intro clip is made the same width as one of them, so all
    five strategies are shown at exactly the same size. */
@@ -777,6 +796,19 @@ footer p { margin: 0; }
 
 @media (max-width: 640px) {
   .gallery--pair { gap: 10px; }
+}
+
+/* Equal-width rows for the ALFRED page: four builds or four CAD mounts
+   across, or two photos cropped to one shape. On phones the fours become
+   two-by-two and the pairs stack. */
+.gallery--four { grid-template-columns: repeat(4, 1fr); }
+.gallery--builds img { aspect-ratio: 3 / 4; object-fit: cover; }
+.gallery--two { grid-template-columns: 1fr 1fr; }
+.gallery--43 img { aspect-ratio: 4 / 3; object-fit: cover; }
+
+@media (max-width: 700px) {
+  .gallery--four { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .gallery--two { grid-template-columns: 1fr; }
 }
 
 /* Three robot views sit as equal portrait tiles */
@@ -1086,6 +1118,14 @@ a.stage:focus-visible h3 { color: var(--accent); }
    full 1400px column would be taller than the screen. */
 .figure--medium {
   max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* A figure much taller than wide, e.g. the LiDAR ray-termination grid:
+   narrower still, but wide enough for its labels to stay legible. */
+.figure--tall {
+  max-width: 760px;
   margin-left: auto;
   margin-right: auto;
 }

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ciarán Míċeál Johnson | Agricultural Robotics</title>
   <meta name="description" content="Final year PhD student at the Edinburgh Centre for Robotics, working on agricultural robotics for crop phenotyping and prognosis.">
-  <link rel="stylesheet" href="style.css?v=20261101c">
+  <link rel="stylesheet" href="style.css?v=20261101h">
 </head>
 <body>
 
@@ -14,11 +14,11 @@
       <a class="brand" href="index.html">Ciarán Míċeál Johnson</a>
       <ul>
         <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="ALFRED/">ALFRED</a></li>
         <li><a href="ForestYear3D/">ForestYear3D</a></li>
         <li><a href="ROWCAST/">ROWCAST</a></li>
         <li><a href="#publications">Publications</a></li>
-        <li><a href="#alfred">ALFRED</a></li>
-        <li><a href="#alfred2">ALFRED 2.0</a></li>
+        <li><a href="#alfred">Platforms</a></li>
       </ul>
     </div>
   </nav>
@@ -79,6 +79,18 @@
     <section id="work">
       <p class="eyebrow">Selected work</p>
       <div class="cards">
+      <a class="card" href="ALFRED/">
+        <span class="tag">Preprint · arXiv</span>
+        <h3>ALFRED</h3>
+        <p>
+          An open-source mobile manipulator for long-term plant monitoring, developed
+          through four builds against six requirements. A year of monthly forest
+          surveys without a missed collection, and the usable share of the arm's
+          workspace rising from 34% to 66% across builds.
+        </p>
+        <span class="card-more">Read more →</span>
+      </a>
+
       <a class="card" href="ForestYear3D/">
         <span class="tag">Dataset paper</span>
         <h3>ForestYear3D</h3>
@@ -184,7 +196,8 @@
         pick up the branch and canopy structure a fixed mount never gets. ALFRED was
         built to test whether that actually helps, which is why the dataset compares
         fixed-arm, random, and deterministic arm-motion protocols over the same forest
-        corridor for a full year.
+        corridor for a full year. The platform, its four builds and its design files are
+        described in the <a href="ALFRED/">ALFRED paper</a>.
       </p>
 
       <div class="gallery gallery--views">
@@ -224,7 +237,8 @@
         the measurement problem instead of the other way around. Sensor placement,
         the way the robot moves through a crop row, and how reliably it returns
         to the same plants on each visit all directly determine whether the
-        resulting reconstructions are good enough to compare over time.
+        resulting reconstructions are good enough to compare over time. Its
+        configuration is described in the <a href="ALFRED/#alfred2">ALFRED paper</a>.
       </p>
 
       <div class="gallery gallery--pair">

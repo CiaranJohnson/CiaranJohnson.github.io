@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ALFRED | Ciaran Johnson</title>
+  <meta name="description" content="ALFRED: an open-source mobile manipulator for long-term plant monitoring, developed through four builds against six requirements. A year of monthly forest surveys without a missed collection, and model-based comparison of arm reach and LiDAR visibility across builds. arXiv preprint, October 2026.">
+  <link rel="stylesheet" href="../style.css?v=20261101h">
+</head>
+<body class="paper">
+
+  <!-- Icon sprite for the author links; referenced with <use href="#icon-..."> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="icon-orcid" viewBox="0 0 256 256">
+      <path fill="#A6CE39" d="M256 128c0 70.7-57.3 128-128 128S0 198.7 0 128 57.3 0 128 0s128 57.3 128 128z"/>
+      <path fill="#fff" d="M86.3 186.2H70.9V79.1h15.4v107.1zM108.9 79.1h41.6c39.6 0 57 28.3 57 53.6 0 27.5-21.5 53.6-56.8 53.6h-41.8V79.1zm15.4 93.3h24.5c34.9 0 42.9-26.5 42.9-39.7 0-21.5-13.7-39.7-43.7-39.7h-23.7v79.4zM88.7 56.8c0 5.5-4.5 10.1-10.1 10.1s-10.1-4.6-10.1-10.1c0-5.6 4.5-10.1 10.1-10.1s10.1 4.6 10.1 10.1z"/>
+    </symbol>
+    <symbol id="icon-linkedin" viewBox="0 0 24 24">
+      <rect x="1" y="1" width="22" height="22" rx="2" fill="#fff"/>
+      <path fill="#0A66C2" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+    </symbol>
+  </svg>
+
+  <nav class="site-nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html">Ciaran Johnson</a>
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="./" aria-current="page">ALFRED</a></li>
+        <li><a href="../ForestYear3D/">ForestYear3D</a></li>
+        <li><a href="../ROWCAST/">ROWCAST</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <!-- ================================================================
+         TITLE BLOCK
+         Preprint on arXiv (2610.01477, 1 October 2026). Add the venue and
+         DOI here once the paper is accepted. The Code link stays disabled
+         until github.com/CiaranJohnson/ALFRED is public.
+         ================================================================ -->
+    <header class="paper-head">
+      <span class="tag">Preprint</span>
+      <h1>ALFRED: Requirement-driven development of an open-source mobile manipulator for long-term plant monitoring</h1>
+      <p class="authors">
+        <span class="author">Ciarán Miceal Johnson<sup>1,2</sup>
+          <a class="author-link" href="https://orcid.org/0009-0005-3101-6712" target="_blank" rel="noopener" aria-label="Ciarán Miceal Johnson on ORCID" title="ORCID"><svg><use href="#icon-orcid"/></svg></a>
+          <a class="author-link" href="https://www.linkedin.com/in/ciaran-johnson-749905177/" target="_blank" rel="noopener" aria-label="Ciarán Miceal Johnson on LinkedIn" title="LinkedIn"><svg><use href="#icon-linkedin"/></svg></a></span>
+        <span class="sep" aria-hidden="true">|</span>
+        <span class="author">Christopher Quail<sup>2</sup>
+          <a class="author-link" href="https://www.linkedin.com/in/christopher-quail-3864a7166/" target="_blank" rel="noopener" aria-label="Christopher Quail on LinkedIn" title="LinkedIn"><svg><use href="#icon-linkedin"/></svg></a></span>
+        <span class="sep" aria-hidden="true">|</span>
+        <span class="author">Garry Ellard<sup>1</sup></span>
+        <span class="sep" aria-hidden="true">|</span>
+        <span class="author">Alistair McConnell<sup>2,*</sup>
+          <a class="author-link" href="https://orcid.org/0000-0003-3168-1323" target="_blank" rel="noopener" aria-label="Alistair McConnell on ORCID" title="ORCID"><svg><use href="#icon-orcid"/></svg></a>
+          <a class="author-link" href="https://www.linkedin.com/in/alistair-mcconnell-1576246a/" target="_blank" rel="noopener" aria-label="Alistair McConnell on LinkedIn" title="LinkedIn"><svg><use href="#icon-linkedin"/></svg></a></span>
+        <span class="sep" aria-hidden="true">|</span>
+        <span class="author">Steve Tonneau<sup>1</sup>
+          <a class="author-link" href="https://orcid.org/0000-0003-3001-8693" target="_blank" rel="noopener" aria-label="Steve Tonneau on ORCID" title="ORCID"><svg><use href="#icon-orcid"/></svg></a></span>
+        <span class="sep" aria-hidden="true">|</span>
+        <span class="author">Fernando Auat Cheein<sup>3,*</sup>
+          <a class="author-link" href="https://orcid.org/0000-0002-6347-7696" target="_blank" rel="noopener" aria-label="Fernando Auat Cheein on ORCID" title="ORCID"><svg><use href="#icon-orcid"/></svg></a>
+          <a class="author-link" href="https://www.linkedin.com/in/fernando-auat-cheein-30743a59/" target="_blank" rel="noopener" aria-label="Fernando Auat Cheein on LinkedIn" title="LinkedIn"><svg><use href="#icon-linkedin"/></svg></a></span>
+      </p>
+      <p class="venue">
+        <sup>1</sup>The University of Edinburgh, UK<br>
+        <sup>2</sup>Heriot-Watt University, UK<br>
+        <sup>3</sup>Harper Adams University, UK<br>
+        <sup>*</sup>Corresponding authors<br><br>
+        arXiv preprint, 1 October 2026 · arXiv:2610.01477 [cs.RO] ·
+        <a href="https://doi.org/10.48550/arXiv.2610.01477" target="_blank" rel="noopener">doi:10.48550/arXiv.2610.01477</a>
+      </p>
+
+      <!-- TODO: remove aria-disabled from the Code link once the GitHub
+           repository is public. -->
+      <ul class="paper-links">
+        <li><a href="https://arxiv.org/abs/2610.01477" target="_blank" rel="noopener">Paper (arXiv)</a></li>
+        <li><a href="https://arxiv.org/pdf/2610.01477" target="_blank" rel="noopener">PDF</a></li>
+        <li><a href="https://github.com/CiaranJohnson/ALFRED" aria-disabled="true">Code and design files, coming soon</a></li>
+        <li><a href="#platform">The platform</a></li>
+        <li><a href="#reach">Reach and visibility</a></li>
+        <li><a href="#citation">Cite</a></li>
+      </ul>
+    </header>
+
+    <!-- ================================================================
+         OVERVIEW
+         Figure 7 of the paper (the four builds) and Figure 8 (each build
+         against the six requirements). Web images are rendered from the
+         manuscript's figure files by scripts/render_alfred_figures.py; see
+         media/README.md.
+         ================================================================ -->
+    <section id="overview">
+      <p class="eyebrow">Overview</p>
+      <h2>Four builds against six requirements</h2>
+      <p>
+        ALFRED is an open-source mobile manipulator built from commercially available
+        components for repeated close-range sensing of crops and forests: a six-degree-of-freedom
+        arm, LiDAR, RGB-D cameras, RTK GNSS and an IMU on an Ackermann-steered base, mounted on a
+        reconfigurable aluminium strut frame. Each of its four builds was motivated by a
+        requirement its predecessor failed to meet: durability, modularity, repairability,
+        sensing reach, endurance and reproducibility.
+      </p>
+
+      <div class="gallery gallery--four gallery--builds">
+        <figure>
+          <img src="../img/alfred_build_p0.jpg" width="1025" height="1366" alt="Prototype 0: the Hunter 2.0 base with early 3D-printed mounts and a manipulator fitted">
+          <figcaption>Prototype 0: component integration.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/alfred_build_p1.jpg" width="1025" height="1366" alt="Prototype 1: the base with a 3D-printed cage holding the electronics enclosures and a laptop rail above">
+          <figcaption>Prototype 1: the first complete assembly.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/alfred_build_alfred.jpg" width="1025" height="1366" alt="ALFRED: the aluminium strut frame with acrylic panels and hinged doors closed, arm and sensors on top">
+          <figcaption>ALFRED: the ForestYear3D year.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/alfred_build_alfred2.jpg" width="1200" height="1579" alt="ALFRED 2.0: the same frame with a second layer carrying another laptop, a router and a larger network switch">
+          <figcaption>ALFRED&nbsp;2.0: autonomous crop rows.</figcaption>
+        </figure>
+      </div>
+
+      <!-- The six requirements, R1 to R6 of the paper, beside Figure 8. -->
+      <div class="intro-row intro-row--figure">
+        <div class="intro-copy">
+          <h4>The six requirements</h4>
+          <dl class="deflist deflist--tight">
+            <dt>R1 · Outdoor durability</dt>
+            <dd>Operate unsheltered across a full annual cycle: unforecast rain or gusts mid-session, mud, dust, pollen and humidity, and ground with fallen leaves, loose stones and exposed roots.</dd>
+            <dt>R2 · Modularity and reconfigurability</dt>
+            <dd>Sensors, computers and other mounted hardware relocatable and replaceable without redesign, so the platform can change with the sensing task and be shared with other researchers.</dd>
+            <dt>R3 · Repairability</dt>
+            <dd>Failures fixed in-house between scheduled deployments, from commercially available parts or parts made with workshop equipment.</dd>
+            <dt>R4 · Sensing reach and coverage</dt>
+            <dd>Place sensors at poses a rigidly mounted sensor cannot reach, and keep enough base-mounted field of view for each task.</dd>
+            <dt>R5 · Endurance</dt>
+            <dd>Complete a scheduled collection session without being limited by battery capacity.</dd>
+            <dt>R6 · Reproducibility by others</dt>
+            <dd>Rebuildable by a third party: design files for every bespoke part, priced commercial components, and software that ports between machines.</dd>
+          </dl>
+        </div>
+        <figure>
+          <img src="../img/alfred_requirements.png" width="1600" height="1083" loading="lazy"
+               alt="A grid of the six requirements against the four builds, coloured red for not satisfied, orange for partially satisfied and green for satisfied; the colours shift from red and orange on the prototypes to green on ALFRED and ALFRED 2.0">
+          <figcaption>The four builds against the six requirements: not satisfied, partially satisfied or satisfied.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="at-a-glance">
+      <p class="eyebrow">At a glance</p>
+      <h2>Met in service, and measured on the model</h2>
+
+      <!-- Facts are grouped by theme; spans in each group add up to 12.
+           .s3/.s4/.s6/.s8 set width, .fact--lg/--xl set emphasis. -->
+      <div class="fact-group">
+        <h3>In service</h3>
+        <div class="facts">
+          <div class="fact fact--xl s4"><span class="num">528</span><span class="label">Traversals over 29 forest survey days</span></div>
+          <div class="fact s4"><span class="num">0</span><span class="label">Scheduled collections missed</span></div>
+          <div class="fact s4"><span class="num">≈ 6 h</span><span class="label">To switch between the ALFRED and ALFRED&nbsp;2.0 builds</span></div>
+        </div>
+      </div>
+
+      <div class="fact-group">
+        <h3>Usable arm workspace, as a share of reachable poses</h3>
+        <div class="facts">
+          <div class="fact s4"><span class="num">34.0 %</span><span class="label">Prototype 1</span></div>
+          <div class="fact s4"><span class="num">60.0 %</span><span class="label">ALFRED</span></div>
+          <div class="fact fact--lg s4"><span class="num">66.1 %</span><span class="label">ALFRED&nbsp;2.0</span></div>
+        </div>
+      </div>
+
+      <div class="fact-group">
+        <h3>Frame-mounted LiDAR, horizontal beam</h3>
+        <div class="facts">
+          <div class="fact s4"><span class="num">88.96 %</span><span class="label">Clear to 5 m on ALFRED in the drive posture</span></div>
+          <div class="fact s4"><span class="num">56.6° · 22.5°</span><span class="label">Clear ahead and behind on ALFRED&nbsp;2.0, the only build clear along the direction of travel</span></div>
+          <div class="fact s4"><span class="num">160° · 160°</span><span class="label">Clear left and right on ALFRED in the drive posture</span></div>
+        </div>
+      </div>
+
+      <div class="fact-group">
+        <h3>Platform</h3>
+        <div class="facts">
+          <div class="fact s4"><span class="num">Hunter 2.0</span><span class="label">AgileX Ackermann-steered base</span></div>
+          <div class="fact s4"><span class="num">Unitree Z1</span><span class="label">Six-degree-of-freedom arm, 740 mm reach</span></div>
+          <div class="fact s4"><span class="num">£49.7k</span><span class="label">Hardware cost as purchased, 2023–2026</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         THE PLATFORM
+         Shared hardware, then the two field configurations, each with a
+         card linking to its experiment's page. ALFRED's three views are
+         Figure 1 of the paper, ALFRED 2.0's views Figure 3 and the network
+         topology Figure 6.
+         ================================================================ -->
+    <section id="platform">
+      <p class="eyebrow">The platform</p>
+      <h2>One strut frame, two configurations</h2>
+      <p>
+        Both builds share an AgileX Hunter&nbsp;2.0 base, a Unitree Z1 arm, two Ouster OS1-32
+        LiDARs, three RealSense D457 RGB-D cameras, an IMU and RTK GNSS, powered from two
+        enclosures with their own 48&nbsp;V 30&nbsp;Ah batteries and run from ROS&nbsp;1 Noetic
+        in Docker containers.
+      </p>
+
+      <h3 id="alfred" class="subsection">ALFRED: ForestYear3D configuration</h3>
+      <p>
+        ALFRED records both LiDARs and the IMU. The arm sweeps between fixed joint configurations
+        while an operator steers the base along the forest corridor.
+      </p>
+
+      <div class="gallery gallery--views">
+        <figure>
+          <img src="../img/alfred_build_alfred.jpg" width="1025" height="1366" loading="lazy" alt="ALFRED with its acrylic access doors closed, showing the strut frame, manipulator and sensor suite">
+          <figcaption>Doors closed.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/front_view.jpeg" loading="lazy" alt="ALFRED seen head on: the Z1 arm carrying the arm-mounted LiDAR and RGB-D cameras above the base deck">
+          <figcaption>Front view.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/top_down.jpeg" loading="lazy" alt="ALFRED from above, showing the layout of the arm, the frame-mounted LiDAR, the rugged laptop and the GNSS antenna">
+          <figcaption>Top-down view.</figcaption>
+        </figure>
+      </div>
+
+      <div class="cards cards--one">
+        <a class="card" href="../ForestYear3D/">
+          <span class="tag">Dataset paper</span>
+          <h3>ForestYear3D</h3>
+          <p>
+            A year-long dual-LiDAR point cloud dataset: 528 traversals of the same forest
+            corridor between June 2025 and May 2026, collected with ALFRED.
+          </p>
+          <span class="card-more">Read more →</span>
+        </a>
+      </div>
+
+      <h3 id="alfred2" class="subsection">ALFRED 2.0: ROWCAST configuration</h3>
+      <p>
+        ALFRED&nbsp;2.0 adds a second frame layer, a second laptop and a Wi-Fi router for RTK
+        corrections and remote operation, drops the arm-mounted LiDAR, and drives a
+        pre-validated route autonomously.
+      </p>
+
+      <div class="gallery gallery--pair">
+        <figure>
+          <img src="../img/alfred2_front.jpg" width="1200" height="1600" loading="lazy" alt="ALFRED 2.0 field robot, front view, showing its manipulator arm and mast-mounted sensors">
+          <figcaption>Front view.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/alfred2_side.jpg" width="1200" height="1600" loading="lazy" alt="ALFRED 2.0 field robot, side view, showing the second frame layer and the second laptop">
+          <figcaption>Side view.</figcaption>
+        </figure>
+      </div>
+
+      <!-- Why the network grew: copy on the left, Figure 6 on the right. -->
+      <div class="intro-row intro-row--figure">
+        <div class="intro-copy">
+          <h4>Why the network had to grow</h4>
+          <p>
+            Autonomous crop-row operation needs more computing than one rugged laptop can carry.
+            The Dell laptop had no free ports for the two arm-mounted cameras, so an MSI laptop
+            with an RTX&nbsp;3070&nbsp;Ti was added to run them, keep planning off the control
+            loop and make onboard segmentation possible. The Dell stays ROS master because it
+            holds the safety-critical interfaces to the base and arm, and an eight-port switch
+            links the two.
+          </p>
+          <p>
+            A Wi-Fi router does two jobs at no extra hardware cost. A standalone GNSS fix is only
+            accurate to metres, coarse against the scale of a crop row, so the router carries
+            RTK corrections from the base station to the rover for centimetre positioning. It
+            also makes the onboard computers reachable from an Alienware operator laptop at the
+            field edge, so a session can be started, monitored and visualised without touching
+            the robot. With three computers on wired and wireless links, every interface has a
+            fixed address.
+          </p>
+        </div>
+        <figure>
+          <img src="../img/alfred_network.png" width="1600" height="1085" loading="lazy"
+               alt="Network diagram of ALFRED 2.0: the Dell laptop as ROS master connected by Ethernet to the network switch, LiDAR, arm and Hunter 2.0, the MSI laptop and RGB-D cameras, and a WiFi link from the RTK base station through the router to the rover">
+          <figcaption>
+            Network topology of ALFRED&nbsp;2.0. Colour distinguishes computers, network hubs,
+            control hardware and sensors; line style distinguishes Ethernet, USB, Wi-Fi and
+            Bluetooth.
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="cards cards--one">
+        <a class="card" href="../ROWCAST/">
+          <span class="tag">Preprint</span>
+          <h3>ROWCAST</h3>
+          <p>
+            Crop rows scouted with LiDAR, every arm viewpoint planned offline and executed by
+            ALFRED&nbsp;2.0 with no view chosen in the field.
+          </p>
+          <span class="card-more">Read more →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         DURABILITY, MODULARITY, REPAIRABILITY
+         Figure 9 (the bare frame), Figure 12 (reconfigured for the
+         concurrent payload study) and Figure 10 (the end-effector mounts).
+         ================================================================ -->
+    <section id="builds">
+      <p class="eyebrow">Durability · Modularity · Repairability</p>
+      <h2>Stock struts and a printed interface</h2>
+      <p>
+        Prototype&nbsp;1's printed PLA cage broke during assembly, so ALFRED's frame is aluminium
+        profile strut and laser-cut acrylic, repairable in minutes. A printed end-effector
+        interface means each new payload needs only its own housing, and during the ForestYear3D
+        year the platform was reconfigured for a concurrent payload study and switched repeatedly
+        to ALFRED&nbsp;2.0 without missing a collection.
+      </p>
+
+      <div class="gallery gallery--two gallery--43">
+        <figure>
+          <img src="../img/alfred_frame.jpg" width="840" height="751" loading="lazy" alt="The bare aluminium profile strut frame on the Hunter 2.0 base, before panels and components were fitted">
+          <figcaption>The aluminium strut frame before panelling and components were mounted.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/alfred_payload_study.jpg" width="1200" height="1001" loading="lazy" alt="ALFRED with the manipulator replaced by a cage of weights and a different GNSS receiver on the mast">
+          <figcaption>Reconfigured for the concurrent payload study: a weight cage in place of the manipulator, an alternative GNSS receiver fitted.</figcaption>
+        </figure>
+      </div>
+
+      <div class="gallery gallery--four">
+        <figure>
+          <img src="../img/alfred_cad_interface.jpg" width="900" height="762" loading="lazy" alt="CAD render of the flat printed plate that mates with the Z1 flange">
+          <figcaption>End-effector interface.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/alfred_cad_lidar.jpg" width="900" height="762" loading="lazy" alt="CAD render of the LiDAR end-effector housing">
+          <figcaption>LiDAR end effector.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/alfred_cad_rgbd.jpg" width="900" height="762" loading="lazy" alt="CAD render of the RGB-D camera end-effector housing">
+          <figcaption>RGB-D end effector.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/alfred_cad_lidar_rgbd.jpg" width="900" height="762" loading="lazy" alt="CAD render of the combined LiDAR and RGB-D end-effector housing">
+          <figcaption>Combined end effector.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         SENSING REACH AND COVERAGE
+         Figure 15 (robot descriptions), Table 3 (usable workspace),
+         Figure 19 (usable workspace by position) and Figure 17 (LiDAR ray
+         termination).
+         ================================================================ -->
+    <section id="reach">
+      <p class="eyebrow">Sensing reach and coverage</p>
+      <h2>Reach and visibility compared on the robot descriptions</h2>
+      <p>
+        Each complete build was assessed on its robot description, so a design change can be
+        quantified before anything is manufactured: usable arm workspace from inverse kinematics
+        at 3,110,400 end-effector poses under each build's own collision model, and LiDAR
+        visibility from rays cast to a 5&nbsp;m cap with the arm at zero and in the drive
+        posture.
+      </p>
+
+      <div class="gallery">
+        <figure>
+          <img src="../img/alfred_model_p1.jpg" width="900" height="900" loading="lazy" alt="Rendered robot description of Prototype 1 with the arm in the zero posture">
+          <figcaption>Prototype 1.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/alfred_model_alfred.jpg" width="900" height="900" loading="lazy" alt="Rendered robot description of ALFRED with the arm in the zero posture">
+          <figcaption>ALFRED.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/alfred_model_alfred2.jpg" width="900" height="900" loading="lazy" alt="Rendered robot description of ALFRED 2.0 with the arm in the zero posture">
+          <figcaption>ALFRED&nbsp;2.0.</figcaption>
+        </figure>
+      </div>
+
+      <h3 class="subsection">Usable manipulator workspace</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Build</th><th>Collision pairs</th><th>Reachable</th><th>Collision</th><th>Clearance</th><th>Usable</th><th>Usable [%]</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Prototype 1</td><td>128</td><td>25,096</td><td>12,751</td><td>3,821</td><td>8,524</td><td>34.0</td></tr>
+            <tr><td>ALFRED</td><td>102</td><td>24,950</td><td>4,398</td><td>5,578</td><td>14,974</td><td>60.0</td></tr>
+            <tr><td><strong>ALFRED 2.0</strong></td><td>84</td><td>24,950</td><td>3,310</td><td>5,146</td><td>16,494</td><td><strong>66.1</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:14px; font-size:.9rem">
+        Of 3,110,400 target poses per build; percentages are of reachable poses.
+      </p>
+
+      <figure>
+        <img src="../img/alfred_reachability.jpg" width="2000" height="1211" loading="lazy"
+             alt="Six 3D scatter plots, two per build, of the translations around the arm base that keep at least one usable orientation, with marker size and colour showing how many orientations are retained; the later builds have more and darker markers">
+        <figcaption>Usable workspace by end-effector position: marker size and colour give the number of usable orientations, 0–290.</figcaption>
+      </figure>
+
+      <figure class="figure--tall">
+        <img src="../img/alfred_lidar_visibility.jpg" width="1400" height="2545" loading="lazy"
+             alt="A grid of polar plots, one row per build and arm posture and one column per beam elevation, showing green rays that reach 5 m, ochre rays that meet the ground and red rays that meet the robot">
+        <figcaption>Ray termination for the lowest, near-horizontal and highest beams: green reaches the 5&nbsp;m cap, ochre meets the ground, red meets the platform.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ================================================================
+         CITATION
+         Replace the arXiv entry with the journal reference once accepted.
+         ================================================================ -->
+    <section id="citation">
+      <p class="eyebrow">Citation</p>
+<pre><code>@misc{johnson2026alfred,
+  title         = {{ALFRED}: Requirement-driven development of an open-source
+                   mobile manipulator for long-term plant monitoring},
+  author        = {Johnson, Ciar{\'a}n Miceal and Quail, Christopher and
+                   Ellard, Garry and McConnell, Alistair and
+                   Tonneau, Steve and Auat Cheein, Fernando},
+  year          = {2026},
+  eprint        = {2610.01477},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  doi           = {10.48550/arXiv.2610.01477},
+  url           = {https://arxiv.org/abs/2610.01477}
+}</code></pre>
+    </section>
+
+    <section>
+      <p class="muted"><a href="../index.html">← Back to home</a></p>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>© 2026 Ciaran Johnson · Edinburgh Centre for Robotics</p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -213,3 +213,16 @@ Notes:
   open http://localhost:8000/ROWCAST/ (or another page). Python's server
   ignores byte-range requests, so seeking is limited and Safari/iOS will not
   play the clips from it; GitHub Pages serves ranges, so the live site is fine.
+
+## ALFRED page stills
+
+`ALFRED/index.html` (the preprint page) uses no video. Its stills, `img/alfred_*`,
+are the manuscript's own figures rendered for the web by
+`scripts/render_alfred_figures.py`, which takes the `Figures/` directory of the
+arXiv source archive (arXiv:2610.01477; kept outside the repository) and writes
+photographs, CAD renders and plots as progressive JPEGs and the two flat diagrams
+(requirements matrix, network topology) as PNGs. The table at the top of the
+script maps each source figure to its output file, so a changed figure is
+re-rendered by running the script again. The page also reuses `front_view.jpeg`,
+`top_down.jpeg`, `alfred2_front.jpg` and `alfred2_side.jpg` from the home and
+ROWCAST pages.
