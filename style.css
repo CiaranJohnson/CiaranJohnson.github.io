@@ -703,10 +703,11 @@ section > .video-item:not(:last-child) { margin-bottom: 1.4em; }
 /* Three square tiles to a row, e.g. the ALFRED turntables, workspace orbits
    and visibility sweeps. A fixed three rather than auto-fit, so that a set of
    six keeps its rows (arm at zero above, drive posture below) instead of
-   running five across; stacks to one column on phones. */
+   running five across. Stays three across on phones too, with a tighter gap,
+   so the builds remain side by side for comparison rather than stacking. */
 .video-grid.three-up { grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 700px) {
-  .video-grid.three-up { grid-template-columns: 1fr; }
+  .video-grid.three-up { gap: 10px; }
 }
 
 /* A render on a white ground gets the same hairline as the photographs, so
@@ -815,6 +816,43 @@ section > .video-item:not(:last-child) { margin-bottom: 1.4em; }
   letter-spacing: .02em;
 }
 
+/* On phones a .data-table.stack-phone gives up the grid: each row becomes a
+   small block headed by its first cell, with every other cell as a
+   label-and-value line, the label taken from the cell's data-label. The
+   ALFRED page's workspace and arm-blockage tables use it; a seven-column
+   table otherwise has to be scrolled sideways on a phone. */
+@media (max-width: 700px) {
+  .data-table.stack-phone thead { display: none; }
+  .data-table.stack-phone,
+  .data-table.stack-phone tbody,
+  .data-table.stack-phone tr { display: block; }
+  .data-table.stack-phone tr {
+    padding: 10px 0 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table.stack-phone td {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 3px 0;
+    border: 0;
+    white-space: normal;
+  }
+  .data-table.stack-phone td:first-child {
+    display: block;
+    padding-bottom: 6px;
+    font-weight: 600;
+  }
+  .data-table.stack-phone td:not(:first-child)::before {
+    content: attr(data-label);
+    color: var(--text-muted);
+    font-size: .82rem;
+    flex: 1 1 auto;
+  }
+  .data-table.stack-phone td:not(:first-child) { text-align: right; }
+}
+
 /* Status chip for links that are not live yet */
 .paper-links a[aria-disabled="true"] {
   opacity: .55;
@@ -862,6 +900,11 @@ section > .video-item:not(:last-child) { margin-bottom: 1.4em; }
 /* Three robot views sit as equal portrait tiles */
 .gallery--views {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+/* On a phone the three ALFRED views stay in one row, like the ALFRED 2.0
+   pair beneath them, rather than stacking into three screen-high photos. */
+@media (max-width: 700px) {
+  .gallery--views { grid-template-columns: repeat(3, 1fr); gap: 10px; }
 }
 
 .gallery--views img {

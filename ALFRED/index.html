@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ALFRED | Ciaran Johnson</title>
   <meta name="description" content="ALFRED: an open-source mobile manipulator for long-term plant monitoring, developed through four builds against six requirements. A year of monthly forest surveys without a missed collection, and model-based comparison of arm reach and LiDAR visibility across builds. arXiv preprint, October 2026.">
-  <link rel="stylesheet" href="../style.css?v=20261101m">
+  <link rel="stylesheet" href="../style.css?v=20261101p">
 </head>
 <body class="paper">
 
@@ -223,14 +223,14 @@
 
       <h3 class="subsection">Usable manipulator workspace</h3>
       <div class="table-wrap">
-        <table class="data-table">
+        <table class="data-table stack-phone">
           <thead>
             <tr><th>Build</th><th>Collision pairs</th><th>Reachable</th><th>Collision</th><th>Clearance</th><th>Usable</th><th>Usable [%]</th></tr>
           </thead>
           <tbody>
-            <tr><td>Prototype 1</td><td>128</td><td>25,096</td><td>12,751</td><td>3,821</td><td>8,524</td><td>34.0</td></tr>
-            <tr><td>ALFRED</td><td>102</td><td>24,950</td><td>4,398</td><td>5,578</td><td>14,974</td><td>60.0</td></tr>
-            <tr><td><strong>ALFRED 2.0</strong></td><td>84</td><td>24,950</td><td>3,310</td><td>5,146</td><td>16,494</td><td><strong>66.1</strong></td></tr>
+            <tr><td>Prototype 1</td><td data-label="Collision pairs">128</td><td data-label="Reachable">25,096</td><td data-label="Collision">12,751</td><td data-label="Clearance">3,821</td><td data-label="Usable">8,524</td><td data-label="Usable [%]">34.0</td></tr>
+            <tr><td>ALFRED</td><td data-label="Collision pairs">102</td><td data-label="Reachable">24,950</td><td data-label="Collision">4,398</td><td data-label="Clearance">5,578</td><td data-label="Usable">14,974</td><td data-label="Usable [%]">60.0</td></tr>
+            <tr><td><strong>ALFRED 2.0</strong></td><td data-label="Collision pairs">84</td><td data-label="Reachable">24,950</td><td data-label="Collision">3,310</td><td data-label="Clearance">5,146</td><td data-label="Usable">16,494</td><td data-label="Usable [%]"><strong>66.1</strong></td></tr>
           </tbody>
         </table>
       </div>
@@ -358,14 +358,14 @@
         included.
       </p>
       <div class="table-wrap">
-        <table class="data-table">
+        <table class="data-table stack-phone">
           <thead>
             <tr><th>Build</th><th>Poses with extra arm blockage</th><th>Scan blocked by the arm, mean ± SD</th><th>Arm's share of all robot-blocked rays</th></tr>
           </thead>
           <tbody>
-            <tr><td>Prototype 1</td><td>100&nbsp;% · 8,524 of 8,524</td><td>2.68 ± 1.95&nbsp;%</td><td>33.43&nbsp;%</td></tr>
-            <tr><td>ALFRED</td><td>100&nbsp;% · 14,974 of 14,974</td><td>3.29 ± 1.40&nbsp;%</td><td>24.61&nbsp;%</td></tr>
-            <tr><td><strong>ALFRED 2.0</strong></td><td>16.82&nbsp;% · 2,774 of 16,494</td><td><strong>0.12 ± 0.42&nbsp;%</strong></td><td>0.40&nbsp;%</td></tr>
+            <tr><td>Prototype 1</td><td data-label="Poses with extra arm blockage">100&nbsp;% · 8,524 of 8,524</td><td data-label="Scan blocked by the arm, mean ± SD">2.68 ± 1.95&nbsp;%</td><td data-label="Arm's share of all robot-blocked rays">33.43&nbsp;%</td></tr>
+            <tr><td>ALFRED</td><td data-label="Poses with extra arm blockage">100&nbsp;% · 14,974 of 14,974</td><td data-label="Scan blocked by the arm, mean ± SD">3.29 ± 1.40&nbsp;%</td><td data-label="Arm's share of all robot-blocked rays">24.61&nbsp;%</td></tr>
+            <tr><td><strong>ALFRED 2.0</strong></td><td data-label="Poses with extra arm blockage">16.82&nbsp;% · 2,774 of 16,494</td><td data-label="Scan blocked by the arm, mean ± SD"><strong>0.12 ± 0.42&nbsp;%</strong></td><td data-label="Arm's share of all robot-blocked rays">0.40&nbsp;%</td></tr>
           </tbody>
         </table>
       </div>
