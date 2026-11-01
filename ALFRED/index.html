@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ALFRED | Ciaran Johnson</title>
   <meta name="description" content="ALFRED: an open-source mobile manipulator for long-term plant monitoring, developed through four builds against six requirements. A year of monthly forest surveys without a missed collection, and model-based comparison of arm reach and LiDAR visibility across builds. arXiv preprint, October 2026.">
-  <link rel="stylesheet" href="../style.css?v=20261101i">
+  <link rel="stylesheet" href="../style.css?v=20261101m">
 </head>
 <body class="paper">
 
@@ -52,7 +52,11 @@
         <span class="author">Christopher Quail<sup>2</sup>
           <a class="author-link" href="https://www.linkedin.com/in/christopher-quail-3864a7166/" target="_blank" rel="noopener" aria-label="Christopher Quail on LinkedIn" title="LinkedIn"><svg><use href="#icon-linkedin"/></svg></a></span>
         <span class="sep" aria-hidden="true">|</span>
-        <span class="author">Garry Ellard<sup>1</sup></span>
+        <!-- The dagger on Garry Ellard points to the Informatics Makerspace
+             line under the affiliations; the address is the one the arXiv
+             paper gives, both as his author URL and in the acknowledgements
+             (a SharePoint site, University of Edinburgh login). -->
+        <span class="author">Garry Ellard<sup>1,&dagger;</sup></span>
         <span class="sep" aria-hidden="true">|</span>
         <span class="author">Alistair McConnell<sup>2,*</sup>
           <a class="author-link" href="https://orcid.org/0000-0003-3168-1323" target="_blank" rel="noopener" aria-label="Alistair McConnell on ORCID" title="ORCID"><svg><use href="#icon-orcid"/></svg></a>
@@ -69,7 +73,8 @@
         <sup>1</sup>The University of Edinburgh, UK<br>
         <sup>2</sup>Heriot-Watt University, UK<br>
         <sup>3</sup>Harper Adams University, UK<br>
-        <sup>*</sup>Corresponding authors<br><br>
+        <sup>*</sup>Corresponding authors<br>
+        <sup>&dagger;</sup><a href="https://uoe.sharepoint.com/sites/InformaticsMakerspace" target="_blank" rel="noopener">Informatics Makerspace</a>, School of Informatics, The University of Edinburgh<br><br>
         arXiv preprint, 1 October 2026 · arXiv:2610.01477 [cs.RO] ·
         <a href="https://doi.org/10.48550/arXiv.2610.01477" target="_blank" rel="noopener">doi:10.48550/arXiv.2610.01477</a>
       </p>
@@ -155,7 +160,8 @@
          SENSING REACH AND COVERAGE
          Figure 15 (robot descriptions), Table 3 (usable workspace),
          Figure 19 (usable workspace by position) and Figure 17 (LiDAR ray
-         termination).
+         termination), plus a map of LiDAR visibility across every usable arm
+         pose that was computed after the preprint.
          ================================================================ -->
     <section id="reach">
       <p class="eyebrow">Sensing reach and coverage</p>
@@ -164,8 +170,8 @@
         Each complete build was assessed on its robot description, so a design change can be
         quantified before anything is manufactured: usable arm workspace from inverse kinematics
         at 3,110,400 end-effector poses under each build's own collision model, and LiDAR
-        visibility from rays cast to a 5&nbsp;m cap with the arm at zero and in the drive
-        posture.
+        visibility from rays cast to a 5&nbsp;m cap, first with the arm at zero and in the
+        drive posture and then across every usable arm pose.
       </p>
 
       <!-- The robot descriptions as turntables: one 8 s orbit per build with
@@ -211,7 +217,7 @@
         <figcaption>
           The robot descriptions with the arm in the zero posture, each turning once. Click
           a tile, or press Enter on it, to pause and resume the turn; the workspace orbits
-          and the visibility sweep below work the same way.
+          and the visibility sweeps below work the same way.
         </figcaption>
       </figure>
 
@@ -303,6 +309,74 @@
           platform.
         </figcaption>
       </figure>
+
+      <h4 class="subsection-minor">Across every usable arm pose</h4>
+      <p>
+        The sweep above holds the arm in two postures. The ray casts were then repeated at every
+        usable arm pose from the workspace table, so that each cell can report how often a ray
+        is free rather than whether it is free in one posture, and so that the arm's own share
+        of the obstruction can be separated from the platform's.
+      </p>
+
+      <!-- Visibility across every usable arm pose rather than two fixed
+           postures, as a second beam-by-beam sweep: the scan is ray-traced at
+           each usable pose, and each cell is the share of those poses in which
+           the ray is still free at that slant range. Three panels, builds
+           across, stepping through the 32 beams together. Not in the October
+           2026 preprint; computed afterwards in the
+           lidar_all_reachable_20261101T182521Z run and drawn by
+           plot_all_reachable_lidar_visibility_reverse_log_green.py; published
+           by scripts/compress_alfred_clips.sh, see media/README.md. -->
+      <figure class="video-item">
+        <div class="video-slot visibility-all framed">
+          <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                 aria-label="Looping sweep through the 32 beams of the frame-mounted LiDAR on all three builds, coloured by the share of usable arm poses in which each ray is free; Enter or a click pauses and resumes it"
+                 poster="../media/visibility_all_poses_poster.jpg">
+            <source src="../media/visibility_all_poses.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+        </div>
+        <figcaption>
+          Share of usable arm poses in which each ray is still free at that slant range, one
+          beam at a time from the lowest to the highest of the 32, builds across. The colour
+          scale is stretched at its top end: white is never free, dark green free from every
+          pose.
+        </figcaption>
+      </figure>
+
+      <!-- The arm's share of that blockage, from the same all-pose ray traces,
+           split out by audit_arm_subtree_occlusion.py: rays the complete robot
+           stops that the robot without its link00 arm subtree does not. The
+           figures are the accepted_target block of
+           arm_occlusion_link00/<build>/summary.json in the run named above,
+           rounded to two decimals; see media/README.md. -->
+      <p>
+        The same ray traces also separate the arm's share of the obstruction from the
+        platform's. A ray counts as blocked by the arm when the complete robot stops it but the
+        robot with the whole arm removed does not; the arm here is everything from its base link
+        outwards, mounts, the arm-mounted LiDAR and, on the ALFRED builds, the RGB-D cameras
+        included.
+      </p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Build</th><th>Poses with extra arm blockage</th><th>Scan blocked by the arm, mean ± SD</th><th>Arm's share of all robot-blocked rays</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Prototype 1</td><td>100&nbsp;% · 8,524 of 8,524</td><td>2.68 ± 1.95&nbsp;%</td><td>33.43&nbsp;%</td></tr>
+            <tr><td>ALFRED</td><td>100&nbsp;% · 14,974 of 14,974</td><td>3.29 ± 1.40&nbsp;%</td><td>24.61&nbsp;%</td></tr>
+            <tr><td><strong>ALFRED 2.0</strong></td><td>16.82&nbsp;% · 2,774 of 16,494</td><td><strong>0.12 ± 0.42&nbsp;%</strong></td><td>0.40&nbsp;%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:14px; font-size:.9rem">
+        Averages are over all usable poses and all 32,768 rays of a scan, not over the area of
+        the polar plots in the sweep above. Over only the poses it affects, the arm on ALFRED&nbsp;2.0 blocks
+        0.69&nbsp;% of the scan; that build's much larger total obstruction comes principally
+        from the fixed body, which blocks 29.25&nbsp;% of scan rays. The measure is additional
+        visibility loss: where the arm and the body would both stop a ray, it does not say which
+        is hit first.
+      </p>
     </section>
 
     <section id="at-a-glance">
@@ -464,18 +538,22 @@
 
     <!-- ================================================================
          DURABILITY, MODULARITY, REPAIRABILITY
-         Figure 9 (the bare frame), Figure 12 (reconfigured for the
-         concurrent payload study) and Figure 10 (the end-effector mounts).
+         Figure 9 (the bare frame) and Figure 12 (reconfigured for the
+         concurrent payload study). The end-effector CAD renders (Figure 10)
+         were dropped from the page on 1 Nov 2026 so the section stays on
+         the frame; the files are in git history.
          ================================================================ -->
     <section id="builds">
       <p class="eyebrow">Durability · Modularity · Repairability</p>
-      <h2>Stock struts and a printed interface</h2>
+      <h2>Modularity through a strut frame</h2>
       <p>
         Prototype&nbsp;1's printed PLA cage broke during assembly, so ALFRED's frame is aluminium
-        profile strut and laser-cut acrylic, repairable in minutes. A printed end-effector
-        interface means each new payload needs only its own housing, and during the ForestYear3D
-        year the platform was reconfigured for a concurrent payload study and switched repeatedly
-        to ALFRED&nbsp;2.0 without missing a collection.
+        profile strut and laser-cut acrylic: stock parts, cut to length and bolted, repaired or
+        rearranged in minutes rather than reprinted. The frame was reshaped repeatedly through
+        the ForestYear3D year without a missed collection: reconfigured for a concurrent payload
+        study, with a weight cage in place of the manipulator and a different GNSS receiver on
+        the mast, and switched back and forth between the ALFRED and ALFRED&nbsp;2.0 layouts,
+        about six hours a switch.
       </p>
 
       <div class="gallery gallery--two gallery--43">
@@ -486,25 +564,6 @@
         <figure>
           <img src="../img/alfred_payload_study.jpg" width="1200" height="1001" loading="lazy" alt="ALFRED with the manipulator replaced by a cage of weights and a different GNSS receiver on the mast">
           <figcaption>Reconfigured for the concurrent payload study: a weight cage in place of the manipulator, an alternative GNSS receiver fitted.</figcaption>
-        </figure>
-      </div>
-
-      <div class="gallery gallery--four">
-        <figure>
-          <img src="../img/alfred_cad_interface.jpg" width="900" height="762" loading="lazy" alt="CAD render of the flat printed plate that mates with the Z1 flange">
-          <figcaption>End-effector interface.</figcaption>
-        </figure>
-        <figure>
-          <img src="../img/alfred_cad_lidar.jpg" width="900" height="762" loading="lazy" alt="CAD render of the LiDAR end-effector housing">
-          <figcaption>LiDAR end effector.</figcaption>
-        </figure>
-        <figure>
-          <img src="../img/alfred_cad_rgbd.jpg" width="900" height="762" loading="lazy" alt="CAD render of the RGB-D camera end-effector housing">
-          <figcaption>RGB-D end effector.</figcaption>
-        </figure>
-        <figure>
-          <img src="../img/alfred_cad_lidar_rgbd.jpg" width="900" height="762" loading="lazy" alt="CAD render of the combined LiDAR and RGB-D end-effector housing">
-          <figcaption>Combined end effector.</figcaption>
         </figure>
       </div>
     </section>
@@ -542,7 +601,7 @@
     </div>
   </footer>
 
-  <!-- The turntables, workspace orbits and visibility sweep behave like GIFs:
+  <!-- The turntables, workspace orbits and visibility sweeps behave like GIFs:
        silent, looping, playing on their own. Rather than autoplay every clip at page load, each one is
        started only while it is on screen (preload="none" keeps it undownloaded
        until then) and paused again once it scrolls away. A click or Enter on a

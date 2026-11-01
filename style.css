@@ -11,6 +11,8 @@
   --accent:        #2f6b4f;
   --accent-soft:   #e8f0eb;
   --border:        #e3e0da;
+  --border-mid:    #cbc6bd;   /* rule above a subsection heading */
+  --border-strong: #aaa399;   /* rule between sections on the paper pages */
   --shadow:        0 1px 2px rgba(28, 27, 25, .04), 0 8px 24px rgba(28, 27, 25, .05);
   --radius:        12px;
 }
@@ -25,6 +27,8 @@
     --accent:      #7fc39c;
     --accent-soft: #22302a;
     --border:      #2c2f34;
+    --border-mid:    #3b3f46;
+    --border-strong: #4d525b;
     --shadow:      0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .25);
   }
 }
@@ -124,6 +128,24 @@ h4 {
 /* A sub-heading part-way down a section, e.g. the splats inside Phenotype */
 h3.subsection { margin-top: 2em; }
 
+/* Three strengths of rule on the paper pages, so the structure reads at a
+   glance: a 2px line between sections (see the Sections block), a 1px
+   mid-tone line above each h3.subsection, and the light 1px border above an
+   h4.subsection-minor, which opens a part of a subsection, e.g. the all-pose
+   sweep under the LiDAR visibility heading on the ALFRED page. */
+.paper h3.subsection {
+  margin-top: 2.4em;
+  padding-top: 1.3em;
+  border-top: 1px solid var(--border-mid);
+}
+h4.subsection-minor {
+  font-size: .98rem;
+  font-weight: 600;
+  margin: 2em 0 .7em;
+  padding-top: 1.3em;
+  border-top: 1px solid var(--border);
+}
+
 /* Text runs the full width of the column at every size: the site owner
    prefers it to use the space on wide screens rather than stop at a
    reading measure. */
@@ -197,6 +219,7 @@ a:hover { text-decoration: none; }
 /* ---------- Sections ---------- */
 
 section { padding: clamp(34px, 3vw, 48px) 0; border-top: 1px solid var(--border); }
+.paper section { border-top: 2px solid var(--border-strong); }
 
 .eyebrow {
   font-size: .76rem;
@@ -604,6 +627,12 @@ footer p { margin: 0; }
 
 .video-item { margin: 0; }
 
+/* A loop standing on its own in a section's flow with more content after it,
+   e.g. the two visibility sweeps on the ALFRED page, keeps a figure's gap
+   below it; the zero margin above is for items packed into a grid or an
+   intro row, or closing a section. */
+section > .video-item:not(:last-child) { margin-bottom: 1.4em; }
+
 .video-slot {
   position: relative;
   aspect-ratio: 16 / 9;
@@ -686,6 +715,9 @@ footer p { margin: 0; }
 
 /* The six-panel LiDAR visibility sweep on the ALFRED page is a 1680x1200 render. */
 .video-slot.visibility { aspect-ratio: 1680 / 1200; }
+
+/* The all-pose visibility sweep below it is a single row of three panels, 1800x648. */
+.video-slot.visibility-all { aspect-ratio: 1800 / 648; }
 
 /* A vertical clip such as a YouTube Short: shown at phone width and centred
    rather than stretched across the page, caption centred under it. */

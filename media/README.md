@@ -219,34 +219,39 @@ Notes:
 
 ## ALFRED page stills
 
-`ALFRED/index.html` (the preprint page) uses video for the three figures in its
-Reach section, the robot turntables, the usable-workspace orbits and the LiDAR
-visibility sweep, described in the next section. Its stills, `img/alfred_*`, are the
+`ALFRED/index.html` (the preprint page) uses video for the four figures in its
+Reach section, the robot turntables, the usable-workspace orbits and the two
+LiDAR visibility sweeps, described in the next section. Its stills, `img/alfred_*`, are the
 manuscript's own figures rendered for the web by
 `scripts/render_alfred_figures.py`, which takes the `Figures/` directory of the
 arXiv source archive (arXiv:2610.01477; kept outside the repository) and writes
-photographs, CAD renders and plots as progressive JPEGs and the two flat diagrams
+photographs and plots as progressive JPEGs and the two flat diagrams
 (requirements matrix, network topology) as PNGs. The table at the top of the
 script maps each source figure to its output file, so a changed figure is
-re-rendered by running the script again. The page also reuses `front_view.jpeg`,
+re-rendered by running the script again. The four end-effector CAD renders
+(`img/alfred_cad_*.jpg`, the paper's Figure 10) were dropped from the frame
+section on 1 November 2026, along with their entries in the script, so that the
+section stays on the strut frame; they are in git history. The page also reuses `front_view.jpeg`,
 `top_down.jpeg`, `alfred2_front.jpg` and `alfred2_side.jpg` from the home and
 ROWCAST pages.
 
+
 ## ALFRED page clips
 
-The Reach section of `ALFRED/index.html` shows three figures made of square
+The Reach section of `ALFRED/index.html` shows four figures made of GIF-style
 loops: the robot descriptions as turntables, in place of the paper's rendered
 stills (Figure 15); the usable-workspace bubble clouds, in place of the paper's
-six-view plot (Figure 19); and the frame-mounted LiDAR visibility as one
-six-panel beam-by-beam sweep, in place of the paper's six-row polar grid
-(Figure 17). The section sits second on the page, straight
-after the overview. All play GIF-style through the orbit script at
-the foot of the page, shared with `ROWCAST/index.html`; a click or Enter on a
-tile pauses and resumes it.
+six-view plot (Figure 19); the frame-mounted LiDAR visibility as one six-panel
+beam-by-beam sweep, in place of the paper's six-row polar grid (Figure 17);
+and, not in the preprint, visibility across every usable arm pose as a
+three-panel beam-by-beam sweep. The section sits second on the page, straight
+after the overview. All play through the orbit script at the foot of the page,
+shared with `ROWCAST/index.html`; a click or Enter on a tile pauses and
+resumes it.
 
 Their sources are not in this repo; `scripts/compress_alfred_clips.sh` encodes
-them from the PhD tree, with `SRC_TURN=<dir>`, `SRC_REACH=<dir>` and
-`SRC_VIS=<dir>` to point it elsewhere:
+them from the PhD tree, with `SRC_TURN=<dir>`, `SRC_REACH=<dir>`,
+`SRC_VIS=<dir>` and `SRC_VIS_ALL=<dir>` to point it elsewhere:
 
 - Turntables: `hunter_z1_description/scripts/render_robot_turntable.py`
   renders one 8 s orbit per URDF, arm in the zero posture, at 1080x1080 on the
@@ -270,6 +275,25 @@ them from the PhD tree, with `SRC_TURN=<dir>`, `SRC_REACH=<dir>` and
   loops start as each scrolls into view and pause one at a time. The column
   titles say "Prototype v1" where the page says Prototype 1; that is baked
   into the render.
+- All-pose visibility: computed after the October 2026 preprint, in the
+  `lidar_all_reachable_20261101T182521Z` run under
+  `Hunter/Hunter_Z1/reachability_downloads/`. `code/all_reachable_lidar_visibility.py`
+  casts the 32-beam scan for every accepted pose of the
+  `full_grid_20260912T080840Z_full` reachability sweep (8,524, 14,974 and
+  16,494 poses, the Usable column of the page's table) and
+  `code/plot_all_reachable_lidar_visibility_reverse_log_green.py`, run with
+  `--colour-scale reverse-log --palette green --percent-only`, animates each
+  cell's share of poses in which the ray is still free into
+  `figures/free_percent_reverse_log_green.mp4`: three panels, builds across,
+  32 beams at 0.4 s each, 12.8 s, 1800x648, with the titles, a beam readout
+  and a colour bar that is logarithmic at the high end (ticks 0, 50, 80, 90,
+  95, 99, 100 %) drawn in. Published at the render's own size, CRF 24, about
+  0.4 MB. The same folder holds the figure as a PDF and PNG with three fixed
+  beams; the page uses the clip. The render's middle title reads
+  "ALFRED (hunter_z1)"; the publish step paints that title white and lays the
+  word ALFRED back over it, re-centred, with coordinates measured on frame 0
+  of the render (`ALL_POSES_TITLE_FIX` in the script; re-measure if the render
+  changes). "Prototype v1" is left as rendered.
 
 | Published file | Source | Build in the archive | Caption |
 | --- | --- | --- | --- |
@@ -280,11 +304,12 @@ them from the PhD tree, with `SRC_TURN=<dir>`, `SRC_REACH=<dir>` and
 | `reachability_alfred.mp4` | `alfred.mp4` | `prototype_v2_hunter_z1_robot` | ALFRED |
 | `reachability_alfred_2_0.mp4` | `alfred_2_0.mp4` | `prototype_v3_alfred_robot` | ALFRED 2.0 |
 | `visibility_zero_drive.mp4` | `lidar_visibility_zero_drive.mp4` | all three | six-panel sweep, no per-tile caption |
+| `visibility_all_poses.mp4` | `free_percent_reverse_log_green.mp4` | all three | three-panel sweep, no per-tile caption |
 
 The turntable archive keeps the pre-publication build names, so there
 `hunter_z1` is what the page calls ALFRED and `alfred` is ALFRED 2.0; the bubble
-clouds were exported under the page's names and the visibility sweep carries
-its own panel titles. The bubble clouds are the same data as the
+clouds were exported under the page's names and the visibility sweeps carry
+their own panel titles. The bubble clouds are the same data as the
 paper's six-view figure, cropped to the region any build reaches and drawn on
 one size and colour scale (0 to 290 usable orientations), so the three stay
 directly comparable; axes and labels are left off, so the page's captions
@@ -294,3 +319,13 @@ size. The stills they replaced, `img/alfred_model_*.jpg`,
 removed along with their entries in
 `scripts/render_alfred_figures.py`; they are in git history if ever wanted
 again.
+
+The short table beneath the all-pose sweep, the arm's share of the blockage,
+is page text rather than media. Its figures are the `accepted_target` block of
+the same run's `arm_occlusion_link00/<model>/summary.json` files, rounded to
+two decimals, written by `code/audit_arm_subtree_occlusion.py`: it reuses the
+saved ray categories and counts, per pose, the rays the complete robot stops
+that the robot without its `link00` arm subtree (the arm, its mounts, the
+arm-mounted LiDAR and, on the ALFRED builds, the RGB-D cameras) does not. The
+sibling `arm_occlusion/` folder is an earlier variant that keeps `link00` in
+the fixed body; the page does not use it.

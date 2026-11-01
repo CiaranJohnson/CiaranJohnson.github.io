@@ -33,16 +33,18 @@ JOBS = [
     ("prototyping/doors_open.pdf",                 "alfred_doors_open.jpg",      "photo",   1200),
     ("prototyping/aluminium_frame.pdf",            "alfred_frame.jpg",           "photo",   1200),
     ("prototyping/chris_robot.pdf",                "alfred_payload_study.jpg",   "photo",   1200),
-    ("CAD/arm_interface.pdf",                      "alfred_cad_interface.jpg",   "cad",      900),
-    ("CAD/lidar_arm.pdf",                          "alfred_cad_lidar.jpg",       "cad",      900),
-    ("CAD/rgbd_arm.pdf",                           "alfred_cad_rgbd.jpg",        "cad",      900),
-    ("CAD/lidar_rgbd_arm.pdf",                     "alfred_cad_lidar_rgbd.jpg",  "cad",      900),
+    # The end-effector CAD renders (CAD/arm_interface.pdf, lidar_arm.pdf,
+    # rgbd_arm.pdf, lidar_rgbd_arm.pdf; img/alfred_cad_*.jpg) were dropped from
+    # the page on 1 Nov 2026 so the frame section stays on the frame. The "cad"
+    # kind is kept for any future render.
     ("Additional/design_requirements.pdf",         "alfred_requirements.png",    "diagram", 1600),
     ("system_design/network_config.pdf",           "alfred_network.png",         "diagram", 1600),
     # The robot-description renders (prototyping/sim_*.pdf) are shown as
     # turntable loops instead: see scripts/compress_alfred_clips.sh.
     # The LiDAR ray-termination grid (results/lidar_fov_polar_grid_6x3.pdf) is
-    # shown as six beam-by-beam loops instead: see scripts/compress_alfred_clips.sh.
+    # shown as one six-panel beam-by-beam loop instead, and the all-pose
+    # visibility map (not in the manuscript) as another: see
+    # scripts/compress_alfred_clips.sh.
     # The usable-workspace plot (results/orientation_success_by_translation_3d_
     # observed_bubbles_six_view.png) is shown as three video loops instead:
     # see scripts/compress_alfred_clips.sh and media/README.md.

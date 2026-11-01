@@ -6,11 +6,13 @@
 #   $SRC_TURN/<build>_turntable.mp4     1080 px turntable renders      -- PhD tree, not this repo
 #   $SRC_REACH/<build>.mp4              600 px bubble-cloud orbits     -- PhD tree, not this repo
 #   $SRC_VIS/lidar_visibility_zero_drive.mp4  1680x1200 six-panel sweep  -- PhD tree, not this repo
+#   $SRC_VIS_ALL/free_percent_reverse_log_green.mp4  1800x648 three-panel sweep  -- PhD tree, not this repo
 #         |
 #         v
 #   media/turntable_<build>.mp4             720 px square loops   -- committed to git
 #   media/reachability_<build>.mp4          600 px square loops   -- committed to git
 #   media/visibility_zero_drive.mp4         1680x1200 loop        -- committed to git
+#   media/visibility_all_poses.mp4          1800x648 loop         -- committed to git
 #   media/<published>_poster.jpg            frame 0 at the published size
 #
 # Sources:
@@ -27,20 +29,33 @@
 #                 readout and a legend drawn in. One clip rather than the
 #                 script's per-panel ones so the panels can never fall out of
 #                 step with each other.
+#   visibility_all  lidar_all_reachable_20261101T182521Z/code/
+#                 plot_all_reachable_lidar_visibility_reverse_log_green.py
+#                 (--colour-scale reverse-log --palette green --percent-only):
+#                 one 12.8 s clip, three panels (builds across), stepping
+#                 through the 32 beams lowest to highest, 0.4 s each, 1800x648,
+#                 coloured by the share of usable arm poses in which each ray is
+#                 free, with titles, a beam readout and the colour bar drawn in.
+#                 Not in the preprint; computed after it. The render's middle
+#                 title reads "ALFRED (hunter_z1)"; the page calls that build
+#                 ALFRED, so the publish step paints the title white and lays
+#                 the word ALFRED back over it, re-centred (ALL_POSES_TITLE_FIX
+#                 below, coordinates measured on frame 0 of the 1800x648 render;
+#                 re-measure if the render changes).
 # All are shown GIF-style (silent, looping, playing while on screen), so they
 # are encoded small. Turntables are scaled to 720 px, which is what a tile
 # three across on the 1400 px column needs on a 2x display; the other two kinds
 # are kept at their own size. CRF 28 takes about 80% off the turntables and 40%
-# off the bubble clouds at no visible cost; the visibility plot carries small
-# text, so it gets CRF 24.
+# off the bubble clouds at no visible cost; the visibility plots carry small
+# text, so they get CRF 24.
 #
 # Usage:
-#   scripts/compress_alfred_clips.sh               # all seven
-#   scripts/compress_alfred_clips.sh visibility    # only published stems containing "visibility"
+#   scripts/compress_alfred_clips.sh               # all eight
+#   scripts/compress_alfred_clips.sh visibility    # only stems containing "visibility" (both sweeps)
 #   scripts/compress_alfred_clips.sh alfred_2      # every ALFRED 2.0 clip
 #
 # Tunables (environment):
-#   SRC_TURN=<dir>  SRC_REACH=<dir>  SRC_VIS=<dir>  CRF=28  VIS_CRF=24  TURN_SCALE=720
+#   SRC_TURN=<dir>  SRC_REACH=<dir>  SRC_VIS=<dir>  SRC_VIS_ALL=<dir>  CRF=28  VIS_CRF=24  TURN_SCALE=720
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -49,11 +64,20 @@ PHD="$HOME/Coding/PhD/Hunter/Hunter_Z1"
 SRC_TURN="${SRC_TURN:-$PHD/shared_figures/robot_turntables}"
 SRC_REACH="${SRC_REACH:-$PHD/reachability_downloads/full_grid_20260901T195332Z_full/figures/individual_shapes/larger_spheres}"
 SRC_VIS="${SRC_VIS:-$PHD/reachability_downloads/lidar_fov_os1_32_fixed_zero_drive/videos_20261101}"
+SRC_VIS_ALL="${SRC_VIS_ALL:-$PHD/reachability_downloads/lidar_all_reachable_20261101T182521Z/figures}"
 OUT=media
 CRF="${CRF:-28}"
 VIS_CRF="${VIS_CRF:-24}"
 TURN_SCALE="${TURN_SCALE:-720}"
 ONLY="${1:-}"
+
+# Middle panel title of the all-pose sweep. On frame 0 of the 1800x648 render
+# the ink of "ALFRED (hunter_z1)" spans x 818-1033, y 72-95, and the word
+# "ALFRED" ends at x 902; the "0°" label starts at y 98. The title is static,
+# so the word is cropped from the frame itself with a 3 px margin, the title
+# band (x 815-1036, y 69-97) is painted white, and the word is overlaid at
+# x 880, centred on the panel. Re-measure these if the render changes.
+ALL_POSES_TITLE_FIX="[0:v]split[base][src];[src]crop=91:29:815:69[word];[base]drawbox=x=815:y=69:w=222:h=29:color=white:t=fill[clear];[clear][word]overlay=x=880:y=69[out]"
 
 # Prefer a system ffmpeg; otherwise fall back to the binary that the
 # imageio-ffmpeg PyPI package ships (installs without root).
@@ -73,7 +97,7 @@ echo "Using ffmpeg: $FFMPEG"
 # kind:source stem:published stem. The turntable archive keeps the
 # pre-publication build names (prototype_v1 is Prototype 1, hunter_z1 is
 # ALFRED, alfred is ALFRED 2.0); the bubble clouds were exported under the
-# page's names, and the visibility sweep carries its own panel titles.
+# page's names, and the visibility sweeps carry their own panel titles.
 MAP="
 turntable:prototype_v1_turntable:turntable_prototype_1
 turntable:hunter_z1_turntable:turntable_alfred
@@ -82,6 +106,7 @@ reach:prototype_1:reachability_prototype_1
 reach:alfred:reachability_alfred
 reach:alfred_2_0:reachability_alfred_2_0
 visibility:lidar_visibility_zero_drive:visibility_zero_drive
+visibility_all:free_percent_reverse_log_green:visibility_all_poses
 "
 
 matched=0
@@ -91,6 +116,7 @@ for entry in $MAP; do
     turntable)  src="$SRC_TURN/$src_stem.mp4";  vf=(-vf "scale=${TURN_SCALE}:-2:flags=lanczos"); crf="$CRF" ;;
     reach)      src="$SRC_REACH/$src_stem.mp4"; vf=(); crf="$CRF" ;;
     visibility) src="$SRC_VIS/$src_stem.mp4";   vf=(); crf="$VIS_CRF" ;;
+    visibility_all) src="$SRC_VIS_ALL/$src_stem.mp4"; vf=(-filter_complex "$ALL_POSES_TITLE_FIX" -map '[out]'); crf="$VIS_CRF" ;;
   esac
   dst="$OUT/$dst_stem.mp4"
   poster="$OUT/${dst_stem}_poster.jpg"
@@ -117,7 +143,7 @@ for entry in $MAP; do
 
   before=$(du -k "$src" | cut -f1)
   after=$(du -k "$dst" | cut -f1)
-  printf "OK    %-36s %-11s %5s KB -> %5s KB   (crf %s)\n" "$dst_stem.mp4" "$kind" "$before" "$after" "$crf"
+  printf "OK    %-36s %-15s %5s KB -> %5s KB   (crf %s)\n" "$dst_stem.mp4" "$kind" "$before" "$after" "$crf"
 done
 
 if [ -n "$ONLY" ] && [ "$matched" -eq 0 ]; then
