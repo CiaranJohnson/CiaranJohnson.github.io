@@ -110,6 +110,15 @@ h1, h2, h3 {
 h1 { font-size: clamp(2rem, 5vw, 2.6rem); }
 h2 { font-size: 1.32rem; margin-top: 0; }
 h3 { font-size: 1.05rem; }
+h4 {
+  font-size: .95rem;
+  line-height: 1.25;
+  letter-spacing: -.01em;
+  margin: 1.9em 0 .5em;
+}
+
+/* A sub-heading part-way down a section, e.g. the splats inside Phenotype */
+h3.subsection { margin-top: 2em; }
 
 p { margin: 0 0 1.1em; max-width: var(--measure); }
 
@@ -741,4 +750,216 @@ footer p { margin: 0; }
   aspect-ratio: 1440 / 1184;
   /* Matches the render's own background, so the panels sit flush on the page. */
   background: var(--bg);
+}
+
+/* ---------------------------------------------------------------
+   ROWCAST page: workflow stages, narrow figures
+   --------------------------------------------------------------- */
+
+/* The five ROWCAST stages as the paper's Figure 2: a row of boxes joined
+   by arrows, with a dashed "next visit" arrow looping from the last box
+   back to the second. Stages that take place in the field are tinted with
+   the accent; offline stages stay plain. The geometry of the loop is
+   computed from the column width, so the row never wraps: on narrow
+   screens the figure scrolls sideways inside .stages-wrap instead. */
+.stages-wrap { overflow-x: auto; margin: 22px 0 10px; }
+
+.stages-figure {
+  --g: 30px;                                   /* gap between boxes */
+  --cw: calc((100% - 4 * var(--g)) / 5);       /* width of one box */
+  --loop: 26px;                                /* drop of the return arrow */
+  position: relative;
+  min-width: 640px;
+  padding-bottom: calc(var(--loop) + 30px);
+}
+
+.stages {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--g);
+  margin: 0;
+}
+
+.stage {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+}
+
+.stage--field {
+  background: var(--accent-soft);
+  border-color: transparent;
+}
+
+/* Each card links to the stage's own section further down the page. */
+a.stage {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+a.stage:hover,
+a.stage:focus-visible { border-color: var(--accent); }
+
+a.stage:hover h3,
+a.stage:focus-visible h3 { color: var(--accent); }
+
+/* Solid arrow from each box to the next: a line across the gap and a
+   chevron at its right-hand end. */
+.stage:not(:last-child)::after,
+.stage:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+}
+
+.stage:not(:last-child)::after {
+  right: calc(-1 * var(--g));
+  width: var(--g);
+  height: 2px;
+  margin-top: -1px;
+  background: var(--text-subtle);
+}
+
+.stage:not(:last-child)::before {
+  right: calc(-1 * var(--g) + 2px);
+  width: 9px;
+  height: 9px;
+  margin-top: -5px;
+  border-top: 2px solid var(--text-subtle);
+  border-right: 2px solid var(--text-subtle);
+  transform: rotate(45deg);
+}
+
+.stage h3 { font-size: .98rem; margin-bottom: .35em; }
+
+.stage .when {
+  display: block;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+  margin-bottom: .5em;
+}
+
+.stage--field .when { color: var(--accent); }
+
+.stage p {
+  margin: 0;
+  font-size: .9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: none;
+}
+
+/* The return arrow: drops from the bottom centre of Phenotype (column 5),
+   runs left under Plan and Execute, and rises into the bottom centre of
+   Scout (column 2), where the chevron points up. */
+.stages-loop {
+  position: absolute;
+  left: calc(1.5 * var(--cw) + var(--g));
+  width: calc(3 * var(--cw) + 3 * var(--g));
+  bottom: 30px;
+  height: var(--loop);
+  border: 2px dashed var(--text-subtle);
+  border-top: 0;
+  border-radius: 0 0 14px 14px;
+}
+
+.stages-loop::before {
+  content: "";
+  position: absolute;
+  left: -5.5px;
+  top: 0;
+  width: 9px;
+  height: 9px;
+  border-top: 2px solid var(--text-subtle);
+  border-left: 2px solid var(--text-subtle);
+  transform: rotate(45deg);
+}
+
+.stages-loop::after {
+  content: "next visit";
+  position: absolute;
+  left: 50%;
+  bottom: -.75em;
+  transform: translateX(-50%);
+  padding: 0 8px;
+  background: var(--bg);
+  font-size: .78rem;
+  line-height: 1.5;
+  color: var(--text-subtle);
+  white-space: nowrap;
+}
+
+.stages-key {
+  font-size: .84rem;
+  color: var(--text-subtle);
+  margin: 0 0 1.4em;
+}
+
+.stages-key .swatch {
+  display: inline-block;
+  width: .9em;
+  height: .9em;
+  border-radius: 3px;
+  vertical-align: -.1em;
+  margin-right: .35em;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.stages-key .swatch--field { background: var(--accent-soft); border-color: transparent; }
+
+.stages-key .dash {
+  display: inline-block;
+  width: 1.6em;
+  vertical-align: .25em;
+  margin-right: .4em;
+  border-top: 2px dashed var(--text-subtle);
+}
+
+/* The twelve plants of the ROWCAST trial: six columns, the small cohort on
+   the first row and the large cohort on the second. The large-cohort panels
+   in the manuscript's figure are not all the same shape, so those tiles are
+   held to 2:3 and cropped; two of them are anchored so the crop keeps the
+   trailing vine and the pot. */
+.plant-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px 10px;
+}
+
+.plant-grid figure { margin: 0; }
+
+.plant-grid img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.plant-grid .tile--tall img { aspect-ratio: 2 / 3; }
+.plant-grid .tile--right img { object-position: right center; }
+.plant-grid .tile--bottom img { object-position: center bottom; }
+
+.plant-grid figcaption {
+  margin-top: 6px;
+  font-size: .8rem;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.plant-figure > figcaption { margin-top: 14px; }
+
+@media (max-width: 640px) {
+  .plant-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* A portrait figure that would be far too tall at full page width */
+.figure--narrow {
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
 }

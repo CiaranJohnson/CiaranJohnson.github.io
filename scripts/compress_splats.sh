@@ -52,8 +52,9 @@ FLY_POSTER_AT="${FLY_POSTER_AT:-0.6}"
 # source stem -> published stem used by ROWCAST/index.html. Plant clips are
 # published under the plant's name rather than the render's working name, so
 # the <scene>__<plant> convention carries through to the page.
-# Plants the page does not name yet keep their working names; give them a
-# published name here (and in the page) once known.
+# The page captions every orbit with the manuscript's plant name (see
+# media/README.md for the mapping), but most published files still carry the
+# render's working name. To rename one, change its entry here and on the page.
 MAP="
 stationary_big_plants__flythrough:stationary_big_plants__flythrough
 stationary_small_plants__flythrough:stationary_small_plants__flythrough

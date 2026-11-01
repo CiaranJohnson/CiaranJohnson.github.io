@@ -4,10 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ROWCAST | Ciaran Johnson</title>
-  <meta name="description" content="ROWCAST: autonomous crop row monitoring with the ALFRED 2.0 mobile manipulator. First splat reconstructions of two plant scenes and of each plant on its own, with more to come.">
+  <meta name="description" content="ROWCAST: a mobile manipulator that scouts crop rows with LiDAR, plans every arm viewpoint offline and executes the plan with no view chosen in the field. Tested outdoors on ALFRED 2.0, with videos and Gaussian-splat reconstructions of every plant.">
   <link rel="stylesheet" href="../style.css">
 </head>
 <body class="paper">
+
+  <!-- Icon sprite for the author links; referenced with <use href="#icon-..."> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="icon-orcid" viewBox="0 0 256 256">
+      <path fill="#A6CE39" d="M256 128c0 70.7-57.3 128-128 128S0 198.7 0 128 57.3 0 128 0s128 57.3 128 128z"/>
+      <path fill="#fff" d="M86.3 186.2H70.9V79.1h15.4v107.1zM108.9 79.1h41.6c39.6 0 57 28.3 57 53.6 0 27.5-21.5 53.6-56.8 53.6h-41.8V79.1zm15.4 93.3h24.5c34.9 0 42.9-26.5 42.9-39.7 0-21.5-13.7-39.7-43.7-39.7h-23.7v79.4zM88.7 56.8c0 5.5-4.5 10.1-10.1 10.1s-10.1-4.6-10.1-10.1c0-5.6 4.5-10.1 10.1-10.1s10.1 4.6 10.1 10.1z"/>
+    </symbol>
+    <symbol id="icon-linkedin" viewBox="0 0 24 24">
+      <rect x="1" y="1" width="22" height="22" rx="2" fill="#fff"/>
+      <path fill="#0A66C2" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.125 2.062 2.062 0 0 1 0 4.125zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+    </symbol>
+  </svg>
 
   <nav class="site-nav">
     <div class="wrap">
@@ -24,27 +36,414 @@
   <main class="wrap">
 
     <!-- ================================================================
-         Placeholder page, deliberately minimal while the manuscript is
-         unpublished: no title, authors, method or results. Replace this
-         whole block with the full project page closer to publication.
+         TITLE BLOCK
+         The manuscript is under review. Add the venue and DOI here, and
+         set the Paper (PDF) link, once it is accepted.
          ================================================================ -->
     <header class="paper-head">
-      <span class="tag">Coming soon</span>
-      <h1>ROWCAST</h1>
-      <p class="lead">
-        ALFRED 2.0 stars in autonomous crop row monitoring.
+      <span class="tag">Preprint</span>
+      <h1>ROWCAST: offline-planned mobile-manipulator phenotyping for crop rows</h1>
+      <p class="authors">
+        <span class="author">Ciarán Miceal Johnson<sup>1,2</sup>
+          <a class="author-link" href="https://orcid.org/0009-0005-3101-6712" target="_blank" rel="noopener" aria-label="Ciarán Miceal Johnson on ORCID" title="ORCID"><svg><use href="#icon-orcid"/></svg></a>
+          <a class="author-link" href="https://www.linkedin.com/in/ciaran-johnson-749905177/" target="_blank" rel="noopener" aria-label="Ciarán Miceal Johnson on LinkedIn" title="LinkedIn"><svg><use href="#icon-linkedin"/></svg></a></span>
+        <span class="sep" aria-hidden="true">|</span>
+        <span class="author">Prabhneet Singh<sup>1,2</sup>
+          <a class="author-link" href="https://www.linkedin.com/in/prab-singh-a8128525b/" target="_blank" rel="noopener" aria-label="Prabhneet Singh on LinkedIn" title="LinkedIn"><svg><use href="#icon-linkedin"/></svg></a></span>
+        <span class="sep" aria-hidden="true">|</span>
+        <span class="author">Maria Koskinopoulou<sup>2</sup>
+          <a class="author-link" href="https://orcid.org/0000-0002-8040-2995" target="_blank" rel="noopener" aria-label="Maria Koskinopoulou on ORCID" title="ORCID"><svg><use href="#icon-orcid"/></svg></a>
+          <a class="author-link" href="https://www.linkedin.com/in/mariakoskinopoulou/" target="_blank" rel="noopener" aria-label="Maria Koskinopoulou on LinkedIn" title="LinkedIn"><svg><use href="#icon-linkedin"/></svg></a></span>
+        <span class="sep" aria-hidden="true">|</span>
+        <span class="author">Alistair McConnell<sup>2,*</sup>
+          <a class="author-link" href="https://orcid.org/0000-0003-3168-1323" target="_blank" rel="noopener" aria-label="Alistair McConnell on ORCID" title="ORCID"><svg><use href="#icon-orcid"/></svg></a>
+          <a class="author-link" href="https://www.linkedin.com/in/alistair-mcconnell-1576246a/" target="_blank" rel="noopener" aria-label="Alistair McConnell on LinkedIn" title="LinkedIn"><svg><use href="#icon-linkedin"/></svg></a></span>
+        <span class="sep" aria-hidden="true">|</span>
+        <span class="author">Fernando Auat Cheein<sup>3</sup>
+          <a class="author-link" href="https://orcid.org/0000-0002-6347-7696" target="_blank" rel="noopener" aria-label="Fernando Auat Cheein on ORCID" title="ORCID"><svg><use href="#icon-orcid"/></svg></a>
+          <a class="author-link" href="https://www.linkedin.com/in/fernando-auat-cheein-30743a59/" target="_blank" rel="noopener" aria-label="Fernando Auat Cheein on LinkedIn" title="LinkedIn"><svg><use href="#icon-linkedin"/></svg></a></span>
+        <span class="sep" aria-hidden="true">|</span>
+        <span class="author">Steve Tonneau<sup>1</sup>
+          <a class="author-link" href="https://orcid.org/0000-0003-3001-8693" target="_blank" rel="noopener" aria-label="Steve Tonneau on ORCID" title="ORCID"><svg><use href="#icon-orcid"/></svg></a></span>
       </p>
+      <p class="venue">
+        <sup>1</sup>The University of Edinburgh, UK<br>
+        <sup>2</sup>Heriot-Watt University, UK<br>
+        <sup>3</sup>Harper Adams University, UK<br>
+        <sup>*</sup>Corresponding author<br><br>
+        Manuscript under review, 2026. Preprint DOI to follow.
+      </p>
+
+      <!-- TODO: set the href on Paper (PDF) once the preprint is live, then
+           remove the aria-disabled attribute from that link. -->
+      <ul class="paper-links">
+        <li><a href="#" aria-disabled="true">Paper (PDF), coming soon</a></li>
+        <li><a href="#workflow">Workflow</a></li>
+        <li><a href="#execute">Field videos</a></li>
+        <li><a href="#splats">Splat reconstructions</a></li>
+        <li><a href="#citation">Cite</a></li>
+      </ul>
     </header>
 
-    <!-- Field video first: a YouTube Short (9:16), embedded like the reel on
-         the ForestYear3D page (no local file), then the RGB-D phenotyping
-         explainer. The explainer is published as delivered (1080p, 2.3 Mb/s,
-         21 MB): its small text overlays would blur at 720p, and with
-         preload="metadata" it only downloads when played. Its poster is
-         frame 0, grabbed with ffmpeg; see media/README.md. -->
-    <section id="field-video">
+    <!-- ================================================================
+         OVERVIEW
+         Figure 2 of the manuscript rebuilt as five stage cards, titled as
+         in the paper, each linking to its section; then the still that is
+         Figure 1 (img/rowcast_field.jpg). After the overview block (this
+         section, the fact tiles and the plants) the page runs through the
+         five stages in order, one section each, with that stage's clips.
+         ================================================================ -->
+    <section id="overview">
+      <p class="eyebrow">Overview</p>
+      <h2>A robot that plans every view before it takes one</h2>
+      <p>
+        ROWCAST is a workflow for phenotyping crop rows with a mobile manipulator. A field
+        is commissioned once: reflective markers at the plot corners are detected in an
+        RTK-anchored LiDAR map, which fixes the plot frames, route and inspection stations.
+        On each visit a LiDAR scout records the current scene, arm viewpoints and motions
+        are planned offline from it, and the robot executes the plan the same day with no
+        arm view chosen in the field. The recordings are then phenotyped offline: height,
+        widths and footprint are measured from single views, fused views and the LiDAR
+        map. We tested it outdoors at Heriot-Watt University, Edinburgh, in July and
+        August 2026, on two cohorts of six artificial plants.
+      </p>
+
+      <h3 id="workflow" class="subsection">Commission once, then scout, plan, execute and phenotype on every visit</h3>
+      <!-- Figure 2 of the paper: the five stages in a row, solid arrows between
+           them, and a dashed "next visit" arrow from Phenotype back to Scout.
+           Arrows and the loop are drawn in CSS (see .stages-figure in
+           style.css); on narrow screens the figure scrolls sideways rather
+           than wrapping, so the loop keeps its shape. -->
+      <div class="stages-wrap">
+        <div class="stages-figure">
+          <div class="stages">
+            <a class="stage stage--field" href="#commission">
+              <span class="when">Once per field</span>
+              <h3>Commission</h3>
+              <p>Plot frames, route and stations from reflective markers.</p>
+            </a>
+            <a class="stage stage--field" href="#scout">
+              <span class="when">Each visit</span>
+              <h3>Scout</h3>
+              <p>A LiDAR pass records the current crop geometry.</p>
+            </a>
+            <a class="stage" href="#plan">
+              <span class="when">Offline</span>
+              <h3>Plan</h3>
+              <p>Arm views and motions chosen from the scout map.</p>
+            </a>
+            <a class="stage stage--field" href="#execute">
+              <span class="when">Same day</span>
+              <h3>Execute</h3>
+              <p>The plan is executed with no replanning.</p>
+            </a>
+            <a class="stage" href="#phenotype">
+              <span class="when">Offline</span>
+              <h3>Phenotype</h3>
+              <p>Traits from single views, fused views and the LiDAR map.</p>
+            </a>
+          </div>
+          <div class="stages-loop" aria-hidden="true"></div>
+        </div>
+      </div>
+      <p class="stages-key">
+        <span class="swatch swatch--field" aria-hidden="true"></span>In the field
+        &nbsp;&nbsp;
+        <span class="swatch" aria-hidden="true"></span>Offline
+        &nbsp;&nbsp;
+        <span class="dash" aria-hidden="true"></span>Next visit: back to the scout
+      </p>
+      <p>
+        After commissioning, only scouting and execution take place in the field. Each
+        stage has its own section below, with the videos from the trial.
+      </p>
+
+      <figure>
+        <img src="../img/rowcast_field.jpg" width="1600" height="770"
+             alt="Two photographs of ALFRED 2.0 on a gravel test site: on the left the robot leans its arm-mounted cameras over a row of small potted succulents; on the right it stands between two rows of larger artificial plants with a gazebo and a field laptop behind it">
+        <figcaption>
+          ALFRED 2.0 scanning the small cohort (left) and the large cohort (right).
+        </figcaption>
+      </figure>
+    </section>
+
+    <section id="at-a-glance">
+      <p class="eyebrow">At a glance</p>
+      <h2>Twelve plants, eight captures, every arm view planned offline</h2>
+
+      <!-- Facts are grouped by theme; spans in each group add up to 12.
+           .s3/.s4/.s6/.s8 set width, .fact--lg/--xl set emphasis. -->
+      <div class="fact-group">
+        <h3>The experiment</h3>
+        <div class="facts">
+          <div class="fact fact--xl s4"><span class="num">12</span><span class="label">Artificial potted plants, in two cohorts of six</span></div>
+          <div class="fact s4"><span class="num">8 cm · 26–56 cm</span><span class="label">Heights of the small and large cohorts</span></div>
+          <div class="fact s4"><span class="num">8</span><span class="label">Captures: Fixed, Random, Planned-LR and Planned-HR, each on both cohorts</span></div>
+        </div>
+      </div>
+
+      <div class="fact-group">
+        <h3>Field time</h3>
+        <div class="facts">
+          <div class="fact fact--lg s4"><span class="num">1.74 ×</span><span class="label">Observed station time over the plan, near-constant across all 24 stations</span></div>
+          <div class="fact s4"><span class="num">≈ 32 min</span><span class="label">A planned or Random capture of six plants, the arm moving 85% of the time</span></div>
+          <div class="fact s4"><span class="num">≈ 11 min</span><span class="label">A Fixed capture of the same six plants</span></div>
+        </div>
+      </div>
+
+      <div class="fact-group">
+        <h3>Data</h3>
+        <div class="facts">
+          <div class="fact s4"><span class="num">515 GB</span><span class="label">Recorded across the eight captures, 29–90 GB each</span></div>
+          <div class="fact s4"><span class="num">313,988</span><span class="label">Colour frames processed</span></div>
+          <div class="fact s4"><span class="num">48</span><span class="label">Plant–capture cases, each fused from up to 100 views</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         THE PLANTS AND THE ROBOT
+         The twelve plants of Figure 13, one tile each; the same names
+         caption the 3D orbits in the Phenotype section.
+         ================================================================ -->
+    <section id="experiment">
+      <p class="eyebrow">The plants and the robot</p>
+      <h2>Twelve artificial plants, measured by hand and by robot</h2>
+      <p>
+        Artificial plants do not grow, so each was measured by hand four times and captured
+        under every protocol with the same geometry. The platform is
+        <a href="../index.html#alfred2">ALFRED 2.0</a>: an AgileX Hunter 2.0 base, a
+        Unitree Z1 arm carrying two RealSense D457 RGB-D cameras, an Ouster OS1-32 LiDAR
+        and RTK-GNSS.
+      </p>
+
+      <!-- Figure 13 of the manuscript as twelve tiles, one photograph per
+           plant, cut from the figure's panels by scripts/cut_plant_tiles.py;
+           the names are page text, not part of the image. Six columns: the
+           small cohort on the first row, the large cohort on the second. -->
+      <figure class="plant-figure">
+        <div class="plant-grid">
+          <figure>
+            <img src="../img/rowcast_plant_p1.jpg" width="567" height="412" loading="lazy" alt="P1, a small pale succulent in a white pot beside a rock">
+            <figcaption>P1</figcaption>
+          </figure>
+          <figure>
+            <img src="../img/rowcast_plant_p2.jpg" width="567" height="412" loading="lazy" alt="P2, a small rounded succulent in a white pot beside a large rock">
+            <figcaption>P2</figcaption>
+          </figure>
+          <figure>
+            <img src="../img/rowcast_plant_p3.jpg" width="559" height="412" loading="lazy" alt="P3, a small grey-green succulent in a white pot with rocks to its left">
+            <figcaption>P3</figcaption>
+          </figure>
+          <figure>
+            <img src="../img/rowcast_plant_p4.jpg" width="569" height="412" loading="lazy" alt="P4, a small green succulent in a white pot">
+            <figcaption>P4</figcaption>
+          </figure>
+          <figure>
+            <img src="../img/rowcast_plant_p5.jpg" width="567" height="417" loading="lazy" alt="P5, a small spiky succulent in a white pot">
+            <figcaption>P5</figcaption>
+          </figure>
+          <figure>
+            <img src="../img/rowcast_plant_p6.jpg" width="567" height="413" loading="lazy" alt="P6, a small succulent in a white pot with a rock to its right">
+            <figcaption>P6</figcaption>
+          </figure>
+          <figure class="tile--tall">
+            <img src="../img/rowcast_plant_white_poinsettia.jpg" width="525" height="635" loading="lazy" alt="Artificial white poinsettia in a black pot">
+            <figcaption>White poinsettia</figcaption>
+          </figure>
+          <figure class="tile--tall">
+            <img src="../img/rowcast_plant_red_poinsettia.jpg" width="600" height="635" loading="lazy" alt="Artificial red poinsettia in a black pot">
+            <figcaption>Red poinsettia</figcaption>
+          </figure>
+          <figure class="tile--tall tile--right">
+            <img src="../img/rowcast_plant_ivy_gourd.jpg" width="542" height="635" loading="lazy" alt="Artificial ivy gourd with white flowers, trailing to the right">
+            <figcaption>Ivy gourd</figcaption>
+          </figure>
+          <figure class="tile--tall tile--bottom">
+            <img src="../img/rowcast_plant_indian_laurel_fig.jpg" width="524" height="819" loading="lazy" alt="Artificial Indian laurel fig, a small tree with a round canopy">
+            <figcaption>Indian laurel fig</figcaption>
+          </figure>
+          <figure class="tile--tall">
+            <img src="../img/rowcast_plant_fiddle_leaf_fig.jpg" width="601" height="819" loading="lazy" alt="Artificial fiddle-leaf fig with large dark leaves">
+            <figcaption>Fiddle-leaf fig</figcaption>
+          </figure>
+          <figure class="tile--tall">
+            <img src="../img/rowcast_plant_split_leaf_philodendron.jpg" width="542" height="819" loading="lazy" alt="Artificial split-leaf philodendron with cut leaves">
+            <figcaption>Split-leaf philodendron</figcaption>
+          </figure>
+        </div>
+        <figcaption>
+          The small cohort (top row) and the large cohort (bottom row). The names describe
+          appearance, not botanical identity.
+        </figcaption>
+      </figure>
+
+      <div class="gallery">
+        <figure>
+          <img src="../img/alfred2_front.jpg" width="1200" height="1600" alt="ALFRED 2.0 field robot, front view, showing its manipulator arm and mast-mounted sensors">
+          <figcaption>Front view.</figcaption>
+        </figure>
+        <figure>
+          <img src="../img/alfred2_side.jpg" width="1200" height="1600" alt="ALFRED 2.0 field robot, side view, showing its four-wheeled all-terrain base">
+          <figcaption>Side view.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STAGE 1: COMMISSION
+         Phone clip of the manually driven loop (4:5 crop) beside the copy,
+         the same loop replayed in RViz below it. Web clips come from
+         scripts/compress_stage_clips.sh; see media/README.md.
+         ================================================================ -->
+    <section id="commission">
+      <p class="eyebrow">Stage 1 · Commission · once per field</p>
+      <h2>One manually driven loop fixes the plot frames, route and stations</h2>
+
+      <div class="intro-row">
+        <div class="intro-copy">
+          <p>
+            Reflective markers are placed at the plot corners and the operator drives the
+            robot once round the area it may use, back to the start. The loop builds an
+            RTK-anchored LiDAR reference map; from it the operational boundary and terrain
+            are extracted and the markers detected and assigned to plot corners. The base
+            route, inspection stations and sensing volumes follow from the approved plots.
+            Commissioning needed no manual correction.
+          </p>
+        </div>
+        <figure class="video-item">
+          <div class="video-slot portrait">
+            <video controls muted playsinline preload="metadata"
+                   poster="../media/rowcast_commission_field_poster.jpg">
+              <source src="../media/rowcast_commission_field.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <figcaption>The commissioning loop, driven once past the markers.</figcaption>
+        </figure>
+      </div>
+
       <div class="video-grid one-up">
-        <figure class="video-item short">
+        <figure class="video-item">
+          <div class="video-slot">
+            <video controls muted playsinline preload="metadata"
+                   poster="../media/rowcast_commission_map_poster.jpg">
+              <source src="../media/rowcast_commission_map.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <figcaption>
+            The same loop in the reference map: the robot traces the operational boundary
+            round the two plots, and the segmented commissioning map follows.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STAGE 2: SCOUT
+         ================================================================ -->
+    <section id="scout">
+      <p class="eyebrow">Stage 2 · Scout · each visit</p>
+      <h2>A LiDAR pass along the commissioned route records the current scene</h2>
+
+      <div class="intro-row">
+        <div class="intro-copy">
+          <p>
+            On each visit the robot drives the commissioned route with the chassis LiDAR
+            recording, while the commissioned artefacts stay fixed. The scan is mapped,
+            registered to the reference map and converted into the target and occluder
+            geometry the plan stage uses.
+          </p>
+        </div>
+        <figure class="video-item">
+          <div class="video-slot portrait">
+            <video controls muted playsinline preload="metadata"
+                   poster="../media/rowcast_scout_poster.jpg">
+              <source src="../media/rowcast_scout.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <figcaption>A scout pass along the commissioned route.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STAGE 3: PLAN
+         Screen recording of the planner stepping through the stations.
+         ================================================================ -->
+    <section id="plan">
+      <p class="eyebrow">Stage 3 · Plan · offline</p>
+      <h2>Arm views and motions are chosen from the scout map, not in the field</h2>
+      <p>
+        At each inspection station the planner predicts which target surfaces every
+        reachable arm pose would observe, selects a budgeted set of complementary views,
+        six per side from a precomputed action library, and joins them with
+        self-collision-checked joint-space motions. The utility favours close, central and
+        head-on views from several directions, seen by both cameras. Planning runs on a
+        computing cluster between scouting and execution; the route and stations are fixed
+        at commissioning and are not replanned.
+      </p>
+
+      <div class="video-grid one-up">
+        <figure class="video-item">
+          <div class="video-slot">
+            <video controls muted playsinline preload="metadata"
+                   poster="../media/rowcast_plan_poster.jpg">
+              <source src="../media/rowcast_plan.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <figcaption>
+            The planner working through the stations: the view fans of the two cameras
+            (green and magenta) and, in yellow, the scouted points they cover.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         STAGE 4: EXECUTE
+         The three protocols side by side, all 9:16: Fixed and Random are
+         phone clips published uncropped by scripts/compress_stage_clips.sh,
+         the planned protocol is the YouTube Short (no local file).
+         ================================================================ -->
+    <section id="execute">
+      <p class="eyebrow">Stage 4 · Execute · same day</p>
+      <h2>The plan is executed with no arm view chosen in the field</h2>
+      <p>
+        The base follows the route with the online localisation and navigation of the
+        scout stage, and at each station the arm runs the planned sequence, pausing for a
+        second at each view. Planned acquisition was compared with Fixed, a camera tilted
+        down from the robot, and Random, poses drawn from the same library. Station times
+        were a near-constant 1.74 times the plan.
+      </p>
+
+      <div class="video-grid portrait-grid">
+        <figure class="video-item">
+          <div class="video-slot short">
+            <video controls muted playsinline preload="metadata"
+                   poster="../media/rowcast_execute_fixed_poster.jpg">
+              <source src="../media/rowcast_execute_fixed.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <figcaption>Fixed: the camera tilted down from the robot, on the small cohort.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot short">
+            <video controls muted playsinline preload="metadata"
+                   poster="../media/rowcast_execute_random_poster.jpg">
+              <source src="../media/rowcast_execute_random.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <figcaption>Random: arm poses drawn from the planner's library, on the small cohort.</figcaption>
+        </figure>
+
+        <figure class="video-item">
           <div class="video-slot short">
             <iframe
               src="https://www.youtube-nocookie.com/embed/D7hwxlzGvhw"
@@ -54,9 +453,39 @@
               referrerpolicy="strict-origin-when-cross-origin"
               allowfullscreen></iframe>
           </div>
-          <figcaption>ROWCAST experiments using ALFRED 2.0.</figcaption>
+          <figcaption>Planned: the robot runs the offline-planned protocol.</figcaption>
         </figure>
+      </div>
+    </section>
 
+    <!-- ================================================================
+         STAGE 5: PHENOTYPE
+         The RGB-D explainer is published as delivered (1080p, 2.3 Mb/s,
+         21 MB): its small text overlays would blur at 720p, and with
+         preload="metadata" it only downloads when played. Its poster is
+         frame 0, grabbed with ffmpeg; see media/README.md.
+
+         Splat clips: web versions are produced by scripts/compress_splats.sh
+         from the full-resolution renders in media/splats_source/
+         (gitignored); see media/README.md. Scene flythroughs are ordinary
+         controls videos. Plant orbits are GIF-style loops: no controls,
+         silent, started by the script at the foot of the page only while
+         they are on screen. The orbits keep their working file names; the
+         captions carry the names from the manuscript. The author confirmed
+         the small-plant mapping: small_1–small_4 are P1–P4, small_6 is P5
+         and small_5 is P6. The large plants were matched by appearance to
+         Figure 13.
+         ================================================================ -->
+    <section id="phenotype">
+      <p class="eyebrow">Stage 5 · Phenotype · offline</p>
+      <h2>From one view to a fused plant model</h2>
+      <p>
+        Plants are detected and segmented in every frame, and the views are registered and
+        fused only if they pass consistency checks. Height, widths and footprint are then
+        measured from single views, fused views and the LiDAR map.
+      </p>
+
+      <div class="video-grid one-up">
         <figure class="video-item">
           <div class="video-slot">
             <video controls muted playsinline preload="metadata"
@@ -65,38 +494,16 @@
               Your browser does not support embedded video.
             </video>
           </div>
-          <figcaption>RGB-D phenotyping: from one view to a plant model.</figcaption>
+          <figcaption>The Indian laurel fig: from a single RGB-D view to a fused plant model.</figcaption>
         </figure>
       </div>
-    </section>
 
-    <section id="platform">
-      <div class="gallery">
-        <figure>
-          <img src="../img/alfred2_front.jpg" width="1200" height="1600" alt="ALFRED 2.0 field robot, front view, showing its manipulator arm and mast-mounted sensors">
-        </figure>
-        <figure>
-          <img src="../img/alfred2_side.jpg" width="1200" height="1600" alt="ALFRED 2.0 field robot, side view, showing its four-wheeled all-terrain base">
-        </figure>
-      </div>
-    </section>
-
-    <!-- ================================================================
-         SPLAT CLIPS
-         Web versions are produced by scripts/compress_splats.sh from the
-         full-resolution renders in media/splats_source/ (gitignored); see
-         media/README.md. Scene flythroughs are ordinary controls videos.
-         Plant orbits are GIF-style loops: no controls, silent, started by
-         the script at the foot of the page only while they are on screen.
-         The plants are deliberately not named on the page yet, so the
-         orbits carry no captions. To add one: a MAP line in the script,
-         then copy a <figure>.
-         ================================================================ -->
-    <section id="scene-splats">
-      <h2>Full scene splats</h2>
+      <h3 id="splats" class="subsection">Gaussian-splat reconstructions</h3>
       <p>
-        The first two scenes, each reconstructed as a splat and played back as a
-        camera flythrough: one of large plants, one of small plants.
+        The same field recordings reconstructed as 3D Gaussian splats. They are not metric
+        and no trait is measured from them. A flythrough of each scene, then each of the
+        twelve plants on its own; click a tile, or press Enter on it, to pause and resume
+        the orbit.
       </p>
 
       <div class="video-grid one-up">
@@ -108,7 +515,7 @@
               Your browser does not support embedded video.
             </video>
           </div>
-          <figcaption>Large plants, flythrough.</figcaption>
+          <figcaption>Large cohort, flythrough.</figcaption>
         </figure>
 
         <figure class="video-item">
@@ -119,156 +526,178 @@
               Your browser does not support embedded video.
             </video>
           </div>
-          <figcaption>Small plants, flythrough.</figcaption>
+          <figcaption>Small cohort, flythrough.</figcaption>
         </figure>
       </div>
-    </section>
 
-    <section id="plant-splats">
-      <h2>Individual splats</h2>
-
-      <h3 style="margin-top:18px">Large plants</h3>
+      <h4>Large cohort</h4>
       <div class="video-grid two-up">
         <figure class="video-item">
           <div class="video-slot square">
             <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
-                   aria-label="Looping orbit of a plant from the large-plant scene; Enter or a click pauses and resumes it"
+                   aria-label="Looping orbit of the Indian laurel fig in 3D; Enter or a click pauses and resumes it"
                    poster="../media/stationary_big_plants__indian_laurel_fig_poster.jpg">
               <source src="../media/stationary_big_plants__indian_laurel_fig.mp4" type="video/mp4">
               Your browser does not support embedded video.
             </video>
           </div>
+          <figcaption>Indian laurel fig.</figcaption>
         </figure>
 
         <figure class="video-item">
           <div class="video-slot square">
             <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
-                   aria-label="Looping orbit of a plant from the large-plant scene; Enter or a click pauses and resumes it"
+                   aria-label="Looping orbit of the fiddle-leaf fig in 3D; Enter or a click pauses and resumes it"
                    poster="../media/stationary_big_plants__fiddle_leaf_fig_poster.jpg">
               <source src="../media/stationary_big_plants__fiddle_leaf_fig.mp4" type="video/mp4">
               Your browser does not support embedded video.
             </video>
           </div>
+          <figcaption>Fiddle-leaf fig.</figcaption>
         </figure>
 
         <figure class="video-item">
           <div class="video-slot square">
             <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
-                   aria-label="Looping orbit of a plant from the large-plant scene; Enter or a click pauses and resumes it"
+                   aria-label="Looping orbit of the red poinsettia in 3D; Enter or a click pauses and resumes it"
                    poster="../media/stationary_big_plants__red_poster.jpg">
               <source src="../media/stationary_big_plants__red.mp4" type="video/mp4">
               Your browser does not support embedded video.
             </video>
           </div>
+          <figcaption>Red poinsettia.</figcaption>
         </figure>
 
         <figure class="video-item">
           <div class="video-slot square">
             <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
-                   aria-label="Looping orbit of a plant from the large-plant scene; Enter or a click pauses and resumes it"
+                   aria-label="Looping orbit of the white poinsettia in 3D; Enter or a click pauses and resumes it"
                    poster="../media/stationary_big_plants__white_poster.jpg">
               <source src="../media/stationary_big_plants__white.mp4" type="video/mp4">
               Your browser does not support embedded video.
             </video>
           </div>
+          <figcaption>White poinsettia.</figcaption>
         </figure>
 
         <figure class="video-item">
           <div class="video-slot square">
             <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
-                   aria-label="Looping orbit of a plant from the large-plant scene; Enter or a click pauses and resumes it"
+                   aria-label="Looping orbit of the ivy gourd in 3D; Enter or a click pauses and resumes it"
                    poster="../media/stationary_big_plants__greenwhite_poster.jpg">
               <source src="../media/stationary_big_plants__greenwhite.mp4" type="video/mp4">
               Your browser does not support embedded video.
             </video>
           </div>
+          <figcaption>Ivy gourd.</figcaption>
         </figure>
 
         <figure class="video-item">
           <div class="video-slot square">
             <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
-                   aria-label="Looping orbit of a plant from the large-plant scene; Enter or a click pauses and resumes it"
+                   aria-label="Looping orbit of the split-leaf philodendron in 3D; Enter or a click pauses and resumes it"
                    poster="../media/stationary_big_plants__mediumgreen_poster.jpg">
               <source src="../media/stationary_big_plants__mediumgreen.mp4" type="video/mp4">
               Your browser does not support embedded video.
             </video>
           </div>
+          <figcaption>Split-leaf philodendron.</figcaption>
         </figure>
       </div>
 
-      <h3 style="margin-top:32px">Small plants</h3>
+      <h4>Small cohort</h4>
       <div class="video-grid two-up">
         <figure class="video-item">
           <div class="video-slot square">
             <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
-                   aria-label="Looping orbit of a plant from the small-plant scene; Enter or a click pauses and resumes it"
+                   aria-label="Looping orbit of plant P1 in 3D; Enter or a click pauses and resumes it"
                    poster="../media/stationary_small_plants__small_1_poster.jpg">
               <source src="../media/stationary_small_plants__small_1.mp4" type="video/mp4">
               Your browser does not support embedded video.
             </video>
           </div>
+          <figcaption>P1.</figcaption>
         </figure>
 
         <figure class="video-item">
           <div class="video-slot square">
             <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
-                   aria-label="Looping orbit of a plant from the small-plant scene; Enter or a click pauses and resumes it"
+                   aria-label="Looping orbit of plant P2 in 3D; Enter or a click pauses and resumes it"
                    poster="../media/stationary_small_plants__small_2_poster.jpg">
               <source src="../media/stationary_small_plants__small_2.mp4" type="video/mp4">
               Your browser does not support embedded video.
             </video>
           </div>
+          <figcaption>P2.</figcaption>
         </figure>
 
         <figure class="video-item">
           <div class="video-slot square">
             <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
-                   aria-label="Looping orbit of a plant from the small-plant scene; Enter or a click pauses and resumes it"
+                   aria-label="Looping orbit of plant P3 in 3D; Enter or a click pauses and resumes it"
                    poster="../media/stationary_small_plants__small_3_poster.jpg">
               <source src="../media/stationary_small_plants__small_3.mp4" type="video/mp4">
               Your browser does not support embedded video.
             </video>
           </div>
+          <figcaption>P3.</figcaption>
         </figure>
 
         <figure class="video-item">
           <div class="video-slot square">
             <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
-                   aria-label="Looping orbit of a plant from the small-plant scene; Enter or a click pauses and resumes it"
+                   aria-label="Looping orbit of plant P4 in 3D; Enter or a click pauses and resumes it"
                    poster="../media/stationary_small_plants__small_4_poster.jpg">
               <source src="../media/stationary_small_plants__small_4.mp4" type="video/mp4">
               Your browser does not support embedded video.
             </video>
           </div>
+          <figcaption>P4.</figcaption>
         </figure>
 
         <figure class="video-item">
           <div class="video-slot square">
             <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
-                   aria-label="Looping orbit of a plant from the small-plant scene; Enter or a click pauses and resumes it"
-                   poster="../media/stationary_small_plants__small_5_poster.jpg">
-              <source src="../media/stationary_small_plants__small_5.mp4" type="video/mp4">
-              Your browser does not support embedded video.
-            </video>
-          </div>
-        </figure>
-
-        <figure class="video-item">
-          <div class="video-slot square">
-            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
-                   aria-label="Looping orbit of a plant from the small-plant scene; Enter or a click pauses and resumes it"
+                   aria-label="Looping orbit of plant P5 in 3D; Enter or a click pauses and resumes it"
                    poster="../media/stationary_small_plants__small_6_poster.jpg">
               <source src="../media/stationary_small_plants__small_6.mp4" type="video/mp4">
               Your browser does not support embedded video.
             </video>
           </div>
+          <figcaption>P5.</figcaption>
+        </figure>
+
+        <figure class="video-item">
+          <div class="video-slot square">
+            <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                   aria-label="Looping orbit of plant P6 in 3D; Enter or a click pauses and resumes it"
+                   poster="../media/stationary_small_plants__small_5_poster.jpg">
+              <source src="../media/stationary_small_plants__small_5.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <figcaption>P6.</figcaption>
         </figure>
       </div>
+    </section>
 
-      <p class="muted" style="margin-top:22px">
-        More to come: further scenes and reconstructions, and the full webpage
-        closer to publication.
-      </p>
+    <!-- ================================================================
+         CITATION
+         The page carries no abstract or findings: it is a companion to the
+         paper, which readers go to for those. Update the BibTeX once the
+         paper is accepted and has a DOI.
+         ================================================================ -->
+    <section id="citation">
+      <p class="eyebrow">Citation</p>
+<pre><code>@article{johnson2026rowcast,
+  title   = {{ROWCAST}: offline-planned mobile-manipulator phenotyping
+             for crop rows},
+  author  = {Johnson, Ciar{\'a}n Miceal and Singh, Prabhneet and
+             Koskinopoulou, Maria and McConnell, Alistair and
+             Auat Cheein, Fernando and Tonneau, Steve},
+  year    = {2026},
+  note    = {Manuscript under review}
+}</code></pre>
     </section>
 
     <section>
@@ -315,14 +744,6 @@
         else { v.dataset.userPaused = '1'; v.pause(); }
       }
       orbits.forEach(function (v) {
-        // Number each tile within its grid for screen readers, so the markup
-        // need not be renumbered when a plant is added.
-        var group = v.closest('.video-grid');
-        if (group) {
-          var peers = group.querySelectorAll('video.orbit');
-          v.setAttribute('aria-label', (v.getAttribute('aria-label') || 'Looping orbit of a plant')
-            .replace('a plant', 'plant ' + (Array.prototype.indexOf.call(peers, v) + 1) + ' of ' + peers.length));
-        }
         v.addEventListener('click', function () { if (!v.controls) toggle(v); });
         v.addEventListener('keydown', function (e) {
           if (!v.controls && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggle(v); }

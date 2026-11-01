@@ -1,7 +1,7 @@
 # Video assets
 
 Clips referenced by `ForestYear3D/index.html` and `ROWCAST/index.html` live here;
-the ROWCAST clips are described in the last section. Each `<video>` block on
+the ROWCAST clips are described in the last two sections. Each `<video>` block on
 the ForestYear3D page is commented out next to a dashed placeholder; to publish a clip, drop
 the file in this folder, delete the placeholder `<div class="video-pending">`,
 and uncomment the `<video>` element below it.
@@ -104,27 +104,41 @@ full-resolution renders live in `media/splats_source/` (gitignored, like
 `media/final_protocols/`) and `scripts/compress_splats.sh` writes the web
 versions and their posters into this folder:
 
-| Published file | Source render | Page section |
+| Published file | Source render | Caption on the page |
 | --- | --- | --- |
-| `stationary_big_plants__flythrough.mp4` | same name | Full scene splats, large plants |
-| `stationary_small_plants__flythrough.mp4` | same name | Full scene splats, small plants |
-| `stationary_big_plants__indian_laurel_fig.mp4` | `stationary_big_plants__canopyball.mp4` | Individual splats, large plants |
-| `stationary_big_plants__fiddle_leaf_fig.mp4` | `stationary_big_plants__biggreen.mp4` | Individual splats, large plants |
-| `stationary_big_plants__red.mp4` | same name | Individual splats, large plants |
-| `stationary_big_plants__white.mp4` | same name | Individual splats, large plants |
-| `stationary_big_plants__greenwhite.mp4` | same name | Individual splats, large plants |
-| `stationary_big_plants__mediumgreen.mp4` | same name | Individual splats, large plants |
-| `stationary_small_plants__small_1.mp4` | same name | Individual splats, small plants |
-| `stationary_small_plants__small_2.mp4` | same name | Individual splats, small plants |
-| `stationary_small_plants__small_3.mp4` | same name | Individual splats, small plants |
-| `stationary_small_plants__small_4.mp4` | same name | Individual splats, small plants |
-| `stationary_small_plants__small_5.mp4` | same name | Individual splats, small plants |
-| `stationary_small_plants__small_6.mp4` | same name | Individual splats, small plants |
+| `stationary_big_plants__flythrough.mp4` | same name | Large cohort, flythrough |
+| `stationary_small_plants__flythrough.mp4` | same name | Small cohort, flythrough |
+| `stationary_big_plants__indian_laurel_fig.mp4` | `stationary_big_plants__canopyball.mp4` | Indian laurel fig |
+| `stationary_big_plants__fiddle_leaf_fig.mp4` | `stationary_big_plants__biggreen.mp4` | Fiddle-leaf fig |
+| `stationary_big_plants__red.mp4` | same name | Red poinsettia |
+| `stationary_big_plants__white.mp4` | same name | White poinsettia |
+| `stationary_big_plants__greenwhite.mp4` | same name | Ivy gourd |
+| `stationary_big_plants__mediumgreen.mp4` | same name | Split-leaf philodendron |
+| `stationary_small_plants__small_1.mp4` | same name | P1 |
+| `stationary_small_plants__small_2.mp4` | same name | P2 |
+| `stationary_small_plants__small_3.mp4` | same name | P3 |
+| `stationary_small_plants__small_4.mp4` | same name | P4 |
+| `stationary_small_plants__small_5.mp4` | same name | P6 |
+| `stationary_small_plants__small_6.mp4` | same name | P5 |
 
-The plants are deliberately not named on the page yet, so the orbits carry no
-captions; two published files do carry the plant name (the `MAP` in the script
-renames them from the render's working name), the rest keep their working
-names.
+The captions use the plant names from the manuscript (its Figure 13). The
+large plants were matched to the renders by appearance; the small-plant
+mapping was confirmed by the author (note that `small_5` is P6 and `small_6`
+is P5). The
+published file names were left as they are: two carry the plant name (the
+`MAP` in the script renames them from the render's working name), the rest
+keep their working names.
+
+The page also carries stills from the manuscript PDF, in `img/`:
+`rowcast_field.jpg` (Figure 1, extracted with `pdfimages` and downscaled) and
+the twelve plant tiles `rowcast_plant_*.jpg`, which are the panels of
+Figure 13 cut out one by one by `scripts/cut_plant_tiles.py` (it renders the
+page at 600 dpi, finds each photograph under its label and saves it; the names
+are set as page text). Four earlier stills are no longer on the page and stay
+in `img/` unused: `rowcast_plants.jpg` (Figure 13 as one image, replaced by the
+tiles), `rowcast_markers.jpg` (Figure 4), `rowcast_commissioning_map.jpg`
+(Figure 3) and `rowcast_protocol_views.jpg` (Figure 22), after the author took
+the stills out of the Commission and Execute sections.
 
 Flythroughs are published at 1280x720 and shown with controls, so they are only
 downloaded when played. Plant orbits are published at 540x540 and play on their
@@ -142,15 +156,52 @@ and published clips that no `MAP` entry produces any more (`STALE`).
 The flythroughs fade in from black, so their posters are grabbed 0.6 s in
 (`FLY_POSTER_AT`) rather than at frame 0.
 
-The YouTube Short at the top of the page (`D7hwxlzGvhw`) takes no local file;
-it is an `<iframe>` like the reel on the ForestYear3D page. Under it,
-`canopyball_reconstruction_1080p.mp4` (the RGB-D phenotyping explainer) is
-published as delivered, 1920x1080 at 2.3 Mb/s, because its small text overlays
-would blur at 720p; it only downloads when played. Its poster is frame 0:
+The YouTube Short in the Execute section (`D7hwxlzGvhw`) takes no local
+file; it is an `<iframe>` like the reel on the ForestYear3D page. In the
+Phenotype section, `canopyball_reconstruction_1080p.mp4` (the RGB-D
+phenotyping explainer) is published as delivered, 1920x1080 at 2.3 Mb/s,
+because its small text overlays would blur at 720p; it only downloads when
+played. Its poster is frame 0:
 
 ```bash
 ffmpeg -i media/canopyball_reconstruction_1080p.mp4 -frames:v 1 -q:v 4 media/canopyball_reconstruction_1080p_poster.jpg
 ```
+
+## ROWCAST workflow-stage clips
+
+The ROWCAST page has one section per stage of the workflow, and the clips of
+the trial sit in the stage they belong to. The originals (phone footage and
+RViz screen recordings, 16-273 MB each, re-muxed with VLC) live in
+`media/stages_source/` (gitignored) and `scripts/compress_stage_clips.sh`
+writes the web versions and their posters into this folder:
+
+| Published file | Source | Section | Shape |
+| --- | --- | --- | --- |
+| `rowcast_commission_field.mp4` | `comissioning_field.mp4` | Commission | phone, turned clockwise, 4:5 crop from 15% down |
+| `rowcast_commission_map.mp4` | `comissioning_rviz.mp4` | Commission | RViz, cropped to the live window, 16:9 |
+| `rowcast_scout.mp4` | `scout.mp4` | Scout | phone, turned clockwise, 4:5 crop from 15% down |
+| `rowcast_plan.mp4` | `planning.mp4` | Plan | RViz, black bar cropped off, 16:9 |
+| `rowcast_execute_fixed.mp4` | `fixed.mp4` | Execute | phone, turned clockwise, full 9:16 |
+| `rowcast_execute_random.mp4` | `random.mp4` | Execute | phone, turned clockwise, full 9:16 |
+
+All are published 720 px wide (1280 px for the screen recordings), 30 fps,
+CRF 26, silent, 1-14 MB each. The phone clips beside a paragraph (Commission,
+Scout) are cropped to 4:5 like the protocol clips on the ForestYear3D page,
+with the crop window chosen per clip so the robot and markers stay in frame.
+The two Execute clips keep the whole 9:16 frame because they sit in a row with
+the YouTube Short, which is 9:16.
+
+Orientation is set per clip, not read from the file. The phone clips were
+re-encoded with VLC, which wrote a track matrix that is a transpose (a quarter
+turn plus a mirror) on three of them and no matrix on `fixed.mp4`; ffmpeg's
+autorotate follows such a matrix literally and mirrored the three, which the
+author spotted on the page. The script therefore tells ffmpeg the rotation is
+zero (`-display_rotation 0`, which also keeps the matrix out of the output) and
+applies `turn=cw`, a quarter turn clockwise, to every phone clip, `fixed.mp4`
+included: all four come from the same phone held the same way, and in both
+Execute clips the robot drives away from the camera with the row of pots on
+its right. The per-clip settings are the `CLIPS` table in the script;
+`scripts/compress_stage_clips.sh scout` re-encodes one clip.
 
 Notes:
 - H.264 MP4 is the safe format for GitHub Pages; add a WebM `<source>` first if
