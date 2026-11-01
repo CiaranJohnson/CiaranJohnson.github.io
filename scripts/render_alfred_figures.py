@@ -39,12 +39,13 @@ JOBS = [
     ("CAD/lidar_rgbd_arm.pdf",                     "alfred_cad_lidar_rgbd.jpg",  "cad",      900),
     ("Additional/design_requirements.pdf",         "alfred_requirements.png",    "diagram", 1600),
     ("system_design/network_config.pdf",           "alfred_network.png",         "diagram", 1600),
-    ("prototyping/sim_prototype_1.pdf",            "alfred_model_p1.jpg",        "render",   900),
-    ("prototyping/sim_alfred.pdf",                 "alfred_model_alfred.jpg",    "render",   900),
-    ("prototyping/sim_alfred_2.pdf",               "alfred_model_alfred2.jpg",   "render",   900),
-    ("results/lidar_fov_polar_grid_6x3.pdf",       "alfred_lidar_visibility.jpg", "chart",  1400),
-    ("results/orientation_success_by_translation_3d_observed_bubbles_six_view.png",
-                                                   "alfred_reachability.jpg",    "chart",   2000),
+    # The robot-description renders (prototyping/sim_*.pdf) are shown as
+    # turntable loops instead: see scripts/compress_alfred_clips.sh.
+    # The LiDAR ray-termination grid (results/lidar_fov_polar_grid_6x3.pdf) is
+    # shown as six beam-by-beam loops instead: see scripts/compress_alfred_clips.sh.
+    # The usable-workspace plot (results/orientation_success_by_translation_3d_
+    # observed_bubbles_six_view.png) is shown as three video loops instead:
+    # see scripts/compress_alfred_clips.sh and media/README.md.
 ]
 JPEG_QUALITY = {"photo": 85, "cad": 88, "render": 88, "chart": 90}
 

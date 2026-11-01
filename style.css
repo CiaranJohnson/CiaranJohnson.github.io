@@ -671,6 +671,22 @@ footer p { margin: 0; }
 /* The ROWCAST single-plant orbits are square renders. */
 .video-slot.square { aspect-ratio: 1 / 1; }
 
+/* Three square tiles to a row, e.g. the ALFRED turntables, workspace orbits
+   and visibility sweeps. A fixed three rather than auto-fit, so that a set of
+   six keeps its rows (arm at zero above, drive posture below) instead of
+   running five across; stacks to one column on phones. */
+.video-grid.three-up { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 700px) {
+  .video-grid.three-up { grid-template-columns: 1fr; }
+}
+
+/* A render on a white ground gets the same hairline as the photographs, so
+   the tile still has an edge in light mode. */
+.video-slot.framed { border: 1px solid var(--border); }
+
+/* The six-panel LiDAR visibility sweep on the ALFRED page is a 1680x1200 render. */
+.video-slot.visibility { aspect-ratio: 1680 / 1200; }
+
 /* A vertical clip such as a YouTube Short: shown at phone width and centred
    rather than stretched across the page, caption centred under it. */
 .video-item.short { max-width: 420px; margin: 0 auto; }

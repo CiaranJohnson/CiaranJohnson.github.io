@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ALFRED | Ciaran Johnson</title>
   <meta name="description" content="ALFRED: an open-source mobile manipulator for long-term plant monitoring, developed through four builds against six requirements. A year of monthly forest surveys without a missed collection, and model-based comparison of arm reach and LiDAR visibility across builds. arXiv preprint, October 2026.">
-  <link rel="stylesheet" href="../style.css?v=20261101h">
+  <link rel="stylesheet" href="../style.css?v=20261101i">
 </head>
 <body class="paper">
 
@@ -80,8 +80,8 @@
         <li><a href="https://arxiv.org/abs/2610.01477" target="_blank" rel="noopener">Paper (arXiv)</a></li>
         <li><a href="https://arxiv.org/pdf/2610.01477" target="_blank" rel="noopener">PDF</a></li>
         <li><a href="https://github.com/CiaranJohnson/ALFRED" aria-disabled="true">Code and design files, coming soon</a></li>
-        <li><a href="#platform">The platform</a></li>
         <li><a href="#reach">Reach and visibility</a></li>
+        <li><a href="#platform">The platform</a></li>
         <li><a href="#citation">Cite</a></li>
       </ul>
     </header>
@@ -149,6 +149,160 @@
           <figcaption>The four builds against the six requirements: not satisfied, partially satisfied or satisfied.</figcaption>
         </figure>
       </div>
+    </section>
+
+    <!-- ================================================================
+         SENSING REACH AND COVERAGE
+         Figure 15 (robot descriptions), Table 3 (usable workspace),
+         Figure 19 (usable workspace by position) and Figure 17 (LiDAR ray
+         termination).
+         ================================================================ -->
+    <section id="reach">
+      <p class="eyebrow">Sensing reach and coverage</p>
+      <h2>Reach and visibility compared on the robot descriptions</h2>
+      <p>
+        Each complete build was assessed on its robot description, so a design change can be
+        quantified before anything is manufactured: usable arm workspace from inverse kinematics
+        at 3,110,400 end-effector poses under each build's own collision model, and LiDAR
+        visibility from rays cast to a 5&nbsp;m cap with the arm at zero and in the drive
+        posture.
+      </p>
+
+      <!-- The robot descriptions as turntables: one 8 s orbit per build with
+           the arm in the zero posture, rendered from the URDFs by
+           render_robot_turntable.py. Published by scripts/compress_alfred_clips.sh;
+           see media/README.md. -->
+      <figure>
+        <div class="video-grid three-up">
+          <figure class="video-item">
+            <div class="video-slot square framed">
+              <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                     aria-label="Looping turntable of the Prototype 1 robot description with the arm in the zero posture; Enter or a click pauses and resumes it"
+                     poster="../media/turntable_prototype_1_poster.jpg">
+                <source src="../media/turntable_prototype_1.mp4" type="video/mp4">
+                Your browser does not support embedded video.
+              </video>
+            </div>
+            <figcaption>Prototype 1.</figcaption>
+          </figure>
+          <figure class="video-item">
+            <div class="video-slot square framed">
+              <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                     aria-label="Looping turntable of the ALFRED robot description with the arm in the zero posture; Enter or a click pauses and resumes it"
+                     poster="../media/turntable_alfred_poster.jpg">
+                <source src="../media/turntable_alfred.mp4" type="video/mp4">
+                Your browser does not support embedded video.
+              </video>
+            </div>
+            <figcaption>ALFRED.</figcaption>
+          </figure>
+          <figure class="video-item">
+            <div class="video-slot square framed">
+              <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                     aria-label="Looping turntable of the ALFRED 2.0 robot description with the arm in the zero posture; Enter or a click pauses and resumes it"
+                     poster="../media/turntable_alfred_2_0_poster.jpg">
+                <source src="../media/turntable_alfred_2_0.mp4" type="video/mp4">
+                Your browser does not support embedded video.
+              </video>
+            </div>
+            <figcaption>ALFRED&nbsp;2.0.</figcaption>
+          </figure>
+        </div>
+        <figcaption>
+          The robot descriptions with the arm in the zero posture, each turning once. Click
+          a tile, or press Enter on it, to pause and resume the turn; the workspace orbits
+          and the visibility sweep below work the same way.
+        </figcaption>
+      </figure>
+
+      <h3 class="subsection">Usable manipulator workspace</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Build</th><th>Collision pairs</th><th>Reachable</th><th>Collision</th><th>Clearance</th><th>Usable</th><th>Usable [%]</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Prototype 1</td><td>128</td><td>25,096</td><td>12,751</td><td>3,821</td><td>8,524</td><td>34.0</td></tr>
+            <tr><td>ALFRED</td><td>102</td><td>24,950</td><td>4,398</td><td>5,578</td><td>14,974</td><td>60.0</td></tr>
+            <tr><td><strong>ALFRED 2.0</strong></td><td>84</td><td>24,950</td><td>3,310</td><td>5,146</td><td>16,494</td><td><strong>66.1</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:14px; font-size:.9rem">
+        Of 3,110,400 target poses per build; percentages are of reachable poses.
+      </p>
+
+      <!-- The usable-workspace plot (the paper's six-view bubble figure) as
+           three rotating loops, one per build, drawn by the same script on one
+           size and colour scale, with axes and labels left off. Published by
+           scripts/compress_alfred_clips.sh; see media/README.md. -->
+      <figure>
+        <div class="video-grid three-up">
+          <figure class="video-item">
+            <div class="video-slot square framed">
+              <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                     aria-label="Looping orbit of the usable workspace of Prototype 1, the end-effector positions that keep at least one usable orientation; Enter or a click pauses and resumes it"
+                     poster="../media/reachability_prototype_1_poster.jpg">
+                <source src="../media/reachability_prototype_1.mp4" type="video/mp4">
+                Your browser does not support embedded video.
+              </video>
+            </div>
+            <figcaption>Prototype 1.</figcaption>
+          </figure>
+          <figure class="video-item">
+            <div class="video-slot square framed">
+              <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                     aria-label="Looping orbit of the usable workspace of ALFRED, the end-effector positions that keep at least one usable orientation; Enter or a click pauses and resumes it"
+                     poster="../media/reachability_alfred_poster.jpg">
+                <source src="../media/reachability_alfred.mp4" type="video/mp4">
+                Your browser does not support embedded video.
+              </video>
+            </div>
+            <figcaption>ALFRED.</figcaption>
+          </figure>
+          <figure class="video-item">
+            <div class="video-slot square framed">
+              <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                     aria-label="Looping orbit of the usable workspace of ALFRED 2.0, the end-effector positions that keep at least one usable orientation; Enter or a click pauses and resumes it"
+                     poster="../media/reachability_alfred_2_0_poster.jpg">
+                <source src="../media/reachability_alfred_2_0.mp4" type="video/mp4">
+                Your browser does not support embedded video.
+              </video>
+            </div>
+            <figcaption>ALFRED&nbsp;2.0.</figcaption>
+          </figure>
+        </div>
+        <figcaption>
+          Usable workspace by end-effector position, one orbit per build: marker size and
+          colour give the number of usable orientations, 0–290, on one scale shared by all
+          three.
+        </figcaption>
+      </figure>
+
+
+      <h3 class="subsection">Frame-mounted LiDAR visibility</h3>
+      <!-- The ray-termination grid (the paper's six-row polar figure) as one
+           clip: six panels, builds across and arm posture down, stepping
+           through the 32 beams together from lowest to highest, so the panels
+           can never fall out of step. Rendered by make_lidar_visibility_video.py
+           from the saved raycasts; published by scripts/compress_alfred_clips.sh,
+           see media/README.md. -->
+      <figure class="video-item">
+        <div class="video-slot visibility framed">
+          <video class="orbit" muted loop playsinline disablepictureinpicture preload="none" tabindex="0"
+                 aria-label="Looping sweep through the 32 beams of the frame-mounted LiDAR on all three builds, with the arm at zero and in the drive posture, showing where each ray ends; Enter or a click pauses and resumes it"
+                 poster="../media/visibility_zero_drive_poster.jpg">
+            <source src="../media/visibility_zero_drive.mp4" type="video/mp4">
+            Your browser does not support embedded video.
+          </video>
+        </div>
+        <figcaption>
+          Where each beam of the frame-mounted LiDAR ends, one beam at a time from the lowest
+          to the highest of the 32, with the builds across and the arm at zero or in the drive
+          posture down: green reaches the 5&nbsp;m cap, ochre meets the ground, red meets the
+          platform.
+        </figcaption>
+      </figure>
     </section>
 
     <section id="at-a-glance">
@@ -356,68 +510,6 @@
     </section>
 
     <!-- ================================================================
-         SENSING REACH AND COVERAGE
-         Figure 15 (robot descriptions), Table 3 (usable workspace),
-         Figure 19 (usable workspace by position) and Figure 17 (LiDAR ray
-         termination).
-         ================================================================ -->
-    <section id="reach">
-      <p class="eyebrow">Sensing reach and coverage</p>
-      <h2>Reach and visibility compared on the robot descriptions</h2>
-      <p>
-        Each complete build was assessed on its robot description, so a design change can be
-        quantified before anything is manufactured: usable arm workspace from inverse kinematics
-        at 3,110,400 end-effector poses under each build's own collision model, and LiDAR
-        visibility from rays cast to a 5&nbsp;m cap with the arm at zero and in the drive
-        posture.
-      </p>
-
-      <div class="gallery">
-        <figure>
-          <img src="../img/alfred_model_p1.jpg" width="900" height="900" loading="lazy" alt="Rendered robot description of Prototype 1 with the arm in the zero posture">
-          <figcaption>Prototype 1.</figcaption>
-        </figure>
-        <figure>
-          <img src="../img/alfred_model_alfred.jpg" width="900" height="900" loading="lazy" alt="Rendered robot description of ALFRED with the arm in the zero posture">
-          <figcaption>ALFRED.</figcaption>
-        </figure>
-        <figure>
-          <img src="../img/alfred_model_alfred2.jpg" width="900" height="900" loading="lazy" alt="Rendered robot description of ALFRED 2.0 with the arm in the zero posture">
-          <figcaption>ALFRED&nbsp;2.0.</figcaption>
-        </figure>
-      </div>
-
-      <h3 class="subsection">Usable manipulator workspace</h3>
-      <div class="table-wrap">
-        <table class="data-table">
-          <thead>
-            <tr><th>Build</th><th>Collision pairs</th><th>Reachable</th><th>Collision</th><th>Clearance</th><th>Usable</th><th>Usable [%]</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Prototype 1</td><td>128</td><td>25,096</td><td>12,751</td><td>3,821</td><td>8,524</td><td>34.0</td></tr>
-            <tr><td>ALFRED</td><td>102</td><td>24,950</td><td>4,398</td><td>5,578</td><td>14,974</td><td>60.0</td></tr>
-            <tr><td><strong>ALFRED 2.0</strong></td><td>84</td><td>24,950</td><td>3,310</td><td>5,146</td><td>16,494</td><td><strong>66.1</strong></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="muted" style="margin-top:14px; font-size:.9rem">
-        Of 3,110,400 target poses per build; percentages are of reachable poses.
-      </p>
-
-      <figure>
-        <img src="../img/alfred_reachability.jpg" width="2000" height="1211" loading="lazy"
-             alt="Six 3D scatter plots, two per build, of the translations around the arm base that keep at least one usable orientation, with marker size and colour showing how many orientations are retained; the later builds have more and darker markers">
-        <figcaption>Usable workspace by end-effector position: marker size and colour give the number of usable orientations, 0–290.</figcaption>
-      </figure>
-
-      <figure class="figure--tall">
-        <img src="../img/alfred_lidar_visibility.jpg" width="1400" height="2545" loading="lazy"
-             alt="A grid of polar plots, one row per build and arm posture and one column per beam elevation, showing green rays that reach 5 m, ochre rays that meet the ground and red rays that meet the robot">
-        <figcaption>Ray termination for the lowest, near-horizontal and highest beams: green reaches the 5&nbsp;m cap, ochre meets the ground, red meets the platform.</figcaption>
-      </figure>
-    </section>
-
-    <!-- ================================================================
          CITATION
          Replace the arXiv entry with the journal reference once accepted.
          ================================================================ -->
@@ -449,6 +541,61 @@
       <p>© 2026 Ciaran Johnson · Edinburgh Centre for Robotics</p>
     </div>
   </footer>
+
+  <!-- The turntables, workspace orbits and visibility sweep behave like GIFs:
+       silent, looping, playing on their own. Rather than autoplay every clip at page load, each one is
+       started only while it is on screen (preload="none" keeps it undownloaded
+       until then) and paused again once it scrolls away. A click or Enter on a
+       tile pauses and resumes it. Anyone who has asked for reduced motion gets
+       them paused with ordinary controls instead, as does any browser that
+       refuses to start them. Same script as ROWCAST/index.html. -->
+  <script>
+    (function () {
+      var orbits = Array.prototype.slice.call(document.querySelectorAll('video.orbit'));
+      if (!orbits.length) return;
+
+      function showControls(v) { v.controls = true; }
+
+      function start(v) {
+        if (v.dataset.userPaused) return;
+        var p = v.play();
+        if (p && p.catch) p.catch(function (err) {
+          // A play() cut short by pause() (the clip left the screen again
+          // before it got going) is normal; only an actual refusal to
+          // autoplay gets the controls.
+          if (!err || err.name !== 'AbortError') showControls(v);
+        });
+      }
+
+      // A click, or Enter/Space while a tile has keyboard focus, pauses that
+      // orbit and leaves it paused until toggled again.
+      function toggle(v) {
+        if (v.paused) { delete v.dataset.userPaused; start(v); }
+        else { v.dataset.userPaused = '1'; v.pause(); }
+      }
+      orbits.forEach(function (v) {
+        v.addEventListener('click', function () { if (!v.controls) toggle(v); });
+        v.addEventListener('keydown', function (e) {
+          if (!v.controls && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggle(v); }
+        });
+      });
+
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        orbits.forEach(showControls);
+        return;
+      }
+      if (!('IntersectionObserver' in window)) {
+        orbits.forEach(start);
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) start(e.target); else e.target.pause();
+        });
+      }, { rootMargin: '200px 0px' });
+      orbits.forEach(function (v) { io.observe(v); });
+    })();
+  </script>
 
 </body>
 </html>

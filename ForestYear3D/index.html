@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ForestYear3D | Ciaran Johnson</title>
   <meta name="description" content="ForestYear3D: a year-long dual-LiDAR point cloud dataset for long-term forest robotics. 528 traversals of the same forest corridor between June 2025 and May 2026, collected with the ALFRED mobile manipulator.">
-  <link rel="stylesheet" href="../style.css?v=20261101h">
+  <link rel="stylesheet" href="../style.css?v=20261101i">
 </head>
 <body class="paper">
 
@@ -145,10 +145,13 @@
 
       <figure class="video-item figure--medium">
         <div class="video-slot triptych">
-          <!-- No controls: autoplay, muted and looping, so there is nothing to
-               scrub or pause. `muted` is what makes autoplay permitted. -->
-          <video autoplay muted loop playsinline disablepictureinpicture
-                 preload="metadata" poster="../media/base_arm_merged_poster.jpg">
+          <!-- No controls: it plays like a GIF, started by the orbit script at
+               the foot of the page while it is on screen, and a click or Enter
+               on it pauses and resumes it. `muted` is what makes autoplay
+               permitted. -->
+          <video class="orbit" muted loop playsinline disablepictureinpicture preload="metadata" tabindex="0"
+                 aria-label="Looping turn around the base, arm and merged point clouds; Enter or a click pauses and resumes it"
+                 poster="../media/base_arm_merged_poster.jpg">
             <source src="../media/base_arm_merged.mp4" type="video/mp4">
             Your browser does not support embedded video.
           </video>
@@ -156,7 +159,8 @@
         <figcaption>
           Full-resolution point clouds: 0.64M points from the base LiDAR, 4.84M
           from the arm, 5.48M merged. Coloured by height above ground, with the
-          strongest laser returns drawn darkest.
+          strongest laser returns drawn darkest. Click the clip, or press Enter on
+          it, to pause and resume the turn.
         </figcaption>
       </figure>
     </section>
@@ -522,6 +526,60 @@
       <p>© 2026 Ciaran Johnson · Edinburgh Centre for Robotics</p>
     </div>
   </footer>
+
+  <!-- The base/arm/merged loop behaves like a GIF: silent, looping, playing on
+       its own. It is started only while it is on screen and paused again once
+       it scrolls away, and a click or Enter on it pauses and resumes it.
+       Anyone who has asked for reduced motion gets it paused with ordinary
+       controls instead, as does any browser that refuses to start it. Same
+       script as ROWCAST/index.html and ALFRED/index.html. -->
+  <script>
+    (function () {
+      var orbits = Array.prototype.slice.call(document.querySelectorAll('video.orbit'));
+      if (!orbits.length) return;
+
+      function showControls(v) { v.controls = true; }
+
+      function start(v) {
+        if (v.dataset.userPaused) return;
+        var p = v.play();
+        if (p && p.catch) p.catch(function (err) {
+          // A play() cut short by pause() (the clip left the screen again
+          // before it got going) is normal; only an actual refusal to
+          // autoplay gets the controls.
+          if (!err || err.name !== 'AbortError') showControls(v);
+        });
+      }
+
+      // A click, or Enter/Space while a tile has keyboard focus, pauses that
+      // orbit and leaves it paused until toggled again.
+      function toggle(v) {
+        if (v.paused) { delete v.dataset.userPaused; start(v); }
+        else { v.dataset.userPaused = '1'; v.pause(); }
+      }
+      orbits.forEach(function (v) {
+        v.addEventListener('click', function () { if (!v.controls) toggle(v); });
+        v.addEventListener('keydown', function (e) {
+          if (!v.controls && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); toggle(v); }
+        });
+      });
+
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        orbits.forEach(showControls);
+        return;
+      }
+      if (!('IntersectionObserver' in window)) {
+        orbits.forEach(start);
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) start(e.target); else e.target.pause();
+        });
+      }, { rootMargin: '200px 0px' });
+      orbits.forEach(function (v) { io.observe(v); });
+    })();
+  </script>
 
 </body>
 </html>

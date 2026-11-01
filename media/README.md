@@ -1,7 +1,8 @@
 # Video assets
 
-Clips referenced by `ForestYear3D/index.html` and `ROWCAST/index.html` live here;
-the ROWCAST clips are described in the last two sections. Each `<video>` block on
+Clips referenced by `ForestYear3D/index.html`, `ROWCAST/index.html` and
+`ALFRED/index.html` live here; the ROWCAST clips are described in the two
+ROWCAST sections and the ALFRED clips in the last section. Each `<video>` block on
 the ForestYear3D page is commented out next to a dashed placeholder; to publish a clip, drop
 the file in this folder, delete the placeholder `<div class="video-pending">`,
 and uncomment the `<video>` element below it.
@@ -44,6 +45,8 @@ end on the orbit's first pose with its speed and pan rate, so there is no cut.
 `base_arm_merged.mp4` is a 12 s silent loop. Base and arm sit side by side on
 the top row with the merged result full width beneath, all sharing one camera,
 turning through a full 360 degrees at a high angle looking down on the corridor.
+On the page it plays like a GIF: started while it is on screen, paused by a
+click or Enter, through the same orbit script as the ROWCAST and ALFRED loops.
 Rebuild with:
 
 ```bash
@@ -216,8 +219,10 @@ Notes:
 
 ## ALFRED page stills
 
-`ALFRED/index.html` (the preprint page) uses no video. Its stills, `img/alfred_*`,
-are the manuscript's own figures rendered for the web by
+`ALFRED/index.html` (the preprint page) uses video for the three figures in its
+Reach section, the robot turntables, the usable-workspace orbits and the LiDAR
+visibility sweep, described in the next section. Its stills, `img/alfred_*`, are the
+manuscript's own figures rendered for the web by
 `scripts/render_alfred_figures.py`, which takes the `Figures/` directory of the
 arXiv source archive (arXiv:2610.01477; kept outside the repository) and writes
 photographs, CAD renders and plots as progressive JPEGs and the two flat diagrams
@@ -226,3 +231,66 @@ script maps each source figure to its output file, so a changed figure is
 re-rendered by running the script again. The page also reuses `front_view.jpeg`,
 `top_down.jpeg`, `alfred2_front.jpg` and `alfred2_side.jpg` from the home and
 ROWCAST pages.
+
+## ALFRED page clips
+
+The Reach section of `ALFRED/index.html` shows three figures made of square
+loops: the robot descriptions as turntables, in place of the paper's rendered
+stills (Figure 15); the usable-workspace bubble clouds, in place of the paper's
+six-view plot (Figure 19); and the frame-mounted LiDAR visibility as one
+six-panel beam-by-beam sweep, in place of the paper's six-row polar grid
+(Figure 17). The section sits second on the page, straight
+after the overview. All play GIF-style through the orbit script at
+the foot of the page, shared with `ROWCAST/index.html`; a click or Enter on a
+tile pauses and resumes it.
+
+Their sources are not in this repo; `scripts/compress_alfred_clips.sh` encodes
+them from the PhD tree, with `SRC_TURN=<dir>`, `SRC_REACH=<dir>` and
+`SRC_VIS=<dir>` to point it elsewhere:
+
+- Turntables: `hunter_z1_description/scripts/render_robot_turntable.py`
+  renders one 8 s orbit per URDF, arm in the zero posture, at 1080x1080 on the
+  dark RViz background, into `Hunter/Hunter_Z1/shared_figures/robot_turntables/`.
+  Published at 720 px, CRF 28, about 1 MB each.
+- Usable workspace: `reachability_experiments/make_reachability_rotation_video.py`
+  with `--shape-only` and a larger sphere scale renders one 6 s orbit per
+  build at 600x600, into
+  `Hunter/Hunter_Z1/reachability_downloads/full_grid_20260901T195332Z_full/figures/individual_shapes/larger_spheres/`.
+  Published at the render's own 600 px, CRF 28, about 0.3 MB each.
+- Visibility: `reachability_experiments/make_lidar_visibility_video.py`
+  animates the saved zero- and drive-posture raycasts into one 12.8 s clip,
+  `lidar_visibility_zero_drive.mp4`: six panels, builds across and posture
+  down, stepping through the 32 beams together, lowest to highest, 0.4 s
+  each, at 1680x1200 with the titles, one beam readout and a legend drawn in,
+  into
+  `Hunter/Hunter_Z1/reachability_downloads/lidar_fov_os1_32_fixed_zero_drive/videos_20261101/`.
+  Published at the render's own size, CRF 24 because of the small text, about
+  0.6 MB. It is one clip rather than the script's six per-panel clips (also in
+  that folder, unused) so that the panels can never fall out of step: separate
+  loops start as each scrolls into view and pause one at a time. The column
+  titles say "Prototype v1" where the page says Prototype 1; that is baked
+  into the render.
+
+| Published file | Source | Build in the archive | Caption |
+| --- | --- | --- | --- |
+| `turntable_prototype_1.mp4` | `prototype_v1_turntable.mp4` | `prototype_v1` | Prototype 1 |
+| `turntable_alfred.mp4` | `hunter_z1_turntable.mp4` | `hunter_z1` | ALFRED |
+| `turntable_alfred_2_0.mp4` | `alfred_turntable.mp4` | `alfred` | ALFRED 2.0 |
+| `reachability_prototype_1.mp4` | `prototype_1.mp4` | `prototype_v1` | Prototype 1 |
+| `reachability_alfred.mp4` | `alfred.mp4` | `prototype_v2_hunter_z1_robot` | ALFRED |
+| `reachability_alfred_2_0.mp4` | `alfred_2_0.mp4` | `prototype_v3_alfred_robot` | ALFRED 2.0 |
+| `visibility_zero_drive.mp4` | `lidar_visibility_zero_drive.mp4` | all three | six-panel sweep, no per-tile caption |
+
+The turntable archive keeps the pre-publication build names, so there
+`hunter_z1` is what the page calls ALFRED and `alfred` is ALFRED 2.0; the bubble
+clouds were exported under the page's names and the visibility sweep carries
+its own panel titles. The bubble clouds are the same data as the
+paper's six-view figure, cropped to the region any build reaches and drawn on
+one size and colour scale (0 to 290 usable orientations), so the three stay
+directly comparable; axes and labels are left off, so the page's captions
+carry the build names and the scale. Posters are frame 0 at the published
+size. The stills they replaced, `img/alfred_model_*.jpg`,
+`img/alfred_reachability.jpg` and `img/alfred_lidar_visibility.jpg`, were
+removed along with their entries in
+`scripts/render_alfred_figures.py`; they are in git history if ever wanted
+again.
