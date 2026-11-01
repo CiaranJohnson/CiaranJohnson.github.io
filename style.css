@@ -44,7 +44,7 @@ body {
 }
 
 .wrap {
-  max-width: 1080px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 24px;
 }
@@ -517,18 +517,19 @@ footer p { margin: 0; }
 .fact--xl .num { font-size: 2.35rem; color: var(--accent); }
 .fact--xl .label { font-size: .92rem; }
 
+/* Phones keep the same arrangement of tiles as a laptop, three across;
+   the tiles just get tighter padding and smaller type. */
 @media (max-width: 720px) {
+  .facts { gap: 8px; }
   .fact,
-  .fact.s3,
-  .fact.s4 { grid-column: span 6; }
-  .fact.s6,
-  .fact.s8 { grid-column: span 12; }
-}
-
-@media (max-width: 440px) {
-  .fact,
-  .fact.s3,
-  .fact.s4 { grid-column: span 12; }
+  .fact--lg,
+  .fact--xl { padding: 10px 10px; }
+  .fact .num { font-size: 1rem; }
+  .fact--lg .num { font-size: 1.15rem; }
+  .fact--xl .num { font-size: 1.5rem; }
+  .fact .label,
+  .fact--lg .label,
+  .fact--xl .label { font-size: .7rem; line-height: 1.35; }
 }
 
 /* Definition-style list for protocols and pipeline stages */
@@ -732,6 +733,14 @@ footer p { margin: 0; }
   aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: center 62%;
+}
+
+/* Two photos that stay side by side at every width, e.g. the front and
+   side views of ALFRED 2.0 on the ROWCAST page. */
+.gallery--pair { grid-template-columns: 1fr 1fr; }
+
+@media (max-width: 640px) {
+  .gallery--pair { gap: 10px; }
 }
 
 /* Three robot views sit as equal portrait tiles */
