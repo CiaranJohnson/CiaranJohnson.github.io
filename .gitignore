@@ -16,7 +16,7 @@ media/final_protocols/
 media/splats_source/
 
 # Phone footage and screen recordings of the ROWCAST workflow stages
-# (~770 MB) and the ALFRED page's field clip (164 MB), same rule. Run
+# (~770 MB) and the ALFRED page's payload-study clip (28 MB), same rule. Run
 # scripts/compress_stage_clips.sh to produce the web versions in media/.
 media/stages_source/
 

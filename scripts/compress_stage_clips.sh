@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Compress the workflow-stage clips shown on ROWCAST/index.html, and the one
-# phone clip on ALFRED/index.html (alfred_field_weights), into web-ready clips.
+# phone clip on ALFRED/index.html (alfred_payload_study), into web-ready clips.
 #
 #   media/stages_source/*.mp4        phone footage and screen recordings   -- gitignored source
 #         |
 #         v
 #   media/rowcast_<stage>*.mp4       720 px wide, 30 fps, silent           -- committed to git
-#   media/alfred_field_weights.mp4   the ALFRED page's field clip, likewise
+#   media/alfred_payload_study.mp4   the ALFRED page's field clip, at its own 848 px
 #   media/<published>_poster.jpg     poster frame at the clip's resolution
 #
 # Two kinds of clip, set per entry in CLIPS below:
@@ -19,6 +19,11 @@
 #            the YouTube Short, which is 9:16, so they match it.
 #   screen   landscape screen recordings (RViz). crop= cuts the recording down
 #            to the live part of the window, as 16:9.
+#   landscape phone footage held landscape, published the way round it is, at
+#            its own width up to LAND_MAX_W so a small source (the 848 px
+#            payload-study clip) is not blown up. crop= cuts a window first.
+# Any entry may add poster=<seconds> to take its poster frame from somewhere
+# other than POSTER_AT.
 #
 # Orientation. The phone clips were re-encoded with VLC, which did not keep
 # the phone's rotation flag intact: on three of them it wrote a track matrix
@@ -37,7 +42,8 @@
 #   scripts/compress_stage_clips.sh scout      # only entries whose source or published stem contains "scout"
 #
 # Tunables (environment):
-#   PHONE_SCALE=720:-2 PHONE_CRF=26 SCREEN_SCALE=1280:-2 SCREEN_CRF=26 FPS=30 POSTER_AT=0.5
+#   PHONE_SCALE=720:-2 PHONE_CRF=26 SCREEN_SCALE=1280:-2 SCREEN_CRF=26 LAND_MAX_W=1280
+#   FPS=30 POSTER_AT=0.5
 
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -63,23 +69,25 @@ echo "Using ffmpeg: $FFMPEG"
 
 PHONE_SCALE="${PHONE_SCALE:-720:-2}";   PHONE_CRF="${PHONE_CRF:-26}"
 SCREEN_SCALE="${SCREEN_SCALE:-1280:-2}"; SCREEN_CRF="${SCREEN_CRF:-26}"
+LAND_MAX_W="${LAND_MAX_W:-1280}"
 FPS="${FPS:-30}"
 POSTER_AT="${POSTER_AT:-0.5}"
 
 # source stem | published stem | kind | options (comma-separated)
-#   phone:  turn=cw|ccw   mirror   top=<fraction> | full
-#   screen: crop=w:h:x:y
+#   phone:     turn=cw|ccw   mirror   top=<fraction> | full
+#   screen:    crop=w:h:x:y
+#   landscape: crop=w:h:x:y
+#   any:       poster=<seconds>
 #
-# alfred_field_weights is not a ROWCAST clip: it is the phone clip beside the
-# ALFRED copy in the platform section of ALFRED/index.html, the robot driving
-# a route in the field during Christopher Quail's experiments while weights
-# are added to it. The source is the VLC export
-# "vlc-record-2026-11-01-11h15m06s-2026-11-01 11-13-27.mp4-.mp4" (1920x1080,
-# 60 fps, 48.6 s, 164 MB), copied in under the published name because this
-# table splits on spaces. It carries no rotation matrix at all; turned
-# clockwise it matches img/front_view.jpeg (arm to the viewer's right of the
-# GNSS mast as the robot approaches the camera). Its frame is mostly sky, so
-# the 4:5 window starts 20% down rather than 15%.
+# alfred_payload_study is not a ROWCAST clip: it closes the strut-frame
+# section of ALFRED/index.html, next to the still of the same configuration.
+# It is Christopher Quail's concurrent payload study in the field: the robot,
+# with the weight cage in place of the manipulator, drives a route marked out
+# with cones while weights are added to it as it goes. The source is the VLC
+# export "vlc-record-2026-11-02-12h51m49s-VIDEO-2026-11-02-00-45-49.mp4-.mp4"
+# (848x478, 120 fps, 26.5 s, 28 MB), renamed because this table splits on
+# spaces. Held landscape and carrying no rotation matrix, so no turn. Its
+# poster is taken at 15 s, when the robot is nearest the camera.
 CLIPS="
 comissioning_field  rowcast_commission_field  phone   turn=cw,top=0.15
 comissioning_rviz   rowcast_commission_map    screen  crop=1484:835:0:52
@@ -87,7 +95,7 @@ scout               rowcast_scout             phone   turn=cw,top=0.15
 planning            rowcast_plan              screen  crop=1704:958:108:0
 fixed               rowcast_execute_fixed     phone   turn=cw,full
 random              rowcast_execute_random    phone   turn=cw,full
-alfred_field_weights  alfred_field_weights    phone   turn=cw,top=0.2
+alfred_payload_study  alfred_payload_study    landscape  poster=15
 "
 
 matched=0
@@ -104,7 +112,7 @@ while read -r src_stem dst_stem kind opts; do
     continue
   fi
 
-  turn=""; mirror=""; top=""; full=""; crop=""
+  turn=""; mirror=""; top=""; full=""; crop=""; poster_at="$POSTER_AT"
   IFS=, read -ra kv <<< "$opts"
   for o in "${kv[@]}"; do
     case "$o" in
@@ -113,6 +121,7 @@ while read -r src_stem dst_stem kind opts; do
       top=*)    top="${o#top=}" ;;
       full)     full=1 ;;
       crop=*)   crop="${o#crop=}" ;;
+      poster=*) poster_at="${o#poster=}" ;;
       *) echo "ERROR: unknown option '$o' for $src_stem" >&2; exit 1 ;;
     esac
   done
@@ -136,6 +145,11 @@ while read -r src_stem dst_stem kind opts; do
       [ -n "$crop" ] && filters+=("crop=$crop")
       filters+=("scale=${SCREEN_SCALE}:flags=lanczos")
       crf="$SCREEN_CRF" ;;
+    landscape)
+      [ -n "$crop" ] && filters+=("crop=$crop")
+      # Quoted so the comma in min() is not read as a filter separator.
+      filters+=("scale=w='min(${LAND_MAX_W}\,iw)':h=-2:flags=lanczos")
+      crf="$PHONE_CRF" ;;
     *) echo "ERROR: unknown kind '$kind' for $src_stem" >&2; exit 1 ;;
   esac
   vf=$(IFS=,; echo "${filters[*]}")
@@ -151,7 +165,7 @@ while read -r src_stem dst_stem kind opts; do
     -movflags +faststart -an \
     "$dst"
 
-  "$FFMPEG" -nostdin -y -loglevel error -display_rotation 0 -ss "$POSTER_AT" -i "$src" \
+  "$FFMPEG" -nostdin -y -loglevel error -display_rotation 0 -ss "$poster_at" -i "$src" \
     -vf "$vf" -frames:v 1 -q:v 4 \
     "$poster"
 
