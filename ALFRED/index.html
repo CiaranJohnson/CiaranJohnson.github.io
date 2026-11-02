@@ -425,7 +425,8 @@
     <!-- ================================================================
          THE PLATFORM
          Shared hardware, then the two field configurations, each with a
-         card linking to its experiment's page. ALFRED's three views are
+         card linking to its experiment's page. ALFRED's copy sits beside a
+         phone clip of the build in the field; its three views are
          Figure 1 of the paper, ALFRED 2.0's views Figure 3 and the network
          topology Figure 6.
          ================================================================ -->
@@ -440,10 +441,34 @@
       </p>
 
       <h3 id="alfred" class="subsection">ALFRED: ForestYear3D configuration</h3>
-      <p>
-        ALFRED records both LiDARs and the IMU. The arm sweeps between fixed joint configurations
-        while an operator steers the base along the forest corridor.
-      </p>
+
+      <!-- Copy beside a phone clip of the build in the field: ALFRED drives
+           a route during Christopher Quail's experiments while weights are
+           added to it. Phone footage, so it is published by
+           scripts/compress_stage_clips.sh with the ROWCAST stage clips; see
+           media/README.md. Shown with controls, downloaded only when played. -->
+      <div class="intro-row">
+        <div class="intro-copy">
+          <p>
+            ALFRED records both LiDARs and the IMU. The arm sweeps between fixed joint configurations
+            while an operator steers the base along the forest corridor.
+          </p>
+          <p>
+            The same build in the field for Christopher Quail's experiments: ALFRED drives a
+            route while weights are added to it as it goes.
+          </p>
+        </div>
+        <figure class="video-item">
+          <div class="video-slot portrait">
+            <video controls muted playsinline preload="metadata"
+                   poster="../media/alfred_field_weights_poster.jpg">
+              <source src="../media/alfred_field_weights.mp4" type="video/mp4">
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <figcaption>ALFRED driving a route in the field during Christopher Quail's experiments, weights added as it drives.</figcaption>
+        </figure>
+      </div>
 
       <div class="gallery gallery--views">
         <figure>

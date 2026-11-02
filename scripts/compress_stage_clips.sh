@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
-# Compress the workflow-stage clips shown on ROWCAST/index.html into web-ready clips.
+# Compress the workflow-stage clips shown on ROWCAST/index.html, and the one
+# phone clip on ALFRED/index.html (alfred_field_weights), into web-ready clips.
 #
 #   media/stages_source/*.mp4        phone footage and screen recordings   -- gitignored source
 #         |
 #         v
 #   media/rowcast_<stage>*.mp4       720 px wide, 30 fps, silent           -- committed to git
-#   media/rowcast_<stage>*_poster.jpg poster frame at the clip's resolution
+#   media/alfred_field_weights.mp4   the ALFRED page's field clip, likewise
+#   media/<published>_poster.jpg     poster frame at the clip's resolution
 #
 # Two kinds of clip, set per entry in CLIPS below:
 #   phone    portrait phone footage of the robot, stored landscape
@@ -67,6 +69,17 @@ POSTER_AT="${POSTER_AT:-0.5}"
 # source stem | published stem | kind | options (comma-separated)
 #   phone:  turn=cw|ccw   mirror   top=<fraction> | full
 #   screen: crop=w:h:x:y
+#
+# alfred_field_weights is not a ROWCAST clip: it is the phone clip beside the
+# ALFRED copy in the platform section of ALFRED/index.html, the robot driving
+# a route in the field during Christopher Quail's experiments while weights
+# are added to it. The source is the VLC export
+# "vlc-record-2026-11-01-11h15m06s-2026-11-01 11-13-27.mp4-.mp4" (1920x1080,
+# 60 fps, 48.6 s, 164 MB), copied in under the published name because this
+# table splits on spaces. It carries no rotation matrix at all; turned
+# clockwise it matches img/front_view.jpeg (arm to the viewer's right of the
+# GNSS mast as the robot approaches the camera). Its frame is mostly sky, so
+# the 4:5 window starts 20% down rather than 15%.
 CLIPS="
 comissioning_field  rowcast_commission_field  phone   turn=cw,top=0.15
 comissioning_rviz   rowcast_commission_map    screen  crop=1484:835:0:52
@@ -74,6 +87,7 @@ scout               rowcast_scout             phone   turn=cw,top=0.15
 planning            rowcast_plan              screen  crop=1704:958:108:0
 fixed               rowcast_execute_fixed     phone   turn=cw,full
 random              rowcast_execute_random    phone   turn=cw,full
+alfred_field_weights  alfred_field_weights    phone   turn=cw,top=0.2
 "
 
 matched=0

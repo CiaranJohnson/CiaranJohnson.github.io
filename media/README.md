@@ -2,7 +2,9 @@
 
 Clips referenced by `ForestYear3D/index.html`, `ROWCAST/index.html` and
 `ALFRED/index.html` live here; the ROWCAST clips are described in the two
-ROWCAST sections and the ALFRED clips in the last section. Each `<video>` block on
+ROWCAST sections and the ALFRED clips in the last section, except the ALFRED
+page's one phone clip, which is published with the ROWCAST stage clips and
+described there. Each `<video>` block on
 the ForestYear3D page is commented out next to a dashed placeholder; to publish a clip, drop
 the file in this folder, delete the placeholder `<div class="video-pending">`,
 and uncomment the `<video>` element below it.
@@ -186,6 +188,7 @@ writes the web versions and their posters into this folder:
 | `rowcast_plan.mp4` | `planning.mp4` | Plan | RViz, black bar cropped off, 16:9 |
 | `rowcast_execute_fixed.mp4` | `fixed.mp4` | Execute | phone, turned clockwise, full 9:16 |
 | `rowcast_execute_random.mp4` | `random.mp4` | Execute | phone, turned clockwise, full 9:16 |
+| `alfred_field_weights.mp4` | `alfred_field_weights.mp4` | ALFRED page, The platform (ALFRED) | phone, turned clockwise, 4:5 crop from 20% down |
 
 All are published 720 px wide (1280 px for the screen recordings), 30 fps,
 CRF 26, silent, 1-14 MB each. The phone clips beside a paragraph (Commission,
@@ -193,6 +196,20 @@ Scout) are cropped to 4:5 like the protocol clips on the ForestYear3D page,
 with the crop window chosen per clip so the robot and markers stay in frame.
 The two Execute clips keep the whole 9:16 frame because they sit in a row with
 the YouTube Short, which is 9:16.
+
+The last row is not a ROWCAST clip. It is the one phone clip on the ALFRED
+page, beside the ALFRED copy in the platform section: the robot driving a
+route in the field during Christopher Quail's experiments while weights are
+added to it. It goes through this script because it is phone footage with
+the same needs. The source is the VLC export
+`vlc-record-2026-11-01-11h15m06s-2026-11-01 11-13-27.mp4-.mp4` (1920x1080,
+60 fps, 48.6 s, 164 MB), copied into `media/stages_source/` under the
+published name because the script's table splits on spaces. It carries no
+rotation matrix at all; turned clockwise it matches `img/front_view.jpeg`
+(arm to the viewer's right of the GNSS mast as the robot approaches the
+camera). Its frame is mostly sky, so its 4:5 window starts 20% down rather
+than the 15% of the ROWCAST clips. It is shown with controls and
+`preload="metadata"`, so it downloads only when played.
 
 Orientation is set per clip, not read from the file. The phone clips were
 re-encoded with VLC, which wrote a track matrix that is a transpose (a quarter
@@ -319,6 +336,12 @@ size. The stills they replaced, `img/alfred_model_*.jpg`,
 removed along with their entries in
 `scripts/render_alfred_figures.py`; they are in git history if ever wanted
 again.
+
+Outside the Reach section, the ALFRED subsection of the platform section
+carries one phone clip beside its copy, `alfred_field_weights.mp4` (ALFRED on
+a route in the field during Christopher Quail's experiments, weights added as
+it drives). It is published by `scripts/compress_stage_clips.sh` with the
+ROWCAST stage clips and described in that section above.
 
 The short table beneath the all-pose sweep, the arm's share of the blockage,
 is page text rather than media. Its figures are the `accepted_target` block of
